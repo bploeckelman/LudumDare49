@@ -76,7 +76,7 @@ public class Main extends ApplicationAdapter {
     public void render() {
         update();
 
-        ScreenUtils.clear(Color.SKY);
+        ScreenUtils.clear(Color.YELLOW);
         batch.begin();
         {
             batch.draw(texture, 0, 0, Config.window_width, Config.window_height);

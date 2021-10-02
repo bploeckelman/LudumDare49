@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld49.Main;
@@ -17,15 +18,17 @@ import lando.systems.ld49.utils.accessors.Vector2Accessor;
 import lando.systems.ld49.world.World;
 
 public class GameScreen extends BaseScreen {
-    World world;
-    InputPrompts inputPrompts;
 
-    Vector3 mousePos = new Vector3();
-    Vector2 cameraPos = new Vector2();
-    MutableFloat cameraZoom = new MutableFloat(1f);
+    World world;
+
+    final Vector3 mousePos = new Vector3();
+    final Vector2 cameraPos = new Vector2();
+    final MutableFloat cameraZoom = new MutableFloat(1f);
     float accum = 0;
     boolean zoomedIn = false;
     boolean isZooming = false;
+
+    final Rectangle uiBounds = new Rectangle();
 
     static class KeyState {
         static boolean left_pressed = false;
@@ -38,8 +41,8 @@ public class GameScreen extends BaseScreen {
     public GameScreen(Main game) {
         super(game);
         world = new World(game.assets);
-        inputPrompts = new InputPrompts(game.assets);
-        cameraPos = new Vector2(world.bounds.width / 2, world.bounds.height / 2);
+
+        cameraPos.set(world.bounds.width / 2, world.bounds.height / 2);
         worldCamera.position.set(cameraPos, 0);
         worldCamera.update();
     }
@@ -51,13 +54,14 @@ public class GameScreen extends BaseScreen {
         KeyState.down_pressed  = Gdx.input.isKeyPressed(Input.Keys.DOWN);
         KeyState.space_pressed = Gdx.input.isKeyPressed(Input.Keys.SPACE);
 
-        particles.update(Time.delta);
+        world.update(dt);
+        particles.update(dt);
 
         float speed = 250;
-        if      (KeyState.left_pressed)  cameraPos.add(-speed * Time.delta, 0);
-        else if (KeyState.right_pressed) cameraPos.add( speed * Time.delta, 0);
-        if      (KeyState.up_pressed)    cameraPos.add( 0,  speed * Time.delta);
-        else if (KeyState.down_pressed)  cameraPos.add( 0, -speed * Time.delta);
+        if      (KeyState.left_pressed)  cameraPos.add(-speed * dt, 0);
+        else if (KeyState.right_pressed) cameraPos.add( speed * dt, 0);
+        if      (KeyState.up_pressed)    cameraPos.add( 0,  speed * dt);
+        else if (KeyState.down_pressed)  cameraPos.add( 0, -speed * dt);
 
         if      (cameraPos.x < world.bounds.x + worldCamera.viewportWidth / 2f)                        cameraPos.x = world.bounds.x + worldCamera.viewportWidth / 2f;
         else if (cameraPos.x > world.bounds.x - worldCamera.viewportWidth / 2f + world.bounds.width)   cameraPos.x = world.bounds.x - worldCamera.viewportWidth / 2f + world.bounds.width;
@@ -66,12 +70,13 @@ public class GameScreen extends BaseScreen {
         worldCamera.position.set(cameraPos, 0);
         worldCamera.zoom = cameraZoom.floatValue();
         worldCamera.update();
+
         handleZoomInOut();
 
         worldCamera.unproject(mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
         // draw some sparkle for nice
-        accum += Time.delta;
+        accum += dt;
         if (accum > 0.025f) {
             accum -= 0.025f;
             particles.sparkle(mousePos.x, mousePos.y);
@@ -80,7 +85,6 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void render(SpriteBatch batch) {
-
         // draw world
         batch.setProjectionMatrix(worldCamera.combined);
         batch.begin();
@@ -91,11 +95,11 @@ public class GameScreen extends BaseScreen {
         batch.end();
 
         // draw overlay
-        batch.setProjectionMatrix(hudCamera.combined);
+        batch.setProjectionMatrix(windowCamera.combined);
         batch.begin();
         {
             batch.setColor(Color.MAGENTA);
-            assets.debugNinePatch.draw(batch, 10, 10, hudCamera.viewportWidth - 20, hudCamera.viewportHeight - 20);
+            assets.debugNinePatch.draw(batch, 10, 10, windowCamera.viewportWidth - 20, windowCamera.viewportHeight - 20);
             batch.setColor(Color.WHITE);
 
             float margin = 10;
@@ -125,6 +129,10 @@ public class GameScreen extends BaseScreen {
             batch.draw(inputPrompts.get(InputPrompts.Type.key_light_spacebar_3), margin + 2 * size, margin, size, size);
 
             batch.setColor(Color.WHITE);
+
+            float pad = 5;
+            uiBounds.set(margin + pad, margin + pad + 3 * size, 200, windowCamera.viewportHeight - 2 * margin - 2 * pad - 3 * size);
+            uiElements.drawPanel(batch, uiBounds);
         }
         batch.end();
     }

@@ -10,7 +10,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
@@ -18,14 +17,11 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
-import lando.systems.ld49.particles.Particles;
 import lando.systems.ld49.screens.BaseScreen;
 import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.screens.LaunchScreen;
-import lando.systems.ld49.utils.InputPrompts;
 import lando.systems.ld49.utils.Time;
 import lando.systems.ld49.utils.accessors.*;
-import lando.systems.ld49.world.World;
 
 public class Main extends ApplicationAdapter {
 
@@ -43,12 +39,6 @@ public class Main extends ApplicationAdapter {
     ShaderProgram transitionShader;
     boolean transitioning;
 
-    TextureRegion texture;
-    Particles particles;
-
-
-
-
     @Override
     public void create() {
         Time.init();
@@ -56,7 +46,6 @@ public class Main extends ApplicationAdapter {
         transitionPercent = new MutableFloat(0);
         transitionFBO = new FrameBuffer(Pixmap.Format.RGBA8888, Config.window_width, Config.window_height, false);
         transitionTexture = transitionFBO.getColorBufferTexture();
-
 
         originalFBO = new FrameBuffer(Pixmap.Format.RGBA8888, Config.window_width, Config.window_height, false);
         originalTexture = originalFBO.getColorBufferTexture();
@@ -91,7 +80,7 @@ public class Main extends ApplicationAdapter {
         Time.delta = Gdx.graphics.getDeltaTime();
 
         // update code that always runs (regardless of pause)
-        // ...
+        currentScreen.alwaysUpdate(Time.delta);
 
         // handle a pause
         if (Time.pause_timer > 0) {
@@ -109,18 +98,13 @@ public class Main extends ApplicationAdapter {
 
         // update systems
         tween.update(Time.delta);
-
-
         currentScreen.update(Time.delta);
-
     }
 
     @Override
     public void render() {
         update();
-
         ScreenUtils.clear(Color.DARK_GRAY);
-
 
         currentScreen.renderFrameBuffers(assets.batch);
 
@@ -191,6 +175,5 @@ public class Main extends ApplicationAdapter {
     public void dispose() {
         assets.dispose();
     }
-
 
 }

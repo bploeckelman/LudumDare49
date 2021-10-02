@@ -23,9 +23,17 @@ public class InputPrompts {
     }
 
     public enum Type {
+        // letters
           key_light_a(18, 3)
         , key_light_b(23, 4)
         // ... add the rest as needed or when bored
+        // numbers
+        // ...
+        // spacebar
+        , key_light_spacebar_1(31, 6)
+        , key_light_spacebar_2(32, 6)
+        , key_light_spacebar_3(33, 6)
+        // arrows
         , key_light_arrow_up(30, 4)
         , key_light_arrow_right(31, 4)
         , key_light_arrow_down(32, 4)

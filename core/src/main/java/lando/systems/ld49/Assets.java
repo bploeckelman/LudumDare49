@@ -67,6 +67,7 @@ public class Assets implements Disposable {
         public TextureRegion grass;
         public TextureRegion castles;
         public TextureRegion nuclearPlant;
+        public TextureRegion titleImage;
     }
 
     public Assets() {
@@ -126,6 +127,7 @@ public class Assets implements Disposable {
         backgrounds.grass   = atlas.findRegion("backgrounds/grass");
         backgrounds.castles = atlas.findRegion("backgrounds/castles");
         backgrounds.nuclearPlant = atlas.findRegion("backgrounds/nuclear-plant");
+        backgrounds.titleImage = atlas.findRegion("backgrounds/title-image");
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 2, 2, 2, 2);
 

@@ -16,9 +16,8 @@ public class LaunchScreen extends BaseScreen {
     }
 
     public void update(float dt) {
-        game.audio.playMusic(Audio.Musics.example);
         if (Gdx.input.justTouched()){
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new TitleScreen(game));
         }
     }
 

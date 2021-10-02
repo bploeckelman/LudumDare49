@@ -25,6 +25,9 @@ public class Assets implements Disposable {
     public Texture pixel;
     public NinePatch debugNinePatch;
 
+    public Animation<TextureRegion> ripelyIdleAnim;
+    public Animation<TextureRegion> ripelyRunAnim;
+
     public Particles particles;
     public static class Particles {
         public TextureRegion circle;
@@ -79,6 +82,11 @@ public class Assets implements Disposable {
         if (initialized) return 1;
 
         atlas = mgr.get("sprites/sprites.atlas");
+
+        ripelyIdleAnim = new Animation<>(0.1f, atlas.findRegions("ripely/idle/ripely-idle"));
+        ripelyRunAnim  = new Animation<>(0.1f, atlas.findRegions("ripely/run/ripely-run"));
+        ripelyIdleAnim.setPlayMode(Animation.PlayMode.LOOP);
+        ripelyRunAnim.setPlayMode(Animation.PlayMode.LOOP);
 
         particles = new Particles();
         particles.circle  = atlas.findRegion("particles/circle");

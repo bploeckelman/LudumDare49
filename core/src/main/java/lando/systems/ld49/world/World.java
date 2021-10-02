@@ -2,6 +2,7 @@ package lando.systems.ld49.world;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld49.Assets;
@@ -12,6 +13,9 @@ public class World {
     private final Vector2 center;
 
     public final Rectangle bounds;
+
+    private float animIdleState = 0f;
+    private float animRunState = 0f;
 
     public World(Assets assets) {
         this.assets = assets;
@@ -25,14 +29,16 @@ public class World {
     }
 
     public void update(float dt) {
-
+        animIdleState += dt;
+        animRunState += dt;
     }
 
     public void draw(SpriteBatch batch) {
         batch.draw(assets.backgrounds.castles, bounds.x, bounds.y, bounds.width, bounds.height);
 
+        float groundLevel = bounds.height / 2f - 99;
         batch.setColor(198 / 255f, 156 / 255f, 108 / 255f, 1);
-        batch.draw(assets.pixel, bounds.x, bounds.y, bounds.width, bounds.height / 2f - 99);
+        batch.draw(assets.pixel, bounds.x, bounds.y, bounds.width, groundLevel);
         batch.setColor(Color.WHITE);
 
         float scale = 1.5f;
@@ -42,6 +48,11 @@ public class World {
                 bounds.x + bounds.width  / 2f - width  / 2f,
                 bounds.y + bounds.height / 2f - height / 2f,
                 width, height);
+
+        TextureRegion idleKeyframe = assets.ripelyIdleAnim.getKeyFrame(animIdleState);
+        TextureRegion runKeyframe = assets.ripelyRunAnim.getKeyFrame(animRunState);
+        batch.draw(idleKeyframe, 200, groundLevel);
+        batch.draw(runKeyframe, 300, groundLevel);
     }
 
 }

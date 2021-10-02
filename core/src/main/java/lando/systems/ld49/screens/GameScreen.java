@@ -19,9 +19,9 @@ import lando.systems.ld49.world.World;
 
 public class GameScreen extends BaseScreen {
 
-    World world;
+    public World world;
 
-    final Vector3 mousePos = new Vector3();
+    public final Vector3 mousePos = new Vector3();
     final Vector2 cameraPos = new Vector2();
     final MutableFloat cameraZoom = new MutableFloat(1f);
     float accum = 0;
@@ -40,7 +40,7 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen(Main game) {
         super(game);
-        world = new World(game.assets);
+        world = new World(this);
 
         cameraPos.set(world.bounds.width / 2, world.bounds.height / 2);
         worldCamera.position.set(cameraPos, 0);
@@ -53,6 +53,7 @@ public class GameScreen extends BaseScreen {
         KeyState.up_pressed    = Gdx.input.isKeyPressed(Input.Keys.UP);
         KeyState.down_pressed  = Gdx.input.isKeyPressed(Input.Keys.DOWN);
         KeyState.space_pressed = Gdx.input.isKeyPressed(Input.Keys.SPACE);
+        worldCamera.unproject(mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
         world.update(dt);
         particles.update(dt);
@@ -73,7 +74,6 @@ public class GameScreen extends BaseScreen {
 
         handleZoomInOut();
 
-        worldCamera.unproject(mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
         // draw some sparkle for nice
         accum += dt;

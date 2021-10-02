@@ -5,23 +5,31 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import lando.systems.ld49.Assets;
+import lando.systems.ld49.screens.GameScreen;
 
 public class World {
 
+    private final GameScreen gameScreen;
     private final Assets assets;
     private final Vector2 center;
 
     public final Rectangle bounds;
+    public final Rectangle viewBounds = new Rectangle();
 
     private float animIdleState = 0f;
     private float animRunState = 0f;
+    private Catapult catapult;
+    private Array<Shot> shots = new Array<>();
 
-    public World(Assets assets) {
-        this.assets = assets;
+    public World(GameScreen screen) {
+        this.gameScreen = screen;
+        this.assets = screen.assets;
         this.center = new Vector2();
         this.bounds = new Rectangle(0, 0, 1024, 1024);
         this.bounds.getCenter(center);
+        catapult = new Catapult(assets, 330, bounds.height / 2f - 99);
     }
 
     public Vector2 getCenter() {
@@ -31,6 +39,13 @@ public class World {
     public void update(float dt) {
         animIdleState += dt;
         animRunState += dt;
+        catapult.update(dt, gameScreen);
+        for (int i = shots.size-1; i >=0; i--){
+            Shot shot = shots.get(i);
+            shot.update(dt);
+            // TODO: remove if done
+        }
+        viewBounds.set(bounds);
     }
 
     public void draw(SpriteBatch batch) {
@@ -53,6 +68,14 @@ public class World {
         TextureRegion runKeyframe = assets.ripelyRunAnim.getKeyFrame(animRunState);
         batch.draw(idleKeyframe, 200, groundLevel);
         batch.draw(runKeyframe, 300, groundLevel);
+        catapult.render(batch);
+        for (Shot shot: shots) {
+            shot.render(batch);
+        }
+    }
+
+    public void addShot(Shot shot) {
+        shots.add(shot);
     }
 
 }

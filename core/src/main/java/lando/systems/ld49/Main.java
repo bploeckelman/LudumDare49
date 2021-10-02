@@ -25,6 +25,7 @@ import lando.systems.ld49.utils.accessors.*;
 
 public class Main extends ApplicationAdapter {
 
+    public static Main game;
     public Assets assets;
     public TweenManager tween;
     public SpriteBatch batch;
@@ -42,6 +43,7 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void create() {
+        game = this;
         Time.init();
 
         transitionPercent = new MutableFloat(0);

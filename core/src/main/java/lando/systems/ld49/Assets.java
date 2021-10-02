@@ -3,6 +3,8 @@ package lando.systems.ld49;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -47,6 +49,10 @@ public class Assets implements Disposable {
     public ShaderProgram cubeShader;
     public ShaderProgram dreamyShader;
 
+    public Music exampleMusic;
+
+    public Sound exampleSound;
+
     public Particles particles;
     public static class Particles {
         public TextureRegion circle;
@@ -88,6 +94,8 @@ public class Assets implements Disposable {
         mgr = new AssetManager();
         {
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
+            mgr.load("audio/music/example-music.ogg", Music.class);
+            mgr.load("audio/sound/example-sound.wav", Sound.class);
         }
 
         if (load == Load.SYNC) {
@@ -136,6 +144,10 @@ public class Assets implements Disposable {
         circleCropShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/circlecrop.frag");
         cubeShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/cube.frag");
         dreamyShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/dreamy.frag");
+
+        exampleMusic = mgr.get("audio/music/example-music.ogg", Music.class);
+
+        exampleSound = mgr.get("audio/sound/example-sound.wav", Sound.class);
 
         randomTransitions.add(radialShader);
         randomTransitions.add(pizelizeShader);

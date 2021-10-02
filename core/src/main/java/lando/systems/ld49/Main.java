@@ -28,6 +28,7 @@ public class Main extends ApplicationAdapter {
     public Assets assets;
     public TweenManager tween;
     public SpriteBatch batch;
+    public Audio audio;
 
     private BaseScreen currentScreen;
     private BaseScreen nextScreen;
@@ -63,6 +64,8 @@ public class Main extends ApplicationAdapter {
         Tween.registerAccessor(Vector2.class, new Vector2Accessor());
         Tween.registerAccessor(Vector3.class, new Vector3Accessor());
         Tween.registerAccessor(OrthographicCamera.class, new CameraAccessor());
+
+        audio = new Audio(this);
 
         if (Gdx.app.getType() == Application.ApplicationType.WebGL || Config.show_launch_screen) {
             setScreen(new LaunchScreen(this));

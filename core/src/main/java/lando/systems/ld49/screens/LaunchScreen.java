@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import lando.systems.ld49.Audio;
 import lando.systems.ld49.Main;
 
 public class LaunchScreen extends BaseScreen {
@@ -15,6 +16,7 @@ public class LaunchScreen extends BaseScreen {
     }
 
     public void update(float dt) {
+        game.audio.playMusic(Audio.Musics.example);
         if (Gdx.input.justTouched()){
             game.setScreen(new GameScreen(game));
         }

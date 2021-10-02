@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import lando.systems.ld49.Audio;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.particles.Particles;
 import lando.systems.ld49.utils.InputPrompts;
@@ -140,7 +141,7 @@ public class GameScreen extends BaseScreen {
     private void handleZoomInOut() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !isZooming) {
             isZooming = true;
-
+            game.audio.playSound(Audio.Sounds.example);
             if (zoomedIn) {
                 Timeline.createParallel()
                         .push(

@@ -54,6 +54,12 @@ public class Assets implements Disposable {
     public Music exampleMusic;
 
     public Sound exampleSound;
+    public Sound slingshotReload;
+    public Sound slingshotPull;
+    public Sound slingshotRelease1;
+    public Sound slingshotRelease2;
+    public Sound slingshotRelease3;
+    public Sound slingshotRelease4;
 
     public Particles particles;
     public static class Particles {
@@ -99,6 +105,11 @@ public class Assets implements Disposable {
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
             mgr.load("audio/music/example-music.ogg", Music.class);
             mgr.load("audio/sound/example-sound.wav", Sound.class);
+            mgr.load("audio/sound/slingshotPull.ogg", Sound.class);
+            mgr.load("audio/sound/slingshotRelease1.ogg", Sound.class);
+            mgr.load("audio/sound/slingshotRelease2.ogg", Sound.class);
+            mgr.load("audio/sound/slingshotRelease3.ogg", Sound.class);
+            mgr.load("audio/sound/slingshotRelease4.ogg", Sound.class);
         }
 
         if (load == Load.SYNC) {
@@ -154,6 +165,11 @@ public class Assets implements Disposable {
         exampleMusic = mgr.get("audio/music/example-music.ogg", Music.class);
 
         exampleSound = mgr.get("audio/sound/example-sound.wav", Sound.class);
+        slingshotPull = mgr.get("audio/sound/slingshotPull.ogg", Sound.class);
+        slingshotRelease1 = mgr.get("audio/sound/slingshotRelease1.ogg", Sound.class);
+        slingshotRelease2 = mgr.get("audio/sound/slingshotRelease2.ogg", Sound.class);
+        slingshotRelease3 = mgr.get("audio/sound/slingshotRelease3.ogg", Sound.class);
+        slingshotRelease4 = mgr.get("audio/sound/slingshotRelease4.ogg", Sound.class);
 
         randomTransitions.add(radialShader);
         randomTransitions.add(pizelizeShader);

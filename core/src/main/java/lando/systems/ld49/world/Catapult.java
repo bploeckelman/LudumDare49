@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld49.Assets;
+import lando.systems.ld49.Audio;
 import lando.systems.ld49.screens.GameScreen;
 
 public class Catapult {
@@ -34,11 +35,13 @@ public class Catapult {
         if (!held){
             if (Gdx.input.justTouched() && bounds.contains(mousePos.x, mousePos.y)){
                 held = true;
+                screen.game.audio.playSound(Audio.Sounds.slingshotPull);
             }
         } else {
             if (!Gdx.input.isTouched()) {
                 held = false;
                 // TODO: Launch something
+                screen.game.audio.playSound(Audio.Sounds.slingshotRelease);
                 screen.world.addShot(new Shot(pos, new Vector2(launchAngle.x * strength * 10, launchAngle.y * strength * 10)));
             } else {
                 launchAngle.set(pos.x - mousePos.x, pos.y - mousePos.y).nor();

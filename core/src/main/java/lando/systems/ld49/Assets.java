@@ -1,12 +1,16 @@
 package lando.systems.ld49;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Assets implements Disposable {
@@ -27,6 +31,21 @@ public class Assets implements Disposable {
 
     public Animation<TextureRegion> ripelyIdleAnim;
     public Animation<TextureRegion> ripelyRunAnim;
+
+    public Array<ShaderProgram> randomTransitions;
+    public ShaderProgram blindsShader;
+    public ShaderProgram fadeShader;
+    public ShaderProgram radialShader;
+    public ShaderProgram doomShader;
+    public ShaderProgram pizelizeShader;
+    public ShaderProgram doorwayShader;
+    public ShaderProgram crosshatchShader;
+    public ShaderProgram rippleShader;
+    public ShaderProgram heartShader;
+    public ShaderProgram stereoShader;
+    public ShaderProgram circleCropShader;
+    public ShaderProgram cubeShader;
+    public ShaderProgram dreamyShader;
 
     public Particles particles;
     public static class Particles {
@@ -102,8 +121,44 @@ public class Assets implements Disposable {
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 2, 2, 2, 2);
 
+
+        randomTransitions = new Array<>();
+        blindsShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/blinds.frag");
+        fadeShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/dissolve.frag");
+        radialShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/radial.frag");
+        doomShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/doomdrip.frag");
+        pizelizeShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/pixelize.frag");
+        doorwayShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/doorway.frag");
+        crosshatchShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/crosshatch.frag");
+        rippleShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/ripple.frag");
+        heartShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/heart.frag");
+        stereoShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/stereo.frag");
+        circleCropShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/circlecrop.frag");
+        cubeShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/cube.frag");
+        dreamyShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/dreamy.frag");
+
+        randomTransitions.add(radialShader);
+        randomTransitions.add(pizelizeShader);
+
         initialized = true;
         return 1;
+    }
+
+    private static ShaderProgram loadShader(String vertSourcePath, String fragSourcePath) {
+        ShaderProgram.pedantic = false;
+        ShaderProgram shaderProgram = new ShaderProgram(
+                Gdx.files.internal(vertSourcePath),
+                Gdx.files.internal(fragSourcePath));
+
+        if (!shaderProgram.isCompiled()) {
+             Gdx.app.error("LoadShader", "compilation failed:\n" + shaderProgram.getLog());
+            throw new GdxRuntimeException("LoadShader: compilation failed:\n" + shaderProgram.getLog());
+        } else if (Config.shader_debug){
+             Gdx.app.setLogLevel(Gdx.app.LOG_DEBUG);
+             Gdx.app.debug("LoadShader", "ShaderProgram compilation log: " + shaderProgram.getLog());
+        }
+
+        return shaderProgram;
     }
 
     @Override

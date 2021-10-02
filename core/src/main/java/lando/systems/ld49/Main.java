@@ -17,6 +17,7 @@ import lando.systems.ld49.particles.Particles;
 import lando.systems.ld49.utils.InputPrompts;
 import lando.systems.ld49.utils.Time;
 import lando.systems.ld49.utils.accessors.*;
+import lando.systems.ld49.world.World;
 
 public class Main extends ApplicationAdapter {
 
@@ -27,6 +28,7 @@ public class Main extends ApplicationAdapter {
     OrthographicCamera worldCamera;
     OrthographicCamera windowCamera;
 
+    World world;
     TextureRegion texture;
     Particles particles;
     InputPrompts inputPrompts;
@@ -60,6 +62,7 @@ public class Main extends ApplicationAdapter {
         windowCamera.update();
 
         texture = assets.atlas.findRegion("lando");
+        world = new World(assets);
         particles = new Particles(assets);
         inputPrompts = new InputPrompts(assets);
     }
@@ -91,13 +94,15 @@ public class Main extends ApplicationAdapter {
         // update systems
         tween.update(Time.delta);
         particles.update(Time.delta);
-        // ...
+
         float speed = 200;
         if      (Gdx.input.isKeyPressed(Input.Keys.LEFT))  worldCamera.translate(-speed * Time.delta, 0);
         else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) worldCamera.translate( speed * Time.delta, 0);
         if      (Gdx.input.isKeyPressed(Input.Keys.UP))    worldCamera.translate( 0,  speed * Time.delta);
         else if (Gdx.input.isKeyPressed(Input.Keys.DOWN))  worldCamera.translate( 0, -speed * Time.delta);
-        // ...
+
+        world.update(Time.delta);
+
         worldCamera.update();
         windowCamera.update();
 
@@ -114,13 +119,14 @@ public class Main extends ApplicationAdapter {
     public void render() {
         update();
 
-        ScreenUtils.clear(Color.SKY);
+        ScreenUtils.clear(Color.DARK_GRAY);
 
         // draw world
         batch.setProjectionMatrix(worldCamera.combined);
         batch.begin();
         {
             batch.draw(texture, 0, 0, Config.window_width, Config.window_height);
+            world.draw(batch);
             particles.draw(batch, Particles.Layer.foreground);
         }
         batch.end();

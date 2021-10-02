@@ -33,6 +33,8 @@ public class Assets implements Disposable {
 
     public Animation<TextureRegion> ripelyIdleAnim;
     public Animation<TextureRegion> ripelyRunAnim;
+    public Animation<TextureRegion> cat;
+    public Animation<TextureRegion> dog;
 
     public Array<ShaderProgram> randomTransitions;
     public ShaderProgram blindsShader;
@@ -115,6 +117,8 @@ public class Assets implements Disposable {
         ripelyRunAnim  = new Animation<>(0.1f, atlas.findRegions("ripely/run/ripely-run"));
         ripelyIdleAnim.setPlayMode(Animation.PlayMode.LOOP);
         ripelyRunAnim.setPlayMode(Animation.PlayMode.LOOP);
+        cat = new Animation<>(0.1f, atlas.findRegions("pets/cat"), Animation.PlayMode.LOOP);
+        dog = new Animation<>(0.1f, atlas.findRegions("pets/dog"), Animation.PlayMode.LOOP);
 
         particles = new Particles();
         particles.circle  = atlas.findRegion("particles/circle");

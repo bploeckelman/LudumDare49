@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld49.Assets;
+import lando.systems.ld49.Audio;
 import lando.systems.ld49.screens.GameScreen;
 
 public class World {
@@ -30,6 +31,7 @@ public class World {
         this.bounds = new Rectangle(0, 0, 1024, 1024);
         this.bounds.getCenter(center);
         catapult = new Catapult(assets, 330, bounds.height / 2f - 99);
+        screen.game.audio.stopMusic();
     }
 
     public Vector2 getCenter() {

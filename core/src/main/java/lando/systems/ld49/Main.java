@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import lando.systems.ld49.screens.BaseScreen;
 import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.screens.LaunchScreen;
+import lando.systems.ld49.screens.TitleScreen;
 import lando.systems.ld49.utils.Time;
 import lando.systems.ld49.utils.accessors.*;
 
@@ -72,7 +73,7 @@ public class Main extends ApplicationAdapter {
         if (Gdx.app.getType() == Application.ApplicationType.WebGL || Config.show_launch_screen) {
             setScreen(new LaunchScreen(this));
         } else {
-            setScreen(new GameScreen(this));
+            setScreen(new TitleScreen(this));
         }
     }
 

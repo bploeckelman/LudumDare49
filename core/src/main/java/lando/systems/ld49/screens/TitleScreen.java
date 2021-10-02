@@ -20,7 +20,7 @@ public class TitleScreen extends BaseScreen {
         super(game);
         placeholder = new Vector2(MathUtils.random(Config.window_width - size), MathUtils.random(Config.window_height - size));
         vel = new Vector2(MathUtils.random(-1f, 1), MathUtils.random(-1f, 1f)).nor().scl(100);
-        game.audio.fadeMusic(Audio.Musics.example);
+        game.audio.playMusic(Audio.Musics.example);
     }
 
     @Override
@@ -28,6 +28,9 @@ public class TitleScreen extends BaseScreen {
         super.update(dt);
         if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
             game.setScreen(new GameScreen(game), assets.cubeShader, 3f);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P)){
+            game.setScreen(new EndScreen(game), assets.cubeShader, 3f);
         }
     }
 

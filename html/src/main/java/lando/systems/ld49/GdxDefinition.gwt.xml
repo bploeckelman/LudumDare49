@@ -7,11 +7,14 @@
 	<inherits name="com.badlogic.gdx.controllers.controllers-gwt" />
 
 	<inherits name="lando.systems.ld49.Main" />
+	<inherits name="regexodus" />
 
 	<inherits name="space.earlygrey.shapedrawer" />
 	<inherits name="aurelienribon.tweenengine" />
 
 	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld49.particles.Particle" />
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld49.ui.typinglabel.TypingGlyph" />
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld49.ui.typinglabel.effects" />
 
 	<entry-point class="lando.systems.ld49.gwt.GwtLauncher" />
 	<set-configuration-property name="gdx.assetpath" value="../assets" />

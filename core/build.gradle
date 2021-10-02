@@ -6,4 +6,5 @@ dependencies {
 	api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
 	api "space.earlygrey:shapedrawer:$shapeDrawerVersion"
 	api "org.mini2Dx:universal-tween-engine:$tweenEngineVersion"
+	implementation "com.github.tommyettinger:regexodus:$regexodusVersion"
 }

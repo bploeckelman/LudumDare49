@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+import lando.systems.ld49.utils.InputPrompts;
 import lando.systems.ld49.utils.Time;
 import lando.systems.ld49.utils.accessors.*;
 
@@ -22,13 +23,18 @@ public class Main extends ApplicationAdapter {
     TweenManager tween;
     SpriteBatch batch;
 
+    OrthographicCamera worldCamera;
+    OrthographicCamera windowCamera;
+
     TextureRegion texture;
+    InputPrompts inputPrompts;
 
     @Override
     public void create() {
         Time.init();
 
         assets = new Assets();
+        batch = assets.batch;
 
         tween = new TweenManager();
         Tween.setWaypointsLimit(4);
@@ -39,8 +45,17 @@ public class Main extends ApplicationAdapter {
         Tween.registerAccessor(Vector3.class, new Vector3Accessor());
         Tween.registerAccessor(OrthographicCamera.class, new CameraAccessor());
 
-        batch = assets.batch;
+        worldCamera = new OrthographicCamera();
+        worldCamera.setToOrtho(false, Config.viewport_width, Config.viewport_height);
+        worldCamera.translate(Config.viewport_width / 2f, Config.viewport_height / 2f + 180);
+        worldCamera.update();
+
+        windowCamera = new OrthographicCamera();
+        windowCamera.setToOrtho(false, Config.window_width, Config.window_height);
+        windowCamera.update();
+
         texture = assets.atlas.findRegion("lando");
+        inputPrompts = new InputPrompts(assets);
     }
 
     public void update() {
@@ -70,18 +85,52 @@ public class Main extends ApplicationAdapter {
         // update systems
         tween.update(Time.delta);
         // ...
+        float speed = 200;
+        if      (Gdx.input.isKeyPressed(Input.Keys.LEFT))  worldCamera.translate(-speed * Time.delta, 0);
+        else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) worldCamera.translate( speed * Time.delta, 0);
+        if      (Gdx.input.isKeyPressed(Input.Keys.UP))    worldCamera.translate( 0,  speed * Time.delta);
+        else if (Gdx.input.isKeyPressed(Input.Keys.DOWN))  worldCamera.translate( 0, -speed * Time.delta);
+        // ...
+        worldCamera.update();
+        windowCamera.update();
     }
 
     @Override
     public void render() {
         update();
 
-        ScreenUtils.clear(Color.RED);
+        ScreenUtils.clear(Color.SKY);
+
+        // draw world
+        batch.setProjectionMatrix(worldCamera.combined);
         batch.begin();
         {
             batch.draw(texture, 0, 0, Config.window_width, Config.window_height);
 
-            assets.debugNinePatch.draw(batch, Config.window_width / 2f - Config.viewport_width / 2f, Config.window_height - Config.viewport_height, Config.viewport_width, Config.viewport_height);
+        }
+        batch.end();
+
+        // draw overlay
+        batch.setProjectionMatrix(windowCamera.combined);
+        batch.begin();
+        {
+            batch.setColor(Color.MAGENTA);
+            assets.debugNinePatch.draw(batch, 10, 10, windowCamera.viewportWidth - 20, windowCamera.viewportHeight - 20);
+            batch.setColor(Color.WHITE);
+
+            float margin = 10;
+            float size = 3 * 16;
+
+            batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
+            batch.draw(assets.pixel, 10, 10, 3 * size, 2 * size);
+            batch.setColor(Color.SKY);
+            assets.debugNinePatch.draw(batch, 10, 10, 3 * size, 2 * size);
+            batch.setColor(Color.WHITE);
+
+            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_left), margin, margin, size, size);
+            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_down), margin + size, margin, size, size);
+            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_right), margin + 2 * size, margin, size, size);
+            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_up), margin + size, margin + size, size, size);
         }
         batch.end();
     }

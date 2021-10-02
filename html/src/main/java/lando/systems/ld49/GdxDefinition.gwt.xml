@@ -11,6 +11,8 @@
 	<inherits name="space.earlygrey.shapedrawer" />
 	<inherits name="aurelienribon.tweenengine" />
 
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld49.particles.Particle" />
+
 	<entry-point class="lando.systems.ld49.gwt.GwtLauncher" />
 	<set-configuration-property name="gdx.assetpath" value="../assets" />
 	<set-configuration-property name="xsiframe.failIfScriptTag" value="FALSE"/>

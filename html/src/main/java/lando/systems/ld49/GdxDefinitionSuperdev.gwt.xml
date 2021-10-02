@@ -5,6 +5,8 @@
 
 	<inherits name="aurelienribon.tweenengine" />
 
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld49.particles.Particle" />
+
 	<collapse-all-properties />
 	<add-linker name="xsiframe"/>
 	<set-configuration-property name="devModeRedirectEnabled" value="true"/>

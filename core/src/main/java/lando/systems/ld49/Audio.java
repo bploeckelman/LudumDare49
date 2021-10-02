@@ -52,7 +52,10 @@ public class Audio implements Disposable {
         this.tween = game.tween;
 
         putSound(Sounds.example, assets.exampleSound);
-        putSound(Sounds.slingshotPull, assets.slingshotPull);
+        putSound(Sounds.slingshotPull, assets.slingshotPull1);
+        putSound(Sounds.slingshotPull, assets.slingshotPull2);
+        putSound(Sounds.slingshotPull, assets.slingshotPull3);
+        putSound(Sounds.slingshotPull, assets.slingshotPull4);
         putSound(Sounds.slingshotRelease, assets.slingshotRelease1);
         putSound(Sounds.slingshotRelease, assets.slingshotRelease2);
         putSound(Sounds.slingshotRelease, assets.slingshotRelease3);

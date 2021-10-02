@@ -29,12 +29,14 @@ public class Assets implements Disposable {
     public TextureAtlas atlas;
 
     public Texture pixel;
+    public TextureRegion pixelRegion;
     public NinePatch debugNinePatch;
 
     public Animation<TextureRegion> ripelyIdleAnim;
     public Animation<TextureRegion> ripelyRunAnim;
     public Animation<TextureRegion> cat;
     public Animation<TextureRegion> dog;
+    public TextureRegion tower;
 
     public Array<ShaderProgram> randomTransitions;
     public ShaderProgram blindsShader;
@@ -95,6 +97,7 @@ public class Assets implements Disposable {
             pixmap.setColor(Color.WHITE);
             pixmap.drawPixel(0, 0);
             pixel = new Texture(pixmap);
+            pixelRegion = new TextureRegion(pixel);
         }
         pixmap.dispose();
 
@@ -143,6 +146,8 @@ public class Assets implements Disposable {
         backgrounds.castles = atlas.findRegion("backgrounds/castles");
         backgrounds.nuclearPlant = atlas.findRegion("backgrounds/nuclear-plant");
         backgrounds.titleImage = atlas.findRegion("backgrounds/title-image");
+
+        tower = atlas.findRegion("tower");
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 2, 2, 2, 2);
 

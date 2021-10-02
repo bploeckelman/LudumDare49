@@ -23,10 +23,8 @@ public class GameScreen extends BaseScreen {
 
     public final Vector3 mousePos = new Vector3();
     final Vector2 cameraPos = new Vector2();
-    final MutableFloat cameraZoom = new MutableFloat(1f);
     float accum = 0;
-    boolean zoomedIn = false;
-    boolean isZooming = false;
+    float targetZoom;
 
     final UI ui;
 
@@ -60,21 +58,9 @@ public class GameScreen extends BaseScreen {
         world.update(dt);
         particles.update(dt);
 
-        float speed = 250;
-        if      (KeyState.left_pressed)  cameraPos.add(-speed * dt, 0);
-        else if (KeyState.right_pressed) cameraPos.add( speed * dt, 0);
-        if      (KeyState.up_pressed)    cameraPos.add( 0,  speed * dt);
-        else if (KeyState.down_pressed)  cameraPos.add( 0, -speed * dt);
 
-        if      (cameraPos.x < world.bounds.x + worldCamera.viewportWidth / 2f)                        cameraPos.x = world.bounds.x + worldCamera.viewportWidth / 2f;
-        else if (cameraPos.x > world.bounds.x - worldCamera.viewportWidth / 2f + world.bounds.width)   cameraPos.x = world.bounds.x - worldCamera.viewportWidth / 2f + world.bounds.width;
-        if      (cameraPos.y < world.bounds.y + worldCamera.viewportHeight / 2f)                       cameraPos.y = world.bounds.y + worldCamera.viewportHeight / 2f;
-        else if (cameraPos.y > world.bounds.y - worldCamera.viewportHeight / 2f + world.bounds.height) cameraPos.y = world.bounds.y - worldCamera.viewportHeight / 2f + world.bounds.height;
-        worldCamera.position.set(cameraPos, 0);
-        worldCamera.zoom = cameraZoom.floatValue();
         worldCamera.update();
 
-        handleZoomInOut();
 
 
         // draw some sparkle for nice
@@ -137,40 +123,6 @@ public class GameScreen extends BaseScreen {
         batch.end();
     }
 
-    private void handleZoomInOut() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !isZooming) {
-            isZooming = true;
-            game.audio.playSound(Audio.Sounds.example);
-            if (zoomedIn) {
-                Timeline.createParallel()
-                        .push(
-                                Tween.to(cameraZoom, -1, 1f).target(1f)
-                        )
-                        .push(
-                                Tween.to(cameraPos, Vector2Accessor.XY, 1f)
-                                        .target(world.bounds.width / 2f, world.bounds.height / 2f)
-                        )
-                        .setCallback((type, source) -> {
-                            zoomedIn = false;
-                            isZooming = false;
-                        })
-                        .start(tween);
-            } else {
-                Timeline.createParallel()
-                        .push(
-                                Tween.to(cameraZoom, -1, 1f).target(0.5f)
-                        )
-                        .push(
-                                Tween.to(cameraPos, Vector2Accessor.XY, 1f)
-                                        .target(world.bounds.width / 2f, world.bounds.height / 2f)
-                        )
-                        .setCallback((type, source) -> {
-                            zoomedIn = true;
-                            isZooming = false;
-                        })
-                        .start(tween);
-            }
-        }
-    }
+
 
 }

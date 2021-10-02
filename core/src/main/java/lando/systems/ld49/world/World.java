@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld49.Assets;
 import lando.systems.ld49.Audio;
+import lando.systems.ld49.collision.CollisionManager;
 import lando.systems.ld49.screens.GameScreen;
 
 public class World {
@@ -17,12 +18,15 @@ public class World {
     private final Vector2 center;
 
     public final Rectangle bounds;
-    public final Rectangle viewBounds = new Rectangle();
+    public static float cameraMargin = 30;
 
     private float animIdleState = 0f;
     private float animRunState = 0f;
     private Catapult catapult;
-    private Array<Shot> shots = new Array<>();
+    public Array<Shot> shots = new Array<>();
+    public Reactor reactor;
+    private float groundLevel;
+    private CollisionManager collisionManager;
 
     public World(GameScreen screen) {
         this.gameScreen = screen;
@@ -32,6 +36,13 @@ public class World {
         this.bounds.getCenter(center);
         catapult = new Catapult(assets, 330, bounds.height / 2f - 99);
         screen.game.audio.stopMusic();
+
+        groundLevel = bounds.height / 2f - 99;
+        reactor = new Reactor(groundLevel);
+        collisionManager = new CollisionManager(this);
+        // Build the collidable areas
+
+
     }
 
     public Vector2 getCenter() {
@@ -42,12 +53,16 @@ public class World {
         animIdleState += dt;
         animRunState += dt;
         catapult.update(dt, gameScreen);
+        collisionManager.solve(dt);
+
         for (int i = shots.size-1; i >=0; i--){
             Shot shot = shots.get(i);
             shot.update(dt);
             // TODO: remove if done
+            if (shot.remove) {
+                shots.removeIndex(i);
+            }
         }
-        viewBounds.set(bounds);
     }
 
     public void draw(SpriteBatch batch) {
@@ -66,6 +81,9 @@ public class World {
                 bounds.y + bounds.height / 2f - height / 2f,
                 width, height);
 
+        reactor.render(batch);
+
+
         TextureRegion idleKeyframe = assets.ripelyIdleAnim.getKeyFrame(animIdleState);
         TextureRegion runKeyframe = assets.ripelyRunAnim.getKeyFrame(animRunState);
         batch.draw(idleKeyframe, 200, groundLevel);
@@ -74,10 +92,13 @@ public class World {
         for (Shot shot: shots) {
             shot.render(batch);
         }
+
+        reactor.renderDebug(batch);
     }
 
     public void addShot(Shot shot) {
         shots.add(shot);
     }
+
 
 }

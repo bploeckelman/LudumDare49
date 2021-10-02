@@ -1,4 +1,4 @@
-package lando.systems.ld49.utils;
+package lando.systems.ld49.ui;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;

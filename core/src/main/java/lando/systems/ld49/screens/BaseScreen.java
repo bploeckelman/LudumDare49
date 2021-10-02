@@ -10,7 +10,7 @@ import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.particles.Particles;
 import lando.systems.ld49.ui.UiElements;
-import lando.systems.ld49.utils.InputPrompts;
+import lando.systems.ld49.ui.InputPrompts;
 
 public abstract class BaseScreen extends InputAdapter {
 

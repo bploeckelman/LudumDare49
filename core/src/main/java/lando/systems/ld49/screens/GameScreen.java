@@ -13,8 +13,7 @@ import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.particles.Particles;
-import lando.systems.ld49.utils.InputPrompts;
-import lando.systems.ld49.utils.Time;
+import lando.systems.ld49.ui.InputPrompts;
 import lando.systems.ld49.utils.accessors.Vector2Accessor;
 import lando.systems.ld49.world.World;
 

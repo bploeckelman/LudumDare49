@@ -143,7 +143,7 @@ public class Main extends ApplicationAdapter {
     }
 
     public void setScreen(BaseScreen screen) {
-        setScreen(screen, null, .5f);
+        setScreen(screen, null, .25f);
     }
 
     public void setScreen(final BaseScreen newScreen, ShaderProgram transitionType, float transitionSpeed) {

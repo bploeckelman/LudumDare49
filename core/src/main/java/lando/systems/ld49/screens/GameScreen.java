@@ -7,13 +7,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.particles.Particles;
 import lando.systems.ld49.ui.InputPrompts;
+import lando.systems.ld49.ui.UI;
 import lando.systems.ld49.utils.accessors.Vector2Accessor;
 import lando.systems.ld49.world.World;
 
@@ -28,7 +28,7 @@ public class GameScreen extends BaseScreen {
     boolean zoomedIn = false;
     boolean isZooming = false;
 
-    final Rectangle uiBounds = new Rectangle();
+    final UI ui;
 
     static class KeyState {
         static boolean left_pressed = false;
@@ -41,6 +41,7 @@ public class GameScreen extends BaseScreen {
     public GameScreen(Main game) {
         super(game);
         world = new World(this);
+        ui = new UI(game.assets, uiElements);
 
         cameraPos.set(world.bounds.width / 2, world.bounds.height / 2);
         worldCamera.position.set(cameraPos, 0);
@@ -55,6 +56,7 @@ public class GameScreen extends BaseScreen {
         KeyState.space_pressed = Gdx.input.isKeyPressed(Input.Keys.SPACE);
         worldCamera.unproject(mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
+        ui.update(dt);
         world.update(dt);
         particles.update(dt);
 
@@ -130,9 +132,7 @@ public class GameScreen extends BaseScreen {
 
             batch.setColor(Color.WHITE);
 
-            float pad = 5;
-            uiBounds.set(margin + pad, margin + pad + 3 * size, 200, windowCamera.viewportHeight - 2 * margin - 2 * pad - 3 * size);
-            uiElements.drawPanel(batch, uiBounds);
+            ui.draw(batch);
         }
         batch.end();
     }

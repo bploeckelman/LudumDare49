@@ -9,7 +9,7 @@ import lando.systems.ld49.Assets;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.particles.Particles;
-import lando.systems.ld49.ui.UiElements;
+import lando.systems.ld49.ui.UIElements;
 import lando.systems.ld49.ui.InputPrompts;
 
 public abstract class BaseScreen extends InputAdapter {
@@ -19,7 +19,7 @@ public abstract class BaseScreen extends InputAdapter {
     public final TweenManager tween;
     public final SpriteBatch batch;
     public final Particles particles;
-    public final UiElements uiElements;
+    public final UIElements uiElements;
     public final InputPrompts inputPrompts;
 
     public OrthographicCamera worldCamera;
@@ -34,7 +34,7 @@ public abstract class BaseScreen extends InputAdapter {
         this.tween = game.tween;
         this.batch = assets.batch;
         this.particles = new Particles(assets);
-        this.uiElements = new UiElements(assets);
+        this.uiElements = new UIElements(assets);
         this.inputPrompts = new InputPrompts(assets);
 
         this.worldCamera = new OrthographicCamera();

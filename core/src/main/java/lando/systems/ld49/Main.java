@@ -33,6 +33,7 @@ public class Main extends ApplicationAdapter {
     Particles particles;
     InputPrompts inputPrompts;
 
+    Vector2 cameraPos = new Vector2();
     Vector3 mousePos = new Vector3();
     float accum = 0;
 
@@ -54,7 +55,6 @@ public class Main extends ApplicationAdapter {
 
         worldCamera = new OrthographicCamera();
         worldCamera.setToOrtho(false, Config.viewport_width, Config.viewport_height);
-        worldCamera.translate(Config.viewport_width / 2f, Config.viewport_height / 2f + 180);
         worldCamera.update();
 
         windowCamera = new OrthographicCamera();
@@ -65,6 +65,9 @@ public class Main extends ApplicationAdapter {
         world = new World(assets);
         particles = new Particles(assets);
         inputPrompts = new InputPrompts(assets);
+
+        cameraPos = new Vector2(world.bounds.width / 2, world.bounds.height / 2);
+        worldCamera.position.set(cameraPos, 0);
     }
 
     public void update() {
@@ -95,13 +98,19 @@ public class Main extends ApplicationAdapter {
         tween.update(Time.delta);
         particles.update(Time.delta);
 
-        float speed = 200;
-        if      (Gdx.input.isKeyPressed(Input.Keys.LEFT))  worldCamera.translate(-speed * Time.delta, 0);
-        else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) worldCamera.translate( speed * Time.delta, 0);
-        if      (Gdx.input.isKeyPressed(Input.Keys.UP))    worldCamera.translate( 0,  speed * Time.delta);
-        else if (Gdx.input.isKeyPressed(Input.Keys.DOWN))  worldCamera.translate( 0, -speed * Time.delta);
-
         world.update(Time.delta);
+
+        float speed = 250;
+        if      (Gdx.input.isKeyPressed(Input.Keys.LEFT))  cameraPos.add(-speed * Time.delta, 0);
+        else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) cameraPos.add( speed * Time.delta, 0);
+        if      (Gdx.input.isKeyPressed(Input.Keys.UP))    cameraPos.add( 0,  speed * Time.delta);
+        else if (Gdx.input.isKeyPressed(Input.Keys.DOWN))  cameraPos.add( 0, -speed * Time.delta);
+
+        if      (cameraPos.x < world.bounds.x + worldCamera.viewportWidth / 2f)                        cameraPos.x = world.bounds.x + worldCamera.viewportWidth / 2f;
+        else if (cameraPos.x > world.bounds.x - worldCamera.viewportWidth / 2f + world.bounds.width)   cameraPos.x = world.bounds.x - worldCamera.viewportWidth / 2f + world.bounds.width;
+        if      (cameraPos.y < world.bounds.y + worldCamera.viewportHeight / 2f)                       cameraPos.y = world.bounds.y + worldCamera.viewportHeight / 2f;
+        else if (cameraPos.y > world.bounds.y - worldCamera.viewportHeight / 2f + world.bounds.height) cameraPos.y = world.bounds.y - worldCamera.viewportHeight / 2f + world.bounds.height;
+        worldCamera.position.set(cameraPos, 0);
 
         worldCamera.update();
         windowCamera.update();
@@ -125,7 +134,6 @@ public class Main extends ApplicationAdapter {
         batch.setProjectionMatrix(worldCamera.combined);
         batch.begin();
         {
-            batch.draw(texture, 0, 0, Config.window_width, Config.window_height);
             world.draw(batch);
             particles.draw(batch, Particles.Layer.foreground);
         }

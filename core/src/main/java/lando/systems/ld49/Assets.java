@@ -33,6 +33,13 @@ public class Assets implements Disposable {
         public TextureRegion ring;
     }
 
+    public Backgrounds backgrounds;
+    public static class Backgrounds {
+        public TextureRegion empty;
+        public TextureRegion grass;
+        public TextureRegion castles;
+    }
+
     public Assets() {
         this(Load.SYNC);
     }
@@ -77,6 +84,11 @@ public class Assets implements Disposable {
         particles.ring    = atlas.findRegion("particles/ring");
         particles.smoke   = atlas.findRegion("particles/smoke");
         particles.sparkle = atlas.findRegion("particles/sparkle");
+
+        backgrounds = new Backgrounds();
+        backgrounds.empty   = atlas.findRegion("backgrounds/empty");
+        backgrounds.grass   = atlas.findRegion("backgrounds/grass");
+        backgrounds.castles = atlas.findRegion("backgrounds/castles");
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 2, 2, 2, 2);
 

@@ -27,6 +27,7 @@ public class World {
     public Reactor reactor;
     private float groundLevel;
     private CollisionManager collisionManager;
+    private Array<Banana> bananas = new Array<>();
 
     public World(GameScreen screen) {
         this.gameScreen = screen;
@@ -35,14 +36,12 @@ public class World {
         this.bounds = new Rectangle(0, 0, 1024, 1024);
         this.bounds.getCenter(center);
         catapult = new Catapult(assets, 330, bounds.height / 2f - 99);
-        screen.game.audio.stopMusic();
-
         groundLevel = bounds.height / 2f - 99;
         reactor = new Reactor(groundLevel);
         collisionManager = new CollisionManager(this);
         // Build the collidable areas
-
-
+        bananas.add(new Banana(assets, 340f, groundLevel, this));
+        bananas.add(new Banana(assets, 520f, groundLevel, this));
     }
 
     public Vector2 getCenter() {
@@ -63,6 +62,9 @@ public class World {
                 shots.removeIndex(i);
             }
         }
+        for (Banana banana : bananas) {
+            banana.update(dt);
+        }
     }
 
     public void draw(SpriteBatch batch) {
@@ -82,17 +84,13 @@ public class World {
                 width, height);
 
         reactor.render(batch);
-
-
-        TextureRegion idleKeyframe = assets.ripelyIdleAnim.getKeyFrame(animIdleState);
-        TextureRegion runKeyframe = assets.ripelyRunAnim.getKeyFrame(animRunState);
-        batch.draw(idleKeyframe, 200, groundLevel);
-        batch.draw(runKeyframe, 300, groundLevel);
         catapult.render(batch);
         for (Shot shot: shots) {
             shot.render(batch);
         }
-
+        for (Banana banana : bananas) {
+            banana.render(batch);
+        }
         reactor.renderDebug(batch);
     }
 

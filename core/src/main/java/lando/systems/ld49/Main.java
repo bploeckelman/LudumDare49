@@ -37,6 +37,13 @@ public class Main extends ApplicationAdapter {
     Vector3 mousePos = new Vector3();
     float accum = 0;
 
+    static class KeyState {
+        static boolean left_pressed = false;
+        static boolean right_pressed = false;
+        static boolean up_pressed = false;
+        static boolean down_pressed = false;
+    }
+
     @Override
     public void create() {
         Time.init();
@@ -94,6 +101,11 @@ public class Main extends ApplicationAdapter {
         Time.millis += Time.delta;
         Time.previous_elapsed = Time.elapsed_millis();
 
+        KeyState.left_pressed  = Gdx.input.isKeyPressed(Input.Keys.LEFT);
+        KeyState.right_pressed = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
+        KeyState.up_pressed    = Gdx.input.isKeyPressed(Input.Keys.UP);
+        KeyState.down_pressed  = Gdx.input.isKeyPressed(Input.Keys.DOWN);
+
         // update systems
         tween.update(Time.delta);
         particles.update(Time.delta);
@@ -101,10 +113,10 @@ public class Main extends ApplicationAdapter {
         world.update(Time.delta);
 
         float speed = 250;
-        if      (Gdx.input.isKeyPressed(Input.Keys.LEFT))  cameraPos.add(-speed * Time.delta, 0);
-        else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) cameraPos.add( speed * Time.delta, 0);
-        if      (Gdx.input.isKeyPressed(Input.Keys.UP))    cameraPos.add( 0,  speed * Time.delta);
-        else if (Gdx.input.isKeyPressed(Input.Keys.DOWN))  cameraPos.add( 0, -speed * Time.delta);
+        if      (KeyState.left_pressed)  cameraPos.add(-speed * Time.delta, 0);
+        else if (KeyState.right_pressed) cameraPos.add( speed * Time.delta, 0);
+        if      (KeyState.up_pressed)    cameraPos.add( 0,  speed * Time.delta);
+        else if (KeyState.down_pressed)  cameraPos.add( 0, -speed * Time.delta);
 
         if      (cameraPos.x < world.bounds.x + worldCamera.viewportWidth / 2f)                        cameraPos.x = world.bounds.x + worldCamera.viewportWidth / 2f;
         else if (cameraPos.x > world.bounds.x - worldCamera.viewportWidth / 2f + world.bounds.width)   cameraPos.x = world.bounds.x - worldCamera.viewportWidth / 2f + world.bounds.width;
@@ -156,10 +168,19 @@ public class Main extends ApplicationAdapter {
             assets.debugNinePatch.draw(batch, 10, 10, 3 * size, 2 * size);
             batch.setColor(Color.WHITE);
 
+            batch.setColor(KeyState.left_pressed ? Color.LIME : Color.WHITE);
             batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_left), margin, margin, size, size);
+
+            batch.setColor(KeyState.down_pressed ? Color.LIME : Color.WHITE);
             batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_down), margin + size, margin, size, size);
+
+            batch.setColor(KeyState.right_pressed ? Color.LIME : Color.WHITE);
             batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_right), margin + 2 * size, margin, size, size);
+
+            batch.setColor(KeyState.up_pressed ? Color.LIME : Color.WHITE);
             batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_up), margin + size, margin + size, size, size);
+
+            batch.setColor(Color.WHITE);
         }
         batch.end();
     }

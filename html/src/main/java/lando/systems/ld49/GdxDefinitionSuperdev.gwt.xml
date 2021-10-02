@@ -4,9 +4,11 @@
 	<inherits name="lando.systems.ld49.GdxDefinition" />
 
 	<inherits name="aurelienribon.tweenengine" />
+	<inherits name="regexodus" />
 
 	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld49.particles.Particle" />
-
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld49.ui.typinglabel.TypingGlyph" />
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld49.ui.typinglabel.effects" />
 	<collapse-all-properties />
 	<add-linker name="xsiframe"/>
 	<set-configuration-property name="devModeRedirectEnabled" value="true"/>

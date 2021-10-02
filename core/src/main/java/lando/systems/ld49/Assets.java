@@ -25,6 +25,14 @@ public class Assets implements Disposable {
     public Texture pixel;
     public NinePatch debugNinePatch;
 
+    public Particles particles;
+    public static class Particles {
+        public TextureRegion circle;
+        public TextureRegion sparkle;
+        public TextureRegion smoke;
+        public TextureRegion ring;
+    }
+
     public Assets() {
         this(Load.SYNC);
     }
@@ -63,6 +71,12 @@ public class Assets implements Disposable {
         if (initialized) return 1;
 
         atlas = mgr.get("sprites/sprites.atlas");
+
+        particles = new Particles();
+        particles.circle  = atlas.findRegion("particles/circle");
+        particles.ring    = atlas.findRegion("particles/ring");
+        particles.smoke   = atlas.findRegion("particles/smoke");
+        particles.sparkle = atlas.findRegion("particles/sparkle");
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 2, 2, 2, 2);
 

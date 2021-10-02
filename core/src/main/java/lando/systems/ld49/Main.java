@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+import lando.systems.ld49.particles.Particles;
 import lando.systems.ld49.utils.InputPrompts;
 import lando.systems.ld49.utils.Time;
 import lando.systems.ld49.utils.accessors.*;
@@ -27,7 +28,11 @@ public class Main extends ApplicationAdapter {
     OrthographicCamera windowCamera;
 
     TextureRegion texture;
+    Particles particles;
     InputPrompts inputPrompts;
+
+    Vector3 mousePos = new Vector3();
+    float accum = 0;
 
     @Override
     public void create() {
@@ -55,6 +60,7 @@ public class Main extends ApplicationAdapter {
         windowCamera.update();
 
         texture = assets.atlas.findRegion("lando");
+        particles = new Particles(assets);
         inputPrompts = new InputPrompts(assets);
     }
 
@@ -84,6 +90,7 @@ public class Main extends ApplicationAdapter {
 
         // update systems
         tween.update(Time.delta);
+        particles.update(Time.delta);
         // ...
         float speed = 200;
         if      (Gdx.input.isKeyPressed(Input.Keys.LEFT))  worldCamera.translate(-speed * Time.delta, 0);
@@ -93,6 +100,14 @@ public class Main extends ApplicationAdapter {
         // ...
         worldCamera.update();
         windowCamera.update();
+
+        // draw some sparkle for nice
+        accum += Time.delta;
+        if (accum > 0.025f) {
+            accum -= 0.025f;
+            worldCamera.unproject(mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+            particles.sparkle(mousePos.x, mousePos.y);
+        }
     }
 
     @Override
@@ -106,7 +121,7 @@ public class Main extends ApplicationAdapter {
         batch.begin();
         {
             batch.draw(texture, 0, 0, Config.window_width, Config.window_height);
-
+            particles.draw(batch, Particles.Layer.foreground);
         }
         batch.end();
 

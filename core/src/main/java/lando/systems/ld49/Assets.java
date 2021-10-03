@@ -66,6 +66,13 @@ public class Assets implements Disposable {
     public Sound slingshotRelease2;
     public Sound slingshotRelease3;
     public Sound slingshotRelease4;
+    public Sound rodHit1;
+    public Sound rodHit2;
+    public Sound rodHit3;
+    public Sound rodHit4;
+    public Sound rodHit5;
+    public Sound rodHit6;
+    public Sound rodHit7;
 
     public Particles particles;
     public static class Particles {
@@ -121,6 +128,13 @@ public class Assets implements Disposable {
             mgr.load("audio/sound/slingshotRelease2.ogg", Sound.class);
             mgr.load("audio/sound/slingshotRelease3.ogg", Sound.class);
             mgr.load("audio/sound/slingshotRelease4.ogg", Sound.class);
+            mgr.load("audio/sound/rodHit1.ogg", Sound.class);
+            mgr.load("audio/sound/rodHit2.ogg", Sound.class);
+            mgr.load("audio/sound/rodHit3.ogg", Sound.class);
+            mgr.load("audio/sound/rodHit4.ogg", Sound.class);
+            mgr.load("audio/sound/rodHit5.ogg", Sound.class);
+            mgr.load("audio/sound/rodHit6.ogg", Sound.class);
+            mgr.load("audio/sound/rodHit7.ogg", Sound.class);
         }
 
         if (load == Load.SYNC) {
@@ -187,6 +201,13 @@ public class Assets implements Disposable {
         slingshotRelease2 = mgr.get("audio/sound/slingshotRelease2.ogg", Sound.class);
         slingshotRelease3 = mgr.get("audio/sound/slingshotRelease3.ogg", Sound.class);
         slingshotRelease4 = mgr.get("audio/sound/slingshotRelease4.ogg", Sound.class);
+        rodHit1 = mgr.get("audio/sound/rodHit1.ogg", Sound.class);
+        rodHit2 = mgr.get("audio/sound/rodHit2.ogg", Sound.class);
+        rodHit3 = mgr.get("audio/sound/rodHit3.ogg", Sound.class);
+        rodHit4 = mgr.get("audio/sound/rodHit4.ogg", Sound.class);
+        rodHit5 = mgr.get("audio/sound/rodHit5.ogg", Sound.class);
+        rodHit6 = mgr.get("audio/sound/rodHit6.ogg", Sound.class);
+        rodHit7 = mgr.get("audio/sound/rodHit7.ogg", Sound.class);
 
         randomTransitions.add(radialShader);
         randomTransitions.add(pizelizeShader);

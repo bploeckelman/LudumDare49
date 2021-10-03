@@ -3,6 +3,7 @@ package lando.systems.ld49.world;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld49.Audio;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.collision.Collidable;
 
@@ -46,5 +47,6 @@ public class Segment2D implements Collidable {
     @Override
     public void hit() {
         // Todo: play a sound or something
+        Main.game.audio.playSound(Audio.Sounds.rodHit, 0.07f);
     }
 }

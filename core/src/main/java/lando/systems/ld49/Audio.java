@@ -28,7 +28,8 @@ public class Audio implements Disposable {
         example,
         slingshotReload,
         slingshotPull,
-        slingshotRelease
+        slingshotRelease,
+        rodHit
     }
 
     public enum Musics {
@@ -60,6 +61,13 @@ public class Audio implements Disposable {
         putSound(Sounds.slingshotRelease, assets.slingshotRelease2);
         putSound(Sounds.slingshotRelease, assets.slingshotRelease3);
         putSound(Sounds.slingshotRelease, assets.slingshotRelease4);
+        putSound(Sounds.rodHit, assets.rodHit1);
+        putSound(Sounds.rodHit, assets.rodHit2);
+        putSound(Sounds.rodHit, assets.rodHit3);
+        putSound(Sounds.rodHit, assets.rodHit4);
+        putSound(Sounds.rodHit, assets.rodHit5);
+        putSound(Sounds.rodHit, assets.rodHit6);
+        putSound(Sounds.rodHit, assets.rodHit7);
 
         musics.put(Musics.example, assets.exampleMusic);
 

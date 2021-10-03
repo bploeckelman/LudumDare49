@@ -22,9 +22,9 @@ public class UI extends InputAdapter {
     private final UIElements uiElements;
 
     // comms panel related stuff
-    private final String commsTextPrompt = "That's a very nice cooling tower you have there, it'd be a shame if a mob were to show up and damage it, but I'm sure we can come to some arrangement...";
-    private final String commsTextRejected = "You've made a terrible mistake, you'll regret this.";
-    private final String commsTextAccepted = "You've made the right decision. Best of luck.";
+    private final String commsTextPrompt = "Fine cooling tower you have there. Be a shame if an angry mob were told to destroy it...\n(By me. I'd be the one telling them.)\n\nI'm sure we can find a way to prevent that, hmm?";
+    private final String commsTextRejected = "It seems you've forgotten who's really in charge here.\n\nYOU may survive this, but your tower won't.";
+    private final String commsTextAccepted = "I'm glad we see eye to eye. \n\nCarry on with your... \nweird little ritual or whatever.";
     private String commsText = commsTextPrompt;
     private final Animation<TextureRegion> ciaGuyAnim;
     private final Rectangle commsPanelBounds  = new Rectangle();
@@ -121,9 +121,9 @@ public class UI extends InputAdapter {
 
             float textPressOffset = 2f;
             game.assets.font.getData().setScale(1f);
-            game.assets.layout.setText(game.assets.font, "Accept ($$$)", respondedToComms ? Color.LIGHT_GRAY : Color.LIME, commsPanelAcceptButton.width, Align.center, false);
+            game.assets.layout.setText(game.assets.font, "Pay Up ($$$)", respondedToComms ? Color.LIGHT_GRAY : Color.LIME, commsPanelAcceptButton.width, Align.center, false);
             game.assets.font.draw(batch, game.assets.layout, commsPanelAcceptButton.x, commsPanelAcceptButton.y + commsPanelAcceptButton.height / 2f + game.assets.layout.height / 2f + 4 - (acceptButtonPressed ? textPressOffset : 0));
-            game.assets.layout.setText(game.assets.font, "Reject (T_T)", respondedToComms ? Color.LIGHT_GRAY : Color.FIREBRICK, commsPanelRejectButton.width, Align.center, false);
+            game.assets.layout.setText(game.assets.font, "Never! (T_T)", respondedToComms ? Color.LIGHT_GRAY : Color.FIREBRICK, commsPanelRejectButton.width, Align.center, false);
             game.assets.font.draw(batch, game.assets.layout, commsPanelRejectButton.x, commsPanelRejectButton.y + commsPanelRejectButton.height / 2f + game.assets.layout.height / 2f + 4 - (rejectButtonPressed ? textPressOffset : 0));
             game.assets.font.getData().setScale(scaleX, scaleY);
         }

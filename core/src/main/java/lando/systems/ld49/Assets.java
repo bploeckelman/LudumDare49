@@ -174,6 +174,12 @@ public class Assets implements Disposable {
         public TextureRegion banana;
     }
 
+    public Projectiles projectiles;
+    public static class Projectiles {
+        public Animation<TextureRegion> skull;
+        public Animation<TextureRegion> coconut;
+    }
+
     public Assets() {
         this(Load.SYNC);
     }
@@ -339,6 +345,10 @@ public class Assets implements Disposable {
         backgrounds.castles = atlas.findRegion("backgrounds/castles");
         backgrounds.nuclearPlant = atlas.findRegion("backgrounds/nuclear-plant");
         backgrounds.titleImage = atlas.findRegion("backgrounds/title-image");
+
+        projectiles = new Projectiles();
+        projectiles.coconut = new Animation<>(0.1f, atlas.findRegions("projectiles/coconut/coconut"), Animation.PlayMode.LOOP);
+        projectiles.skull = new Animation<>(0.1f, atlas.findRegions("projectiles/skull/skull"), Animation.PlayMode.LOOP);
 
         tower = atlas.findRegion("tower");
 

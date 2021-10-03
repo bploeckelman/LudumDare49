@@ -47,7 +47,7 @@ public abstract class BaseScreen extends InputAdapter {
         this.windowCamera.update();
 //        this.shaker = new ScreenShakeCameraController(worldCamera);
 
-        Controllers.clearListeners();
+//        Controllers.clearListeners();
 //        Controllers.addListener(playerInput);
     }
 

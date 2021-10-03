@@ -1,7 +1,9 @@
 package lando.systems.ld49.world;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -74,7 +76,7 @@ public class World {
     }
 
     public void draw(SpriteBatch batch) {
-        batch.draw(assets.backgrounds.castles, bounds.x, bounds.y - 200, bounds.width + 300, bounds.height);
+        batch.draw(assets.backgrounds.empty, bounds.x, bounds.y - 200, bounds.width + 300, bounds.height);
 
         // dirt
         float groundLevel = 350;
@@ -92,11 +94,16 @@ public class World {
                 bounds.y + bounds.height / 2f - height,
                 width, height);
 
-        // plants
+        // background trees
         float horizon = bottom + groundLevel;
-        batch.draw(assets.treesActive.getKeyFrame(animState1), bounds.x + 20, horizon);
-        batch.draw(assets.treesActive.getKeyFrame(animState2), bounds.x + bounds.width - 100, horizon);
-        batch.draw(assets.treesIdle.getKeyFrame(animState3), bananaHammockLeft - 135, bananaHammockBottom - 20);
+        batch.draw(assets.treesIdle.getKeyFrame(animState1), bounds.x + 20, horizon);
+        batch.draw(assets.treesIdle.getKeyFrame(animState2), bounds.x + bounds.width - 100, horizon);
+
+        // trees with catapult attached
+        Animation<TextureRegion> catapultTreesAnim = catapult.isHeld() ? assets.treesActive : assets.treesIdle;
+        batch.draw(catapultTreesAnim.getKeyFrame(animState3), bananaHammockLeft - 135, bananaHammockBottom - 20);
+
+        // other random plant trash
         batch.draw(assets.grassA.getKeyFrame(animState1), bounds.x + 20, horizon);
         batch.draw(assets.grassB.getKeyFrame(animState2), bounds.x + 450, horizon);
         batch.draw(assets.grassC.getKeyFrame(animState2), bananaHammockLeft - 20, bananaHammockBottom - 20);

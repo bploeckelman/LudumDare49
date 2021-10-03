@@ -122,4 +122,8 @@ public class Catapult {
         point.set(pos.x + tempVel.x * t, pos.y + tempVel.y *t + -250*t*t);
         return point;
     }
+
+    public boolean isHeld() {
+        return held;
+    }
 }

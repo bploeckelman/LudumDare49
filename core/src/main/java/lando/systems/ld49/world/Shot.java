@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld49.Main;
 
 public class Shot {
-    public float radius = 3;
+    public float radius = 6;
     public Vector2 pos = new Vector2();
     public float dtLeft;
     public boolean remove;

@@ -12,7 +12,7 @@ public class Pin implements Collidable {
     enum Type {steel, bumper};
     public Type type;
     public Vector2 position = new Vector2();
-    public float radius = 5;
+    public float radius = 10;
 
     public Pin(float x, float y, Type type){
         this.position.set(x, y);

@@ -107,7 +107,7 @@ public class Reactor {
         segments.add(new Segment2D(this, true, left + 470 * xScale, flipy - 360 * yScale, left + 500 * xScale, flipy - 360 * yScale));
 
         int pistonCount = 8;
-        float pistonStart = left + 125*xScale;
+        float pistonStart = left + 125 * xScale;
         float pistonStop = left + 360 * xScale;
         float pistonAreaWidth = pistonStop - pistonStart;
         float pistondx = pistonAreaWidth/pistonCount;
@@ -115,15 +115,16 @@ public class Reactor {
             pistons.add(new Piston(pistonStart + i * pistondx, flipy - 360 * yScale, pistondx, 50 * yScale));
         }
 
-//        for (int i = 0; i <10 ; i++){
-//            float dx = 280 / 11f;
-//            pins.add(new Pin(offset + 510 +dx + dx*i, 200, Pin.Type.steel));
-//            pins.add(new Pin(offset + 510 +dx + dx*i, 100, Pin.Type.steel));
-//
-//            if (i < 9){
-//                pins.add(new Pin(offset + 510 +dx + dx/2f + i*dx, 150, Pin.Type.bumper));
-//            }
-//        }
+        for (int i = 0; i < 5 ; i++){
+            float dx = 200 / 4f;
+            float pinLeft = 215;
+            pins.add(new Pin(left + pinLeft + dx + dx*i, 350, Pin.Type.steel));
+            pins.add(new Pin(left + pinLeft + dx + dx*i, 200, Pin.Type.steel));
+
+            if (i < 4){
+                pins.add(new Pin(left + pinLeft + dx + dx/2f + i*dx, 275, Pin.Type.bumper));
+            }
+        }
     }
 
     public float getStructurePercent() {

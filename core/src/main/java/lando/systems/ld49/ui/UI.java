@@ -50,6 +50,8 @@ public class UI extends InputAdapter {
     private final Rectangle tempIconBounds = new Rectangle();
     private final Rectangle structIconBounds = new Rectangle();
     private float structDamageFlash = 0;
+    private float tempWarningPulseRate = 0;
+    private float tempFlash = 0;
     private float tempPercent = 0;
     private float structPercent = 0;
     private float accum = 0;
@@ -121,12 +123,22 @@ public class UI extends InputAdapter {
     }
 
     public void update(float dt) {
-//        float speed = 50;
-//        accum += speed * dt;
-//        tempPercent   = (MathUtils.sinDeg(accum) + 1) / 2f;
-//        structPercent = (MathUtils.cosDeg(accum) + 1) / 2f;
-        float flashSlowdownSpeed = 1;
-        structDamageFlash -= flashSlowdownSpeed * dt;
+        // yes this is dumb, it's ludum dare don't worry about it
+        float temp = 1f - tempPercent;
+        if      (temp  < .2f)  tempWarningPulseRate =  50;
+        else if (temp  < .4f)  tempWarningPulseRate = 300;
+        else if (temp  < .6f)  tempWarningPulseRate = 500;
+        else if (temp  < .8f)  tempWarningPulseRate = 700;
+        else if (temp  <  1f)  tempWarningPulseRate = 1000;
+        accum += tempWarningPulseRate * dt;
+        tempFlash = (MathUtils.sinDeg(accum) + 1) / 2f;
+        // force no flashy when low, for some value of low
+        if (temp < .2f) tempFlash = 0;
+        // force solid red when max
+        if (temp == 1f) tempFlash = 1;
+
+        float structFlashSlowdownSpeed = 1;
+        structDamageFlash -= structFlashSlowdownSpeed * dt;
         if (structDamageFlash < 0) {
             structDamageFlash = 0;
         }
@@ -143,7 +155,10 @@ public class UI extends InputAdapter {
             float margin = 5;
 
             tempMeterBgBounds.set(tempMeterBounds.x - margin, tempMeterBounds.y - margin, tempMeterBounds.width + 2 * margin, tempMeterBounds.height + 2 * margin);
-            batch.setColor(0.4f, 0.4f, 0.4f, 1.0f);
+            batch.setColor(
+                    MathUtils.lerp(0.4f, 1f, tempFlash),
+                    MathUtils.lerp(0.4f, 0f, tempFlash),
+                    MathUtils.lerp(0.4f, 0f, tempFlash), 1.0f);
             uiElements.drawPanel(batch, tempMeterBgBounds);
             batch.setColor(Color.WHITE);
             batch.draw(meterTexture, tempMeterBounds.x, tempMeterBounds.y, tempMeterBounds.width, tempMeterBounds.height);
@@ -160,8 +175,7 @@ public class UI extends InputAdapter {
             batch.setColor(
                     MathUtils.lerp(0.4f, 1f, structDamageFlash),
                     MathUtils.lerp(0.4f, 0f, structDamageFlash),
-                    MathUtils.lerp(0.4f, 0f, structDamageFlash),
-                    1.0f);
+                    MathUtils.lerp(0.4f, 0f, structDamageFlash), 1.0f);
             uiElements.drawPanel(batch, structMeterBgBounds);
             batch.setColor(Color.WHITE);
             batch.draw(meterTexture, structMeterBounds.x, structMeterBounds.y, structMeterBounds.width, structMeterBounds.height);

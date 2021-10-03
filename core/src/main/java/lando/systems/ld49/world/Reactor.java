@@ -51,7 +51,7 @@ public class Reactor {
         poolTexture = assets.atlas.findRegion("tower/pool-glow/tower-pool");
         glowTexture = assets.atlas.findRegion("tower/pool-glow/tower-pool-glow");
 
-        greenFlame = new Flame(left + 115 * xScale, 0, 250*xScale, 80 * yScale, new Color(.2f, .8f, .3f, 1.0f), new Color(1f, .3f, 1f, 1.0f));
+        greenFlame = new Flame(left + 115 * xScale, 0, 250*xScale, 180 * yScale, new Color(.2f, .8f, .3f, 1.0f), new Color(1f, .3f, 1f, 1.0f));
         // height of image, since pixels are top left origin the coords we got from the image are y-flipped, need to re-orient to y-up
         float flipy = 360 * yScale;
 
@@ -108,6 +108,15 @@ public class Reactor {
         segments.add(new Segment2D(this, true, left + 470 * xScale, flipy - 330 * yScale, left + 470 * xScale, flipy - 360 * yScale));
         segments.add(new Segment2D(this, true, left + 470 * xScale, flipy - 360 * yScale, left + 500 * xScale, flipy - 360 * yScale));
 
+        int pistonCount = 8;
+        float pistonStart = left + 125*xScale;
+        float pistonStop = left + 360 * xScale;
+        float pistonAreaWidth = pistonStop - pistonStart;
+        float pistondx = pistonAreaWidth/pistonCount;
+        for (int i = 0; i < pistonCount; i++){
+            pistons.add(new Piston(pistonStart + i * pistondx, flipy - 360 * yScale, pistondx, 50 * yScale));
+        }
+
 //        for (int i = 0; i <10 ; i++){
 //            float dx = 280 / 11f;
 //            pins.add(new Pin(offset + 510 +dx + dx*i, 200, Pin.Type.steel));
@@ -152,6 +161,9 @@ public class Reactor {
         for (Pin p : pins) {
             p.update(dt);
         }
+        for (Piston p : pistons) {
+            p.update(dt);
+        }
     }
 
     public void render(SpriteBatch batch) {
@@ -162,6 +174,9 @@ public class Reactor {
         tex = glowTexture;
 //        batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
         greenFlame.render(batch);
+        for (Piston p : pistons) {
+            p.render(batch);
+        }
         tex = shellTexture;
         batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
 

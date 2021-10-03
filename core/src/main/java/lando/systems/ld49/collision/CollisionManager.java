@@ -5,10 +5,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import lando.systems.ld49.world.Pin;
-import lando.systems.ld49.world.Segment2D;
-import lando.systems.ld49.world.Shot;
-import lando.systems.ld49.world.World;
+import lando.systems.ld49.world.*;
 
 public class CollisionManager {
     World world;
@@ -88,6 +85,14 @@ public class CollisionManager {
                         }
                     }
                 }
+                tempStart1.set(s.pos.x, s.pos.y);
+                frameVel1.set(s.velocity.x * s.dtLeft, s.velocity.y * s.dtLeft);
+                tempEnd1.set(s.pos.x + frameVel1.x, s.pos.y + frameVel1.y);
+                for (Piston piston : world.reactor.pistons) {
+                    if (piston.bounds.contains(tempEnd1.x, tempEnd1.y)) {
+                        collisions.add(new Collision(-1f, tempEnd1, Vector2.Y, piston));
+                    }
+                }
 
                 if (collisions.size > 0) {
                     collisionHappened = true;
@@ -98,6 +103,9 @@ public class CollisionManager {
                     s.dtLeft -= c.t*dt;
                     s.pos.set(c.pos);
                     c.collidable.hit();
+                    if (c.collidable instanceof Piston) {
+                       s.remove = true;
+                    }
 
                 } else {
                     s.dtLeft = 0;

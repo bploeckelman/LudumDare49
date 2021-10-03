@@ -3,6 +3,7 @@ package lando.systems.ld49.world;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld49.Assets;
 import lando.systems.ld49.Main;
 
 public class Reactor {
@@ -10,7 +11,21 @@ public class Reactor {
     public Array<Segment2D> segments = new Array<>();
     public Array<Pin> pins = new Array<>();
 
+    private final TextureRegion shellTexture;
+    private final TextureRegion backTexture;
+    private final TextureRegion poolTexture;
+    private final TextureRegion glowTexture;
+    // TODO: pistons and sockets
+    private final float left = 650;
+    private final float scale = 1.25f;
+
     public Reactor() {
+        Assets assets = Main.game.assets;;
+        shellTexture = assets.atlas.findRegion("tower/frontwall/tower-frontwall");
+        backTexture = assets.atlas.findRegion("tower/backwall/tower-backwall");
+        poolTexture = assets.atlas.findRegion("tower/pool-glow/tower-pool");
+        glowTexture = assets.atlas.findRegion("tower/pool-glow/tower-pool-glow");
+
         float offset = 300;
         segments.add(new Segment2D(offset + 500, 0,   offset + 510, 40));
         segments.add(new Segment2D(offset + 510, 40,  offset + 510, 140));
@@ -33,7 +48,6 @@ public class Reactor {
                 pins.add(new Pin(offset + 510 +dx + dx/2f + i*dx, 150, Pin.Type.bumper));
             }
         }
-
     }
 
     public void update(float dt) {
@@ -43,9 +57,15 @@ public class Reactor {
     }
 
     public void render(SpriteBatch batch) {
-        float scale = 1.25f;
-        TextureRegion tower = Main.game.assets.tower;
-        batch.draw(tower, 650, 0, scale * tower.getRegionWidth(), scale * tower.getRegionHeight());
+        TextureRegion tex = backTexture;
+        batch.draw(tex, left, 0, scale * tex.getRegionWidth(), scale * tex.getRegionHeight());
+        tex = poolTexture;
+        batch.draw(tex, left, 0, scale * tex.getRegionWidth(), scale * tex.getRegionHeight());
+        tex = glowTexture;
+        batch.draw(tex, left, 0, scale * tex.getRegionWidth(), scale * tex.getRegionHeight());
+        tex = shellTexture;
+        batch.draw(tex, left, 0, scale * tex.getRegionWidth(), scale * tex.getRegionHeight());
+
         for (Pin p : pins) {
             p.render(batch);
         }

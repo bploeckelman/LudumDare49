@@ -23,7 +23,7 @@ public class Catapult {
     private boolean held;
     private Vector2 launchAngle = new Vector2();
     private float strength;
-    private float strengthMultiplier = 15;
+    private float strengthMultiplier = 11;
     private float accum;
 
     private TextureRegion bananaHammock;
@@ -72,7 +72,7 @@ public class Catapult {
                 screen.world.addShot(new Shot(pos, new Vector2(launchAngle.x * strength * strengthMultiplier, launchAngle.y * strength * strengthMultiplier)));
             } else {
                 launchAngle.set(pos.x - mousePos.x, pos.y - mousePos.y).nor();
-                strength = MathUtils.clamp(pos.dst(mousePos.x, mousePos.y), 0, 60f);
+                strength = MathUtils.clamp(pos.dst(mousePos.x, mousePos.y), 0, 80f);
             }
         }
     }

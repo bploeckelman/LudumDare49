@@ -9,7 +9,7 @@ import lando.systems.ld49.Main;
 
 public class Shot {
 
-    public static final float gravity = -500;
+    public static final float gravity = -700;
 
     public Vector2 pos = new Vector2();
     public Vector2 velocity = new Vector2();

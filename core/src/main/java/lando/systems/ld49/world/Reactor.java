@@ -11,25 +11,26 @@ public class Reactor {
     public Array<Pin> pins = new Array<>();
 
     public Reactor() {
-        segments.add(new Segment2D(500, 0, 510, 40));
-        segments.add(new Segment2D(510, 40, 510, 140));
-        segments.add(new Segment2D(510, 140, 480, 220));
-        segments.add(new Segment2D(480, 220, 481, 220));
-        segments.add(new Segment2D(481, 220, 511, 140));
-        segments.add(new Segment2D(511, 140, 511, 40));
-        segments.add(new Segment2D(511, 40, 501, 0));
-        segments.add(new Segment2D(501, 0, 800, 0));
-        segments.add(new Segment2D(800, 0, 790, 40));
-        segments.add(new Segment2D(790, 40, 790, 140));
-        segments.add(new Segment2D(790, 140, 820, 220));
+        float offset = 300;
+        segments.add(new Segment2D(offset + 500, 0,   offset + 510, 40));
+        segments.add(new Segment2D(offset + 510, 40,  offset + 510, 140));
+        segments.add(new Segment2D(offset + 510, 140, offset + 480, 220));
+        segments.add(new Segment2D(offset + 480, 220, offset + 481, 220));
+        segments.add(new Segment2D(offset + 481, 220, offset + 511, 140));
+        segments.add(new Segment2D(offset + 511, 140, offset + 511, 40));
+        segments.add(new Segment2D(offset + 511, 40,  offset + 501, 0));
+        segments.add(new Segment2D(offset + 501, 0,   offset + 800, 0));
+        segments.add(new Segment2D(offset + 800, 0,   offset + 790, 40));
+        segments.add(new Segment2D(offset + 790, 40,  offset + 790, 140));
+        segments.add(new Segment2D(offset + 790, 140, offset + 820, 220));
 
         for (int i = 0; i <10 ; i++){
             float dx = 280 / 11f;
-            pins.add(new Pin(510 +dx + dx*i, 200, Pin.Type.steel));
-            pins.add(new Pin(510 +dx + dx*i, 100, Pin.Type.steel));
+            pins.add(new Pin(offset + 510 +dx + dx*i, 200, Pin.Type.steel));
+            pins.add(new Pin(offset + 510 +dx + dx*i, 100, Pin.Type.steel));
 
             if (i < 9){
-                pins.add(new Pin(510 +dx + dx/2f + i*dx, 150, Pin.Type.bumper));
+                pins.add(new Pin(offset + 510 +dx + dx/2f + i*dx, 150, Pin.Type.bumper));
             }
         }
 
@@ -42,9 +43,9 @@ public class Reactor {
     }
 
     public void render(SpriteBatch batch) {
-        float scale = 1.5f;
+        float scale = 1.25f;
         TextureRegion tower = Main.game.assets.tower;
-        batch.draw(tower, 700, 0, scale * tower.getRegionWidth(), scale * tower.getRegionHeight());
+        batch.draw(tower, 650, 0, scale * tower.getRegionWidth(), scale * tower.getRegionHeight());
         for (Pin p : pins) {
             p.render(batch);
         }

@@ -26,6 +26,9 @@ public class World {
     private float groundLevel;
     private CollisionManager collisionManager;
     private Array<Banana> bananas = new Array<>();
+    private float animState1 = 0;
+    private float animState2 = 0;
+    private float animState3 = 0;
 
     public World(GameScreen screen) {
         this.gameScreen = screen;
@@ -33,7 +36,7 @@ public class World {
         this.center = new Vector2();
         this.bounds = new Rectangle(0, 0, 1024, 1024);
         this.bounds.getCenter(center);
-        catapult = new Catapult(assets, 150, 100);
+        catapult = new Catapult(assets, 250, 80);
         reactor = new Reactor();
         collisionManager = new CollisionManager(this);
         // Build the collidable areas
@@ -48,6 +51,9 @@ public class World {
     public void update(float dt) {
         animIdleState += dt;
         animRunState += dt;
+        animState1 += dt;
+        animState2 += dt;
+        animState3 += dt;
         catapult.update(dt, gameScreen);
         collisionManager.solve(dt);
 
@@ -67,11 +73,14 @@ public class World {
     public void draw(SpriteBatch batch) {
         batch.draw(assets.backgrounds.castles, bounds.x, bounds.y - 200, bounds.width + 300, bounds.height);
 
-        float groundLevel = bounds.height / 2f;
+        // dirt
+        float groundLevel = 350;
+        float bottom = bounds.y - 200;
         batch.setColor(198 / 255f, 156 / 255f, 108 / 255f, 1);
-        batch.draw(assets.pixel, bounds.x, bounds.y - 200, bounds.width + 300, 350);
+        batch.draw(assets.pixel, bounds.x, bottom, bounds.width + 300, groundLevel);
         batch.setColor(Color.WHITE);
 
+        // background nuclear plant
         float scale = 2f;
         float width  = scale * assets.backgrounds.nuclearPlant.getRegionWidth();
         float height = scale * assets.backgrounds.nuclearPlant.getRegionHeight();
@@ -80,6 +89,19 @@ public class World {
                 bounds.y + bounds.height / 2f - height,
                 width, height);
 
+        // plants
+        float horizon = bottom + groundLevel;
+        batch.draw(assets.treesActive.getKeyFrame(animState1), bounds.x + 60, horizon);
+        batch.draw(assets.treesActive.getKeyFrame(animState2), bounds.x + 400, horizon);
+        batch.draw(assets.treesIdle.getKeyFrame(animState3), 120, 60);
+        batch.draw(assets.grassA.getKeyFrame(animState1), bounds.x + 20, horizon);
+        batch.draw(assets.grassB.getKeyFrame(animState2), bounds.x + 450, horizon);
+        batch.draw(assets.grassC.getKeyFrame(animState2), 100, 60);
+        batch.draw(assets.grassD.getKeyFrame(animState3), 400, 60);
+        batch.draw(assets.bushA.getKeyFrame(animState1), 150, 60);
+        batch.draw(assets.bushB.getKeyFrame(animState2), 350, horizon);
+
+        // foreground stuff
         reactor.render(batch);
         catapult.render(batch);
         for (Shot shot: shots) {

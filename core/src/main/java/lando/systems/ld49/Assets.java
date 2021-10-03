@@ -38,6 +38,14 @@ public class Assets implements Disposable {
     public Animation<TextureRegion> presidenteRunAnim;
     public Animation<TextureRegion> cat;
     public Animation<TextureRegion> dog;
+    public Animation<TextureRegion> treesIdle;
+    public Animation<TextureRegion> treesActive;
+    public Animation<TextureRegion> grassA;
+    public Animation<TextureRegion> grassB;
+    public Animation<TextureRegion> grassC;
+    public Animation<TextureRegion> grassD;
+    public Animation<TextureRegion> bushA;
+    public Animation<TextureRegion> bushB;
     public TextureRegion tower;
 
     public Array<ShaderProgram> randomTransitions;
@@ -202,6 +210,14 @@ public class Assets implements Disposable {
         presidenteRunAnim.setPlayMode(Animation.PlayMode.LOOP);
         cat = new Animation<>(0.1f, atlas.findRegions("pets/cat"), Animation.PlayMode.LOOP);
         dog = new Animation<>(0.1f, atlas.findRegions("pets/dog"), Animation.PlayMode.LOOP);
+        treesIdle = new Animation<>(0.3f, atlas.findRegions("plants/bhc-trees-idle"), Animation.PlayMode.LOOP);
+        treesActive = new Animation<>(0.2f, atlas.findRegions("plants/bhc-trees-active"), Animation.PlayMode.LOOP);
+        grassA = new Animation<>(0.1f, atlas.findRegions("plants/grasspatch-a"), Animation.PlayMode.LOOP);
+        grassB = new Animation<>(0.1f, atlas.findRegions("plants/grasspatch-b"), Animation.PlayMode.LOOP);
+        grassC = new Animation<>(0.1f, atlas.findRegions("plants/grasspatch-c"), Animation.PlayMode.LOOP);
+        grassD = new Animation<>(0.1f, atlas.findRegions("plants/grasspatch-d"), Animation.PlayMode.LOOP);
+        bushA = new Animation<>(0.1f, atlas.findRegions("plants/bush-a"), Animation.PlayMode.LOOP);
+        bushB = new Animation<>(0.1f, atlas.findRegions("plants/bush-b"), Animation.PlayMode.LOOP);
 
         particles = new Particles();
         particles.circle  = atlas.findRegion("particles/circle");

@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld49.Main;
+import lando.systems.ld49.Audio;
+import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.collision.Collidable;
 
 
@@ -88,5 +90,7 @@ public class Piston implements Collidable {
             heat = 0;
         }
         // TODO: sounds?
+        Main.game.audio.playSound(Audio.Sounds.pistonDown, 0.2f);
+
     }
 }

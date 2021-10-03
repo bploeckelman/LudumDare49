@@ -1,12 +1,10 @@
 package lando.systems.ld49.world;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld49.Assets;
 
@@ -86,7 +84,6 @@ public class Banana {
 
     public void update(float dt) {
         wanderAround(dt);
-
     }
 
     public void render(SpriteBatch batch) {

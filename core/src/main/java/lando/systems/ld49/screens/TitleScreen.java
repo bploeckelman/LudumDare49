@@ -34,6 +34,10 @@ public class TitleScreen extends BaseScreen {
             game.setScreen(new EndScreen(game), assets.cubeShader, 3f);
             game.audio.stopMusic();
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.O)){
+            game.setScreen(new GameOverScreen(game), assets.cubeShader, 3f);
+            game.audio.stopMusic();
+        }
     }
 
     @Override

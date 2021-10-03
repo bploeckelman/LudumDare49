@@ -37,7 +37,6 @@ public class Catapult {
                 held = true;
                 screen.game.audio.playSound(Audio.Sounds.slingshotPull);
 
-
             }
         } else {
             if (!Gdx.input.isTouched()) {

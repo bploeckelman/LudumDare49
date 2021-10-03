@@ -16,7 +16,7 @@ import lando.systems.ld49.world.World;
 
 public class Audio implements Disposable {
 
-    public static final float MUSIC_VOLUME = 0.5f;
+    public static final float MUSIC_VOLUME = 0.35f;
     public static final float SOUND_VOLUME = 0.5f;
 
     public static boolean soundEnabled = true;
@@ -30,7 +30,9 @@ public class Audio implements Disposable {
         slingshotPull,
         slingshotRelease,
         rodHit,
-        wallHit
+        wallHit,
+        pistonUp,
+        pistonDown
     }
 
     public enum Musics {
@@ -81,11 +83,22 @@ public class Audio implements Disposable {
         putSound(Sounds.wallHit, assets.wallHit8);
         putSound(Sounds.wallHit, assets.wallHit9);
         putSound(Sounds.wallHit, assets.wallHit10);
+        putSound(Sounds.pistonUp, assets.pistonUp1);
+        putSound(Sounds.pistonUp, assets.pistonUp2);
+        putSound(Sounds.pistonUp, assets.pistonUp3);
+        putSound(Sounds.pistonUp, assets.pistonUp4);
+        putSound(Sounds.pistonUp, assets.pistonUp5);
+        putSound(Sounds.pistonDown, assets.pistonDown1);
+        putSound(Sounds.pistonDown, assets.pistonDown2);
+        putSound(Sounds.pistonDown, assets.pistonDown3);
+        putSound(Sounds.pistonDown, assets.pistonDown4);
+        putSound(Sounds.pistonDown, assets.pistonDown5);
+
 
         musics.put(Musics.example, assets.exampleMusic);
         musics.put(Musics.music1, assets.music1);
 
-        musicVolume = new MutableFloat(0.5f);
+        musicVolume = new MutableFloat(0.1f);
         setMusicVolume(MUSIC_VOLUME, 2f);
     }
 

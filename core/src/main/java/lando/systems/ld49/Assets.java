@@ -85,6 +85,16 @@ public class Assets implements Disposable {
     public Sound wallHit8;
     public Sound wallHit9;
     public Sound wallHit10;
+    public Sound pistonUp1;
+    public Sound pistonUp2;
+    public Sound pistonUp3;
+    public Sound pistonUp4;
+    public Sound pistonUp5;
+    public Sound pistonDown1;
+    public Sound pistonDown2;
+    public Sound pistonDown3;
+    public Sound pistonDown4;
+    public Sound pistonDown5;
 
     public Particles particles;
     public static class Particles {
@@ -159,6 +169,16 @@ public class Assets implements Disposable {
             mgr.load("audio/sound/wallHit8.ogg", Sound.class);
             mgr.load("audio/sound/wallHit9.ogg", Sound.class);
             mgr.load("audio/sound/wallHit10.ogg", Sound.class);
+            mgr.load("audio/sound/pistonUp1.ogg", Sound.class);
+            mgr.load("audio/sound/pistonUp2.ogg", Sound.class);
+            mgr.load("audio/sound/pistonUp3.ogg", Sound.class);
+            mgr.load("audio/sound/pistonUp4.ogg", Sound.class);
+            mgr.load("audio/sound/pistonUp5.ogg", Sound.class);
+            mgr.load("audio/sound/pistonDown1.ogg", Sound.class);
+            mgr.load("audio/sound/pistonDown2.ogg", Sound.class);
+            mgr.load("audio/sound/pistonDown3.ogg", Sound.class);
+            mgr.load("audio/sound/pistonDown4.ogg", Sound.class);
+            mgr.load("audio/sound/pistonDown5.ogg", Sound.class);
         }
 
         if (load == Load.SYNC) {
@@ -245,6 +265,16 @@ public class Assets implements Disposable {
         wallHit8 = mgr.get("audio/sound/wallHit8.ogg", Sound.class);
         wallHit9 = mgr.get("audio/sound/wallHit9.ogg", Sound.class);
         wallHit10 = mgr.get("audio/sound/wallHit10.ogg", Sound.class);
+        pistonUp1 = mgr.get("audio/sound/pistonUp1.ogg", Sound.class);
+        pistonUp2 = mgr.get("audio/sound/pistonUp2.ogg", Sound.class);
+        pistonUp3 = mgr.get("audio/sound/pistonUp3.ogg", Sound.class);
+        pistonUp4 = mgr.get("audio/sound/pistonUp4.ogg", Sound.class);
+        pistonUp5 = mgr.get("audio/sound/pistonUp5.ogg", Sound.class);
+        pistonDown1 = mgr.get("audio/sound/pistonDown1.ogg", Sound.class);
+        pistonDown2 = mgr.get("audio/sound/pistonDown2.ogg", Sound.class);
+        pistonDown3 = mgr.get("audio/sound/pistonDown3.ogg", Sound.class);
+        pistonDown4 = mgr.get("audio/sound/pistonDown4.ogg", Sound.class);
+        pistonDown5 = mgr.get("audio/sound/pistonDown5.ogg", Sound.class);
 
         randomTransitions.add(radialShader);
         randomTransitions.add(pizelizeShader);

@@ -18,6 +18,12 @@ public class Reactor {
     private final TextureRegion poolTexture;
     private final TextureRegion glowTexture;
 
+    private float currStructureDmg = 0;
+    private final float maxStructureDmg = 100;
+
+    private float currTemperature = 0;
+    private final float maxTemperature = 100;
+
     // TODO: pistons and sockets
 
     private final float left = 450;
@@ -96,6 +102,14 @@ public class Reactor {
 //                pins.add(new Pin(offset + 510 +dx + dx/2f + i*dx, 150, Pin.Type.bumper));
 //            }
 //        }
+    }
+
+    public float getStructurePercent() {
+        return currStructureDmg / maxStructureDmg;
+    }
+
+    public float getTemperaturePercent() {
+        return currTemperature / maxTemperature;
     }
 
     public void update(float dt) {

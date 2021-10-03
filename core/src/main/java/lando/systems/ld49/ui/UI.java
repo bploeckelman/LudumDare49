@@ -120,10 +120,10 @@ public class UI extends InputAdapter {
     }
 
     public void update(float dt) {
-        float speed = 50;
-        accum += speed * dt;
-        tempPercent   = (MathUtils.sinDeg(accum) + 1) / 2f;
-        structPercent = (MathUtils.cosDeg(accum) + 1) / 2f;
+//        float speed = 50;
+//        accum += speed * dt;
+//        tempPercent   = (MathUtils.sinDeg(accum) + 1) / 2f;
+//        structPercent = (MathUtils.cosDeg(accum) + 1) / 2f;
 
         ciaGuyAnimState += dt;
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -280,6 +280,16 @@ public class UI extends InputAdapter {
             }
         }
         return super.touchUp(screenX, screenY, pointer, button);
+    }
+
+    // NOTE: these are inverted to get the banana needle angle correct without a hassle
+
+    public void setTemperature(float temperaturePercent) {
+        this.tempPercent = 1f - temperaturePercent;
+    }
+
+    public void setStructuralDmg(float structuralDmgPercent) {
+        this.structPercent = 1f - structuralDmgPercent;
     }
 
 }

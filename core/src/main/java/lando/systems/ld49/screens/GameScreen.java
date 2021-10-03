@@ -53,6 +53,8 @@ public class GameScreen extends BaseScreen {
         worldCamera.unproject(mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
         ui.shots = world.shots.size;
+        ui.setTemperature(world.reactor.getTemperaturePercent());
+        ui.setStructuralDmg(world.reactor.getStructurePercent());
         ui.update(dt);
         world.update(dt);
 

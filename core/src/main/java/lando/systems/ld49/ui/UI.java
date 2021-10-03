@@ -22,7 +22,7 @@ public class UI extends InputAdapter {
     private final UIElements uiElements;
 
     // comms panel related stuff
-    private final String commsTextPrompt = "Fine cooling tower you have there. Be a shame if an angry mob were told to destroy it...\n(By me. I'd be the one telling them.)\n\nI'm sure we can find a way to prevent that, hmm?";
+    private final String commsTextPrompt = "Fine cooling tower you have there. Be a shame if someone told an angry mob to destroy it...\n\nI'm sure we can find a way to prevent that, hmm?";
     private final String commsTextRejected = "It seems you've forgotten who's really in charge here.\n\nYOU may survive this, but your tower won't.";
     private final String commsTextAccepted = "I'm glad we see eye to eye. \n\nCarry on with your... \nweird little ritual or whatever.";
     private String commsText = commsTextPrompt;

@@ -302,7 +302,7 @@ public class Assets implements Disposable {
         emotes.cross = atlas.findRegion("icons/emote-cross");
         emotes.dots = atlas.findRegion("icons/emote-dots3");
         emotes.drop = atlas.findRegion("icons/emote-drop");
-        emotes.drop = atlas.findRegion("icons/emote-drops");
+        emotes.drops = atlas.findRegion("icons/emote-drops");
         emotes.exclamation = atlas.findRegion("icons/emote-exclamation");
         emotes.exclamations = atlas.findRegion("icons/emote-exclamations");
         emotes.faceAngry = atlas.findRegion("icons/emote-faceAngry");

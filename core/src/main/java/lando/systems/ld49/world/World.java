@@ -36,7 +36,7 @@ public class World {
         this.gameScreen = screen;
         this.assets = screen.assets;
         this.bounds = new Rectangle(0, 0, 1024, 1024);
-        catapult = new Catapult(assets, bananaHammockLeft, bananaHammockBottom);
+        catapult = new Catapult(this, bananaHammockLeft, bananaHammockBottom);
         reactor = new Reactor(this);
         collisionManager = new CollisionManager(this);
         bananas.add(new Banana(assets, 340f, 100, this));

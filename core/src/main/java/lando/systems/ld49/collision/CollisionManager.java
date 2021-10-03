@@ -75,8 +75,8 @@ public class CollisionManager {
                             overlapDist += .5f;
                             normal.set(tempStart2).sub(tempStart1).nor();
                             tempEnd1.set(tempStart2.x + (overlapDist) * normal.x, tempStart2.y + (overlapDist) * normal.y);
-                            p.position.x = tempEnd1.x;
-                            p.position.y = tempEnd1.y;
+                            s.pos.x = tempEnd1.x;
+                            s.pos.y = tempEnd1.y;
                             continue collisionLoop;
                         } else if (time < 1) {
                             frameEndPos.set(tempStart1.x + frameVel1.x * (time * .99f), tempStart1.y + frameVel1.y * (time * .99f));
@@ -200,5 +200,24 @@ public class CollisionManager {
                 incoming.y - 2f * normal.y * iDotN)
                 .nor().scl(initalSize);
         return incoming;
+    }
+
+    public static float intersectParabolaSegment(Segment2D segment, float a, float b, float c) {
+        if (segment.start.x == segment.end.x) {
+            // Line is vertical check where that line would intersect
+        } else {
+            // y = a + bt +ct^2
+            //
+            // y = mx + d
+            // d = y - mx
+            // m = (y2 - y1) / (x2 - x1)
+            //
+            // together
+
+            float m = (segment.end.y - segment.start.y) / (segment.end.x - segment.start.x);
+            float d = segment.start.y - (m * segment.start.x);
+
+        }
+        return 0;
     }
 }

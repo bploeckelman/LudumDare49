@@ -16,6 +16,7 @@ import lando.systems.ld49.utils.Utils;
 
 public class Catapult {
     private Assets assets;
+    private World world;
 
     private Vector2 pos = new Vector2();
     private Rectangle bounds = new Rectangle();
@@ -33,13 +34,15 @@ public class Catapult {
     private float shineCountdownMax;
     private float shineCountdown = 0;
 
-    public Catapult(Assets assets, float x, float y) {
-        this.assets = assets;
+    public Catapult(World world, float x, float y) {
+        this.world = world;
+        this.assets = world.assets;
         this.pos.set(x, y);
         this.bounds.set(x - width/2f, y - height/2f, width, height);
         this.accum = 0;
         this.bananaHammock = assets.atlas.findRegion("catapult/bhc-thong");
         this.bananaHammockShineAnim = new Animation<>(0.1f, assets.atlas.findRegions("catapult/bhc-thong-shine"), Animation.PlayMode.NORMAL);
+        accum = 0;
     }
 
     public void update(float dt, GameScreen screen) {
@@ -107,6 +110,9 @@ public class Catapult {
             batch.draw(assets.pixelRegion, tempVec2.x, tempVec2.y - 2, 0, 2, tempVec2.dst(temp2Vec2), 4, 1, 1, tempVel.set(temp2Vec2).sub(tempVec2).angleDeg());
 
             // TODO Break out when it is within the reactor
+            for (Segment2D segment : world.reactor.segments) {
+
+            }
         }
         batch.setColor(Color.WHITE);
     }

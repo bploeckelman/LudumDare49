@@ -2,6 +2,8 @@ package lando.systems.ld49.utils;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import lando.systems.ld49.world.Segment2D;
+
 public class Utils {
     public static Color hsvToRgb(float hue, float saturation, float value, Color outColor) {
         if (outColor == null) outColor = new Color();
@@ -25,4 +27,6 @@ public class Utils {
         }
         return outColor;
     }
+
+
 }

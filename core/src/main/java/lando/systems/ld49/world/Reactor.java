@@ -1,9 +1,11 @@
 package lando.systems.ld49.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld49.Assets;
 import lando.systems.ld49.Main;
@@ -139,6 +141,13 @@ public class Reactor {
     }
 
     public void update(float dt) {
+        // TESTING -----------------------------------------
+        // REMOVEME when we have currTemperature being updated based on the position of the pistons
+        if      (Gdx.input.isKeyJustPressed(Input.Keys.Q)) currTemperature -= 11;
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.E)) currTemperature += 11;
+        currTemperature = MathUtils.clamp(currTemperature, 0, maxTemperature);
+        // TESTING -----------------------------------------
+
         greenFlame.update(dt*.5f);
         for (Pin p : pins) {
             p.update(dt);

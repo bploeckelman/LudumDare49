@@ -118,6 +118,18 @@ public class Assets implements Disposable {
     public Sound steamHiss8;
     public Sound steamHiss9;
     public Sound steamHiss10;
+    public Sound fire1;
+    public Sound fire2;
+    public Sound fire3;
+    public Sound fire4;
+    public Sound fire5;
+    public Sound alarm1;
+    public Sound downHit1;
+    public Sound downHit2;
+    public Sound click1;
+    public Sound click2;
+
+
 
     public Particles particles;
     public static class Particles {
@@ -255,6 +267,16 @@ public class Assets implements Disposable {
             mgr.load("audio/sound/steamHiss8.ogg", Sound.class);
             mgr.load("audio/sound/steamHiss9.ogg", Sound.class);
             mgr.load("audio/sound/steamHiss10.ogg", Sound.class);
+            mgr.load("audio/sound/fire1.ogg", Sound.class);
+            mgr.load("audio/sound/fire2.ogg", Sound.class);
+            mgr.load("audio/sound/fire3.ogg", Sound.class);
+            mgr.load("audio/sound/fire4.ogg", Sound.class);
+            mgr.load("audio/sound/fire5.ogg", Sound.class);
+            mgr.load("audio/sound/alarm1.ogg", Sound.class);
+            mgr.load("audio/sound/downHit1.ogg", Sound.class);
+            mgr.load("audio/sound/downHit2.ogg", Sound.class);
+            mgr.load("audio/sound/click1.ogg", Sound.class);
+            mgr.load("audio/sound/click2.ogg", Sound.class);
 
             mgr.load("audio/music/example-music.ogg", Music.class);
             mgr.load("audio/music/music1.ogg", Music.class);
@@ -423,6 +445,16 @@ public class Assets implements Disposable {
         steamHiss8 = mgr.get("audio/sound/steamHiss8.ogg", Sound.class);
         steamHiss9 = mgr.get("audio/sound/steamHiss9.ogg", Sound.class);
         steamHiss10 = mgr.get("audio/sound/steamHiss1.ogg", Sound.class);
+        fire1 = mgr.get("audio/sound/fire1.ogg", Sound.class);
+        fire2 = mgr.get("audio/sound/fire2.ogg", Sound.class);
+        fire3 = mgr.get("audio/sound/fire3.ogg", Sound.class);
+        fire4 = mgr.get("audio/sound/fire4.ogg", Sound.class);
+        fire5 = mgr.get("audio/sound/fire5.ogg", Sound.class);
+        alarm1 = mgr.get("audio/sound/alarm1.ogg", Sound.class);
+        downHit1 = mgr.get("audio/sound/downHit1.ogg", Sound.class);
+        downHit2 = mgr.get("audio/sound/downHit2.ogg", Sound.class);
+        click1 = mgr.get("audio/sound/click1.ogg", Sound.class);
+        click2 = mgr.get("audio/sound/click2.ogg", Sound.class);
 
         randomTransitions.add(radialShader);
         randomTransitions.add(pizelizeShader);

@@ -1,5 +1,6 @@
 package lando.systems.ld49.world;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -7,7 +8,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.Audio;
-import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.collision.Collidable;
 
 
@@ -43,9 +43,11 @@ public class Piston implements Collidable {
             if (heat >= MAX_HEAT) {
                 heat = MAX_HEAT;
                 broken = true;
+            Main.game.audio.playSound(Audio.Sounds.fire, 1.0f);
+            Main.game.audio.playSound(Audio.Sounds.alarm, 0.075f);
             }
         } else {
-            // it is broken
+
         }
         pistonPosition = MathUtils.lerp(pistonPosition, getPercentHeat(), .01f);
         flameBackground.insideColor.a = getPercentHeat();
@@ -86,11 +88,18 @@ public class Piston implements Collidable {
 
     @Override
     public void hit() {
+
         if (!broken) {
+//            Gdx.app.log("some tag", "current heat  " + getPercentHeat());
+            float vol = getPercentHeat();
+            Main.game.audio.playSound(Audio.Sounds.pistonDown, vol);
+
             heat = 0;
         }
-        // TODO: sounds?
-        Main.game.audio.playSound(Audio.Sounds.pistonDown, 0.2f);
+        if (broken) {
+//            Gdx.app.log("some tag", "Broken Hit");
+            Main.game.audio.playSound(Audio.Sounds.downHit, 0.24f);
+        }
 
     }
 }

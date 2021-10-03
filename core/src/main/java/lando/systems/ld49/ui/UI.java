@@ -16,6 +16,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
+import lando.systems.ld49.screens.BaseScreen;
+import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.utils.accessors.RectangleAccessor;
 
 public class UI extends InputAdapter {
@@ -294,6 +296,10 @@ public class UI extends InputAdapter {
             if (commsPanelAcceptButton.contains(screenX, Config.window_height - screenY)) {
                 respondedToComms = true;
                 commsText = commsTextAccepted;
+                if (game.getScreen() instanceof GameScreen) {
+                    GameScreen currentScreen = (GameScreen) game.getScreen();
+                    currentScreen.world.makeBananasHappy();
+                }
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
@@ -305,6 +311,10 @@ public class UI extends InputAdapter {
             if (commsPanelRejectButton.contains(screenX, Config.window_height - screenY)) {
                 respondedToComms = true;
                 commsText = commsTextRejected;
+                if (game.getScreen() instanceof GameScreen) {
+                    GameScreen currentScreen = (GameScreen) game.getScreen();
+                    currentScreen.world.makeBananasRiot();
+                }
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {

@@ -1,13 +1,11 @@
 package lando.systems.ld49.world;
 
-import com.badlogic.gdx.Net;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import lando.systems.ld49.Assets;
 
 public class Banana {
@@ -23,6 +21,7 @@ public class Banana {
     private float actionTimer;
     private float actionDuration;
     private final float VELOCITY = 1f;
+    private final float RIOT_VELOCITY = 1.5f;
     private World world;
     private TextureRegion textureRegion;
     private boolean isRioting = false;
@@ -51,6 +50,9 @@ public class Banana {
         this.height = 48f;
         this.scale = 1f;
         pos.set(x, y);
+    }
+    public void scalePerY() {
+        scale = 2 - pos.y/100f;
     }
 
     public void emote(float dt) {
@@ -90,36 +92,59 @@ public class Banana {
     }
 
     public void startRiot(boolean isRioting, Vector2 reactorLocation, float reactorWidth, float riotTimer) {
-        this.isRioting = true;
+        this.isRioting = isRioting;
         this.riotDestination.set(reactorLocation.x + MathUtils.random(reactorWidth), reactorLocation.y);
         this.riotTimer = riotTimer;
         this.feeling = Feelings.NEGATIVE;
+        this.emoteCooldown = 0f;
     }
 
     public void beHappy(float happyTimer) {
         this.feeling = Feelings.POSITIVE;
         this.happyTimer = happyTimer;
+        this.emoteCooldown = 0f;
+    }
+
+
+    private void wanderYAxis() {
+        if (pos.x > world.reactor.left) {
+            return;
+        }
+        if (pos.y > world.bounds.height / 3f) {
+            pos.y -= MathUtils.random(VELOCITY);
+        } else if (pos.y < 50f) {
+            pos.y += MathUtils.random(VELOCITY);
+        } else {
+            pos.y += MathUtils.random(-VELOCITY, VELOCITY);
+        }
     }
 
     public void riot(float dt) {
         animationTimer += dt;
         riotTimer -= dt;
-        if (pos.x < riotDestination.x) {
+        if (pos.x < riotDestination.x + 40f && pos.x > riotDestination.x - 40f) {
+            status = Status.RIOT_IDLE;
+        }
+        else if (pos.x < riotDestination.x + 40f) {
             status = Status.RIOT_RIGHT;
         }
-        else if (pos.x > riotDestination.x) {
+        else if (pos.x > riotDestination.x - 40f) {
             status = Status.RIOT_LEFT;
-        } else {
-            status = Status.RIOT_IDLE;
         }
 
         switch (status) {
             case RIOT_LEFT:
-                pos.x -= VELOCITY;
+                pos.x -= RIOT_VELOCITY;
+                if (pos.y > 0) {
+                    pos.y -= RIOT_VELOCITY;
+                }
                 textureRegion = assets.ripelyRunAnim.getKeyFrame(animationTimer);
                 break;
             case RIOT_RIGHT:
-                pos.x += VELOCITY;
+                pos.x += RIOT_VELOCITY;
+                if (pos.y > 0) {
+                    pos.y -= RIOT_VELOCITY;
+                }
                 textureRegion = assets.ripelyRunAnim.getKeyFrame(animationTimer);
                 break;
             case RIOT_IDLE:
@@ -128,10 +153,16 @@ public class Banana {
         }
 
 
-        if (riotTimer > 0) {
+        if (riotTimer < 0) {
             isRioting = false;
             feeling = Feelings.NEUTRAL;
+            status = Status.WALK_LEFT;
+            emoteCooldown = 0f;
         }
+    }
+
+    public void riotOver() {
+
     }
 
     public void wanderAround(float dt) {
@@ -141,7 +172,10 @@ public class Banana {
         if (actionTimer > actionDuration) {
             actionTimer = 0f;
             actionDuration = MathUtils.random(3f, 10f);
-            if (status == Status.IDLE_LEFT || status == Status.IDLE_RIGHT) {
+            if (pos.x > world.reactor.left) {
+                status = Status.WALK_LEFT;
+            }
+            else if (status == Status.IDLE_LEFT || status == Status.IDLE_RIGHT) {
                 switch (MathUtils.random(1)) {
                     case 0:
                         status = Status.WALK_RIGHT;
@@ -161,7 +195,7 @@ public class Banana {
         if (0 > pos.x && status == Status.WALK_LEFT) {
             //force walk to right
             status = Status.WALK_RIGHT;
-        } else if (pos.x > world.bounds.width - width && status == Status.WALK_RIGHT) {
+        } else if (pos.x > world.reactor.left - width && status == Status.WALK_RIGHT) {
             //walk to left
             status = Status.WALK_LEFT;
         }
@@ -169,10 +203,12 @@ public class Banana {
             case WALK_LEFT:
                 pos.x -= VELOCITY;
                 textureRegion = assets.ripelyRunAnim.getKeyFrame(animationTimer);
+                wanderYAxis();
                 break;
             case WALK_RIGHT:
                 pos.x += VELOCITY;
                 textureRegion = assets.ripelyRunAnim.getKeyFrame(animationTimer);
+                wanderYAxis();
                 break;
             case IDLE_LEFT:
             case IDLE_RIGHT:
@@ -183,24 +219,38 @@ public class Banana {
     }
 
     public void update(float dt) {
+        scalePerY();
         if (isRioting) {
             riot(dt);
         }
         else {
             wanderAround(dt);
-            setEmoteTexture(dt);
-            emote(dt);
         }
+        setEmoteTexture(dt);
+        emote(dt);
     }
 
     public void render(SpriteBatch batch) {
         switch (status) {
+            case RIOT_IDLE:
+            case RIOT_LEFT:
+            case RIOT_RIGHT:
+                batch.setColor(new Color(1f, .5f, .5f, 1f));
+                break;
+            default:
+                batch.setColor(Color.WHITE);
+                break;
+        }
+        switch (status) {
             case WALK_LEFT:
             case IDLE_LEFT:
+            case RIOT_LEFT:
                 batch.draw(textureRegion, pos.x + width, pos.y, -1 * width * scale, height * scale);
                 break;
             case WALK_RIGHT:
             case IDLE_RIGHT:
+            case RIOT_RIGHT:
+            case RIOT_IDLE:
                 batch.draw(textureRegion, pos.x, pos.y, width * scale, height * scale);
                 break;
         }

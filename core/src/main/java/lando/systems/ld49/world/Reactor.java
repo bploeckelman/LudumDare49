@@ -37,7 +37,7 @@ public class Reactor {
     // TODO: pistons and sockets
 
     private final World world;
-    private final float left = 450;
+    public final float left = 450;
     private final float xScale = 1.5f;
     private final float yScale = 1.5f;
 

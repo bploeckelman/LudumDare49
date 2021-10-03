@@ -39,8 +39,8 @@ public class World {
         catapult = new Catapult(assets, bananaHammockLeft, bananaHammockBottom);
         reactor = new Reactor(this);
         collisionManager = new CollisionManager(this);
-        bananas.add(new Banana(assets, 340f, 0, this));
-        bananas.add(new Banana(assets, 520f, 0, this));
+        bananas.add(new Banana(assets, 340f, 100, this));
+        bananas.add(new Banana(assets, 320f, 110, this));
         ambianceSoundTime = MathUtils.random(5f, 10f);
     }
 
@@ -118,6 +118,18 @@ public class World {
 
     public void addShot(Shot shot) {
         shots.add(shot);
+    }
+
+    public void makeBananasHappy() {
+        for (Banana banana : bananas) {
+            banana.beHappy(10f);
+        }
+    }
+
+    public void makeBananasRiot() {
+        for (Banana banana : bananas) {
+            banana.startRiot(true, new Vector2(reactor.left, 0f), 600f, 10f);
+        }
     }
 
 

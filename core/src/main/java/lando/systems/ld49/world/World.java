@@ -12,8 +12,8 @@ import lando.systems.ld49.screens.GameScreen;
 
 public class World {
 
-    private final GameScreen gameScreen;
-    private final Assets assets;
+    public final GameScreen gameScreen;
+    public final Assets assets;
     public final Rectangle bounds;
 
     private float animIdleState = 0f;
@@ -33,7 +33,7 @@ public class World {
         this.assets = screen.assets;
         this.bounds = new Rectangle(0, 0, 1024, 1024);
         catapult = new Catapult(assets, 120, 150);
-        reactor = new Reactor();
+        reactor = new Reactor(this);
         collisionManager = new CollisionManager(this);
         bananas.add(new Banana(assets, 340f, 0, this));
         bananas.add(new Banana(assets, 520f, 0, this));

@@ -21,7 +21,7 @@ public class GameScreen extends BaseScreen {
     float accum = 0;
     float targetZoom;
 
-    final UI ui;
+    public final UI ui;
 
     static class KeyState {
         static boolean left_pressed = false;

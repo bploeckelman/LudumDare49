@@ -36,11 +36,13 @@ public class Reactor {
 
     // TODO: pistons and sockets
 
+    private final World world;
     private final float left = 450;
     private final float xScale = 1.5f;
     private final float yScale = 1.5f;
 
-    public Reactor() {
+    public Reactor(World world) {
+        this.world = world;
         Assets assets = Main.game.assets;;
         shellTexture = assets.atlas.findRegion("tower/frontwall/tower-frontwall");
         backTexture = assets.atlas.findRegion("tower/backwall/tower-backwall");
@@ -125,6 +127,10 @@ public class Reactor {
 
     public void damageStructure(DamageAmount amount) {
         currStructureDmg += amount.value;
+        // trigger a flash on the structural integrity meter for serious damage
+        if (amount != DamageAmount.small) {
+            world.gameScreen.ui.structureDamaged();
+        }
         if (currStructureDmg >= maxStructureDmg) {
             currStructureDmg = maxStructureDmg;
             // TODO: trigger end game

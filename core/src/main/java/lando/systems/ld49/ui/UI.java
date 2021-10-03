@@ -49,6 +49,7 @@ public class UI extends InputAdapter {
     private final Rectangle structMeterBgBounds = new Rectangle();
     private final Rectangle tempIconBounds = new Rectangle();
     private final Rectangle structIconBounds = new Rectangle();
+    private float structDamageFlash = 0;
     private float tempPercent = 0;
     private float structPercent = 0;
     private float accum = 0;
@@ -124,6 +125,11 @@ public class UI extends InputAdapter {
 //        accum += speed * dt;
 //        tempPercent   = (MathUtils.sinDeg(accum) + 1) / 2f;
 //        structPercent = (MathUtils.cosDeg(accum) + 1) / 2f;
+        float flashSlowdownSpeed = 1;
+        structDamageFlash -= flashSlowdownSpeed * dt;
+        if (structDamageFlash < 0) {
+            structDamageFlash = 0;
+        }
 
         ciaGuyAnimState += dt;
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -151,7 +157,11 @@ public class UI extends InputAdapter {
             );
 
             structMeterBgBounds.set(structMeterBounds.x - margin, structMeterBounds.y - margin, structMeterBounds.width + 2 * margin, structMeterBounds.height + 2 * margin);
-            batch.setColor(0.4f, 0.4f, 0.4f, 1.0f);
+            batch.setColor(
+                    MathUtils.lerp(0.4f, 1f, structDamageFlash),
+                    MathUtils.lerp(0.4f, 0f, structDamageFlash),
+                    MathUtils.lerp(0.4f, 0f, structDamageFlash),
+                    1.0f);
             uiElements.drawPanel(batch, structMeterBgBounds);
             batch.setColor(Color.WHITE);
             batch.draw(meterTexture, structMeterBounds.x, structMeterBounds.y, structMeterBounds.width, structMeterBounds.height);
@@ -292,4 +302,7 @@ public class UI extends InputAdapter {
         this.structPercent = 1f - structuralDmgPercent;
     }
 
+    public void structureDamaged() {
+        structDamageFlash = 1f;
+    }
 }

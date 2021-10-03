@@ -24,6 +24,7 @@ public class Assets implements Disposable {
     public SpriteBatch batch;
     public ShapeDrawer shapes;
     public BitmapFont font;
+    public BitmapFont pixelFont16;
     public GlyphLayout layout;
     public AssetManager mgr;
     public TextureAtlas atlas;
@@ -106,6 +107,7 @@ public class Assets implements Disposable {
         mgr = new AssetManager();
         {
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
+            mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
             mgr.load("audio/music/example-music.ogg", Music.class);
             mgr.load("audio/sound/example-sound.wav", Sound.class);
             mgr.load("audio/sound/slingshotPull.ogg", Sound.class);
@@ -126,6 +128,7 @@ public class Assets implements Disposable {
         if (initialized) return 1;
 
         atlas = mgr.get("sprites/sprites.atlas");
+        pixelFont16 = mgr.get("fonts/chevyray-rise-16.fnt");
 
         ripelyIdleAnim = new Animation<>(0.1f, atlas.findRegions("ripely/idle/ripely-idle"));
         ripelyRunAnim  = new Animation<>(0.1f, atlas.findRegions("ripely/run/ripely-run"));

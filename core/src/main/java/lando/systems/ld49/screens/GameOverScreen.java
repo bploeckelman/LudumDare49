@@ -49,13 +49,13 @@ public class GameOverScreen extends BaseScreen {
         {
             particles.draw(batch, Particles.Layer.foreground);
             batch.setColor(Color.GREEN);
-            batch.draw(assets.pixel,camera.viewportWidth - 300f, camera.viewportHeight - 250f, 200f, 50f);
+            batch.draw(assets.pixelRegion,camera.viewportWidth - 300f, camera.viewportHeight - 250f, 200f, 50f);
             batch.setColor(Color.WHITE);
             assets.font.getData().setScale(2f);
             assets.layout.setText(assets.font, "EXIT", Color.WHITE, 200f, Align.center, false);
             assets.font.draw(batch, assets.layout, camera.viewportWidth - 300f, camera.viewportHeight - 210f);
             assets.font.getData().setScale(1f);
-            batch.draw(assets.pixel, camera.viewportWidth - 300f, camera.viewportHeight - 600f, 200f, 300f);
+            batch.draw(assets.pixelRegion, camera.viewportWidth - 300f, camera.viewportHeight - 600f, 200f, 300f);
             batch.setColor(colorTint, colorTint, colorTint, 1);
             presidente.render(batch);
             batch.setColor(Color.WHITE);

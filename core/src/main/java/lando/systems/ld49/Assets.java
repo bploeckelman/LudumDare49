@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import org.w3c.dom.Text;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Assets implements Disposable {
@@ -135,6 +136,44 @@ public class Assets implements Disposable {
         public TextureRegion titleImage;
     }
 
+    public Emotes emotes;
+    public Array<TextureRegion> positiveEmotes = new Array<>();
+    public Array<TextureRegion> negativeEmotes = new Array<>();
+    public Array<TextureRegion> neutralEmotes = new Array<>();
+
+    public static class Emotes {
+        public TextureRegion alert;
+        public TextureRegion anger;
+        public TextureRegion bars;
+        public TextureRegion cash;
+        public TextureRegion circle;
+        public TextureRegion cloud;
+        public TextureRegion cross;
+        public TextureRegion dots;
+        public TextureRegion drop;
+        public TextureRegion drops;
+        public TextureRegion exclamation;
+        public TextureRegion exclamations;
+        public TextureRegion faceAngry;
+        public TextureRegion faceHappy;
+        public TextureRegion faceSad;
+        public TextureRegion flame;
+        public TextureRegion heart;
+        public TextureRegion heartBroken;
+        public TextureRegion hearts;
+        public TextureRegion idea;
+        public TextureRegion laugh;
+        public TextureRegion music;
+        public TextureRegion question;
+        public TextureRegion sleep;
+        public TextureRegion sleeps;
+        public TextureRegion star;
+        public TextureRegion swirl;
+        public TextureRegion temperature;
+        public TextureRegion wrench;
+        public TextureRegion banana;
+    }
+
     public Assets() {
         this(Load.SYNC);
     }
@@ -252,6 +291,40 @@ public class Assets implements Disposable {
         grassD = new Animation<>(0.1f, atlas.findRegions("plants/grasspatch-d"), Animation.PlayMode.LOOP);
         bushA = new Animation<>(0.1f, atlas.findRegions("plants/bush-a"), Animation.PlayMode.LOOP);
         bushB = new Animation<>(0.1f, atlas.findRegions("plants/bush-b"), Animation.PlayMode.LOOP);
+
+        emotes = new Emotes();
+        emotes.alert = atlas.findRegion("icons/emote-alert");
+        emotes.anger = atlas.findRegion("icons/emote-anger");
+        emotes.bars = atlas.findRegion("icons/emote-bars");
+        emotes.cash = atlas.findRegion("icons/emote-cash");
+        emotes.circle = atlas.findRegion("icons/emote-circle");
+        emotes.cloud = atlas.findRegion("icons/emote-cloud");
+        emotes.cross = atlas.findRegion("icons/emote-cross");
+        emotes.dots = atlas.findRegion("icons/emote-dots3");
+        emotes.drop = atlas.findRegion("icons/emote-drop");
+        emotes.drop = atlas.findRegion("icons/emote-drops");
+        emotes.exclamation = atlas.findRegion("icons/emote-exclamation");
+        emotes.exclamations = atlas.findRegion("icons/emote-exclamations");
+        emotes.faceAngry = atlas.findRegion("icons/emote-faceAngry");
+        emotes.faceHappy = atlas.findRegion("icons/emote-faceHappy");
+        emotes.faceSad = atlas.findRegion("icons/emote-faceSad");
+        emotes.flame = atlas.findRegion("icons/emote-flame");
+        emotes.heart = atlas.findRegion("icons/emote-heartBroken");
+        emotes.hearts = atlas.findRegion("icons/emote-hearts");
+        emotes.idea = atlas.findRegion("icons/emote-idea");
+        emotes.laugh = atlas.findRegion("icons/emote-laugh");
+        emotes.music = atlas.findRegion("icons/emote-music");
+        emotes.question = atlas.findRegion("icons/emote-question");
+        emotes.sleep = atlas.findRegion("icons/emote-sleep");
+        emotes.sleeps = atlas.findRegion("icons/emote-sleeps");
+        emotes.star = atlas.findRegion("icons/emote-star");
+        emotes.swirl = atlas.findRegion("icons/emote-swirl");
+        emotes.temperature = atlas.findRegion("icons/emote-temp");
+        emotes.wrench = atlas.findRegion("icons/emote-wrench");
+        emotes.banana = atlas.findRegion("icons/emote-banana");
+        positiveEmotes.addAll(emotes.circle, emotes.faceHappy, emotes.heart, emotes.hearts, emotes.laugh, emotes.music, emotes.star);
+        negativeEmotes.addAll(emotes.anger, emotes.bars, emotes.cloud, emotes.cross, emotes.faceAngry, emotes.faceSad, emotes.flame, emotes.heartBroken, emotes.swirl);
+        neutralEmotes.addAll(emotes.sleep, emotes.sleeps, emotes.drop, emotes.drops, emotes.dots, emotes.banana);
 
         particles = new Particles();
         particles.circle  = atlas.findRegion("particles/circle");

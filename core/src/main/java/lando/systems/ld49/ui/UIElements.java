@@ -34,8 +34,8 @@ public class UIElements {
         this.markerUp     = assets.atlas.findRegion("ui/grey_sliderUp");
         this.markerDown   = assets.atlas.findRegion("ui/grey_sliderDown");
         this.markerCircle = assets.atlas.findRegion("ui/grey_circle");
-        this.iconStruct = assets.atlas.findRegion("icons/emote_wrench");
-        this.iconTemp   = assets.atlas.findRegion("icons/emote_temp");
+        this.iconStruct = assets.atlas.findRegion("icons/emote-wrench");
+        this.iconTemp   = assets.atlas.findRegion("icons/emote-temp");
     }
 
     public void drawPanel(SpriteBatch batch, Rectangle bounds) {

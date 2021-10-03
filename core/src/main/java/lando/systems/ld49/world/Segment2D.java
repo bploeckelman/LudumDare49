@@ -31,7 +31,7 @@ public class Segment2D implements Collidable {
 
     public void debugRender(SpriteBatch batch) {
         float width = 1f;
-        batch.setColor(Color.BLACK);
+        batch.setColor(Color.BLUE);
         batch.draw(Main.game.assets.pixelRegion, start.x, start.y - width/2f, 0, width/2f, delta.len(), width, 1, 1, getRotation());
         batch.setColor(Color.MAGENTA);
         batch.draw(Main.game.assets.pixelRegion, (start.x + end.x)/2f, (start.y  + end.y )/2f, 0, width/2f, 10, .5f, 1, 1, normal.angleDeg());

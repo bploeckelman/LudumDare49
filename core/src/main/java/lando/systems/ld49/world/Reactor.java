@@ -42,7 +42,7 @@ public class Reactor {
     }
 
     public void render(SpriteBatch batch) {
-        float scale = 2;
+        float scale = 1.5f;
         TextureRegion tower = Main.game.assets.tower;
         batch.draw(tower, 700, 0, scale * tower.getRegionWidth(), scale * tower.getRegionHeight());
         for (Pin p : pins) {

@@ -105,6 +105,7 @@ public class CollisionManager {
                     c.collidable.hit();
                     if (c.collidable instanceof Piston) {
                        s.remove = true;
+                       s.dtLeft = 0;
                     }
 
                 } else {

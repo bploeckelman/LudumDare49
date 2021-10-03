@@ -32,8 +32,6 @@ public class Reactor {
     private float currStructureDmg = 0;
     private final float maxStructureDmg = 100;
 
-    private float currTemperature = 0;
-    private final float maxTemperature = 100;
     private final Flame greenFlame;
 
     // TODO: pistons and sockets
@@ -133,8 +131,11 @@ public class Reactor {
     }
 
     public float getTemperaturePercent() {
-        return currTemperature / maxTemperature;
-    }
+        float total = 0;
+        for (Piston p : pistons) {
+            total += p.getPercentHeat();
+        }
+        return total/pistons.size;    }
 
     public void damageStructure(DamageAmount amount) {
         currStructureDmg += amount.value;
@@ -150,12 +151,6 @@ public class Reactor {
     }
 
     public void update(float dt) {
-        // TESTING -----------------------------------------
-        // REMOVEME when we have currTemperature being updated based on the position of the pistons
-        if      (Gdx.input.isKeyJustPressed(Input.Keys.Q)) currTemperature -= 11;
-        else if (Gdx.input.isKeyJustPressed(Input.Keys.E)) currTemperature += 11;
-        currTemperature = MathUtils.clamp(currTemperature, 0, maxTemperature);
-        // TESTING -----------------------------------------
 
         greenFlame.update(dt*.5f);
         for (Pin p : pins) {

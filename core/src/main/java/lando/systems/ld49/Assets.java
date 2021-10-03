@@ -30,6 +30,7 @@ public class Assets implements Disposable {
     public TextureAtlas atlas;
 
     public Texture pixel;
+    public Texture noise;
     public TextureRegion pixelRegion;
     public NinePatch debugNinePatch;
 
@@ -62,6 +63,8 @@ public class Assets implements Disposable {
     public ShaderProgram circleCropShader;
     public ShaderProgram cubeShader;
     public ShaderProgram dreamyShader;
+
+    public ShaderProgram flameShader;
 
     public Music exampleMusic;
     public Music music1;
@@ -147,6 +150,7 @@ public class Assets implements Disposable {
         mgr = new AssetManager();
         {
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
+            mgr.load("textures/noise.png", Texture.class);
             mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
             mgr.load("audio/music/example-music.ogg", Music.class);
             mgr.load("audio/music/music1.ogg", Music.class);
@@ -202,6 +206,10 @@ public class Assets implements Disposable {
         atlas = mgr.get("sprites/sprites.atlas");
         pixelFont16 = mgr.get("fonts/chevyray-rise-16.fnt");
 
+        noise = mgr.get("textures/noise.png");
+        noise.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
+
         ripelyIdleAnim = new Animation<>(0.1f, atlas.findRegions("ripely/idle/ripely-idle"));
         ripelyRunAnim  = new Animation<>(0.1f, atlas.findRegions("ripely/run/ripely-run"));
         presidenteRunAnim = new Animation<>(0.1f, atlas.findRegions("presidente/run/presidente-run"));
@@ -251,6 +259,9 @@ public class Assets implements Disposable {
         circleCropShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/circlecrop.frag");
         cubeShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/cube.frag");
         dreamyShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/dreamy.frag");
+
+        flameShader = loadShader("shaders/default.vert", "shaders/flame.frag");
+
 
         exampleMusic = mgr.get("audio/music/example-music.ogg", Music.class);
         music1 = mgr.get("audio/music/music1.ogg", Music.class);

@@ -16,7 +16,7 @@ import lando.systems.ld49.world.World;
 
 public class Audio implements Disposable {
 
-    public static final float MUSIC_VOLUME = 0.05f;
+    public static final float MUSIC_VOLUME = 0.25f;
     public static final float SOUND_VOLUME = 0.5f;
 
     public static boolean soundEnabled = true;
@@ -39,7 +39,8 @@ public class Audio implements Disposable {
     public enum Musics {
         none,
         example,
-        music1
+        music1,
+        introMusic
     }
 
     public ObjectMap<Sounds, SoundContainer> sounds = new ObjectMap<>();
@@ -108,6 +109,7 @@ public class Audio implements Disposable {
 
         musics.put(Musics.example, assets.exampleMusic);
         musics.put(Musics.music1, assets.music1);
+        musics.put(Musics.introMusic, assets.introMusic);
 
         musicVolume = new MutableFloat(0.1f);
         setMusicVolume(MUSIC_VOLUME, 2f);

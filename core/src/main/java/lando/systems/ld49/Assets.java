@@ -68,6 +68,7 @@ public class Assets implements Disposable {
 
     public Music exampleMusic;
     public Music music1;
+    public Music introMusic;
 
     public Sound exampleSound;
     public Sound slingshotReload;
@@ -162,8 +163,6 @@ public class Assets implements Disposable {
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
             mgr.load("textures/noise.png", Texture.class);
             mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
-            mgr.load("audio/music/example-music.ogg", Music.class);
-            mgr.load("audio/music/music1.ogg", Music.class);
             mgr.load("audio/sound/example-sound.wav", Sound.class);
             mgr.load("audio/sound/slingshotPull1.ogg", Sound.class);
             mgr.load("audio/sound/slingshotPull2.ogg", Sound.class);
@@ -211,6 +210,13 @@ public class Assets implements Disposable {
             mgr.load("audio/sound/steamHiss8.ogg", Sound.class);
             mgr.load("audio/sound/steamHiss9.ogg", Sound.class);
             mgr.load("audio/sound/steamHiss10.ogg", Sound.class);
+
+            mgr.load("audio/music/example-music.ogg", Music.class);
+            mgr.load("audio/music/music1.ogg", Music.class);
+            mgr.load("audio/music/introMusic.ogg", Music.class);
+
+
+
         }
 
         if (load == Load.SYNC) {
@@ -285,6 +291,7 @@ public class Assets implements Disposable {
 
         exampleMusic = mgr.get("audio/music/example-music.ogg", Music.class);
         music1 = mgr.get("audio/music/music1.ogg", Music.class);
+        introMusic = mgr.get("audio/music/introMusic.ogg", Music.class);
 
         exampleSound = mgr.get("audio/sound/example-sound.wav", Sound.class);
         slingshotPull1 = mgr.get("audio/sound/slingshotPull1.ogg", Sound.class);

@@ -12,6 +12,7 @@ public class UIElements {
     private final Assets assets;
     private final NinePatch panel;
     private final NinePatch buttonSmallPressed;
+    private final NinePatch buttonSmallReleased;
     private final TextureRegion markerLeft;
     private final TextureRegion markerRight;
     private final TextureRegion markerUp;
@@ -26,7 +27,8 @@ public class UIElements {
     public UIElements(Assets assets) {
         this.assets = assets;
         this.panel = new NinePatch(assets.atlas.findRegion("ui/grey_panel"), 8, 8, 8, 8);
-        this.buttonSmallPressed = new NinePatch(assets.atlas.findRegion("ui/grey_button11"), 2, 2, 2, 2);
+        this.buttonSmallPressed  = new NinePatch(assets.atlas.findRegion("ui/grey_button11"), 5, 5, 5, 5);
+        this.buttonSmallReleased = new NinePatch(assets.atlas.findRegion("ui/grey_button12"), 5, 5, 5, 5);
         this.markerRight  = assets.atlas.findRegion("ui/grey_sliderRight");
         this.markerLeft   = assets.atlas.findRegion("ui/grey_sliderLeft");
         this.markerUp     = assets.atlas.findRegion("ui/grey_sliderUp");
@@ -38,6 +40,12 @@ public class UIElements {
 
     public void drawPanel(SpriteBatch batch, Rectangle bounds) {
         panel.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
+    }
+
+    public void drawButton(SpriteBatch batch, Rectangle bounds, Color tint, boolean pressed) {
+        NinePatch button = pressed ? buttonSmallPressed : buttonSmallReleased;
+
+        button.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
     public void drawIcon(SpriteBatch batch, Icon icon, Rectangle bounds) {

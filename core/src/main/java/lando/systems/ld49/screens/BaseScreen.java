@@ -1,6 +1,7 @@
 package lando.systems.ld49.screens;
 
 import aurelienribon.tweenengine.TweenManager;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -58,6 +59,8 @@ public abstract class BaseScreen extends InputAdapter {
 //        shaker.update(dt);
         particles.update(dt);
 //        playerInput.update(dt);
+        worldCamera.update();
+        windowCamera.update();
     }
 
 

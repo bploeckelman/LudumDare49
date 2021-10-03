@@ -75,7 +75,7 @@ public class World {
         batch.draw(assets.pixel, bounds.x, bounds.y, bounds.width, groundLevel);
         batch.setColor(Color.WHITE);
 
-        float scale = 1.5f;
+        float scale = 1f;//1.5f;
         float width  = scale * assets.backgrounds.nuclearPlant.getRegionWidth();
         float height = scale * assets.backgrounds.nuclearPlant.getRegionHeight();
         batch.draw(assets.backgrounds.nuclearPlant,

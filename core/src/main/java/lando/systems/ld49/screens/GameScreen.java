@@ -1,20 +1,15 @@
 package lando.systems.ld49.screens;
 
-import aurelienribon.tweenengine.Timeline;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import lando.systems.ld49.Audio;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.particles.Particles;
 import lando.systems.ld49.ui.InputPrompts;
 import lando.systems.ld49.ui.UI;
-import lando.systems.ld49.utils.accessors.Vector2Accessor;
 import lando.systems.ld49.world.World;
 
 public class GameScreen extends BaseScreen {
@@ -39,11 +34,14 @@ public class GameScreen extends BaseScreen {
     public GameScreen(Main game) {
         super(game);
         world = new World(this);
-        ui = new UI(game.assets, uiElements);
+        ui = new UI(game, uiElements);
 
         cameraPos.set(world.bounds.width / 2, world.bounds.height / 2);
         worldCamera.position.set(cameraPos, 0);
         worldCamera.update();
+
+        // TODO: add a mux if we need more input processors
+        Gdx.input.setInputProcessor(ui);
     }
 
     public void update(float dt) {
@@ -56,12 +54,6 @@ public class GameScreen extends BaseScreen {
 
         ui.update(dt);
         world.update(dt);
-        particles.update(dt);
-
-
-        worldCamera.update();
-
-
 
         // draw some sparkle for nice
         accum += dt;
@@ -69,6 +61,8 @@ public class GameScreen extends BaseScreen {
             accum -= 0.025f;
             particles.sparkle(mousePos.x, mousePos.y);
         }
+
+        super.update(dt);
     }
 
     @Override
@@ -86,37 +80,33 @@ public class GameScreen extends BaseScreen {
         batch.setProjectionMatrix(windowCamera.combined);
         batch.begin();
         {
-            batch.setColor(Color.MAGENTA);
-            assets.debugNinePatch.draw(batch, 10, 10, windowCamera.viewportWidth - 20, windowCamera.viewportHeight - 20);
-            batch.setColor(Color.WHITE);
-
-            float margin = 10;
-            float size = 3 * 16;
-
-            batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
-            batch.draw(assets.pixel, 10, 10, 3 * size, 3 * size);
-            batch.setColor(Color.SKY);
-            assets.debugNinePatch.draw(batch, 10, 10, 3 * size, 3 * size);
-            batch.setColor(Color.WHITE);
-
-            batch.setColor(KeyState.left_pressed ? Color.LIME : Color.WHITE);
-            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_left), margin, margin + size, size, size);
-
-            batch.setColor(KeyState.down_pressed ? Color.LIME : Color.WHITE);
-            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_down), margin + size, margin + size, size, size);
-
-            batch.setColor(KeyState.right_pressed ? Color.LIME : Color.WHITE);
-            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_right), margin + 2 * size, margin + size, size, size);
-
-            batch.setColor(KeyState.up_pressed ? Color.LIME : Color.WHITE);
-            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_up), margin + size, margin + 2 * size, size, size);
-
-            batch.setColor(KeyState.space_pressed ? Color.LIME : Color.WHITE);
-            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_spacebar_1), margin, margin, size, size);
-            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_spacebar_2), margin + size, margin, size, size);
-            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_spacebar_3), margin + 2 * size, margin, size, size);
-
-            batch.setColor(Color.WHITE);
+//            float margin = 10;
+//            float size = 3 * 16;
+//
+//            batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
+//            batch.draw(assets.pixel, 10, 10, 3 * size, 3 * size);
+//            batch.setColor(Color.SKY);
+//            assets.debugNinePatch.draw(batch, 10, 10, 3 * size, 3 * size);
+//            batch.setColor(Color.WHITE);
+//
+//            batch.setColor(KeyState.left_pressed ? Color.LIME : Color.WHITE);
+//            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_left), margin, margin + size, size, size);
+//
+//            batch.setColor(KeyState.down_pressed ? Color.LIME : Color.WHITE);
+//            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_down), margin + size, margin + size, size, size);
+//
+//            batch.setColor(KeyState.right_pressed ? Color.LIME : Color.WHITE);
+//            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_right), margin + 2 * size, margin + size, size, size);
+//
+//            batch.setColor(KeyState.up_pressed ? Color.LIME : Color.WHITE);
+//            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_arrow_up), margin + size, margin + 2 * size, size, size);
+//
+//            batch.setColor(KeyState.space_pressed ? Color.LIME : Color.WHITE);
+//            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_spacebar_1), margin, margin, size, size);
+//            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_spacebar_2), margin + size, margin, size, size);
+//            batch.draw(inputPrompts.get(InputPrompts.Type.key_light_spacebar_3), margin + 2 * size, margin, size, size);
+//
+//            batch.setColor(Color.WHITE);
 
             ui.draw(batch);
         }

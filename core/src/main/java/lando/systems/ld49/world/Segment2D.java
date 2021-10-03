@@ -13,12 +13,17 @@ public class Segment2D implements Collidable {
     public Vector2 delta;
     public Vector2 normal;
 
+    private final Reactor reactor;
+    private final boolean isExterior;
 
-    public Segment2D (Vector2 start, Vector2 end){
-        this(start.x, start.y, end.x, end.y);
+
+    public Segment2D (Reactor reactor, boolean isExterior, Vector2 start, Vector2 end){
+        this(reactor, isExterior, start.x, start.y, end.x, end.y);
     }
 
-    public Segment2D (float x1, float y1, float x2, float y2){
+    public Segment2D (Reactor reactor, boolean isExterior, float x1, float y1, float x2, float y2){
+        this.reactor = reactor;
+        this.isExterior = isExterior;
         this.start = new Vector2(x1, y1);
         this.end = new Vector2(x2, y2);
         this.delta = new Vector2(end).sub(start);
@@ -48,5 +53,6 @@ public class Segment2D implements Collidable {
     public void hit() {
         // Todo: play a sound or something
         Main.game.audio.playSound(Audio.Sounds.wallHit, 1.0f);
+        reactor.damageStructure(isExterior ? Reactor.DamageAmount.medium : Reactor.DamageAmount.small);
     }
 }

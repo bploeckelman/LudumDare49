@@ -1,5 +1,6 @@
 package lando.systems.ld49.world;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,6 +11,12 @@ import lando.systems.ld49.Main;
 public class Reactor {
 
     private static final boolean DRAW_SEGMENTS = false;
+
+    public enum DamageAmount {
+        small(0.01f), medium(1), large(20);
+        final float value;
+        DamageAmount(float value) {this.value = value;}
+    }
 
     public Array<Segment2D> segments = new Array<>();
     public Array<Pin> pins = new Array<>();
@@ -45,57 +52,57 @@ public class Reactor {
         float flipy = 360 * yScale;
 
         // exterior wall, left side
-        segments.add(new Segment2D(left +   8 * xScale, flipy - 360 * yScale, left +   8 * xScale, flipy - 330 * yScale));
-        segments.add(new Segment2D(left +   8 * xScale, flipy - 330 * yScale, left +  60 * xScale, flipy - 280 * yScale));
-        segments.add(new Segment2D(left +  60 * xScale, flipy - 280 * yScale, left + 105 * xScale, flipy - 220 * yScale));
-        segments.add(new Segment2D(left + 105 * xScale, flipy - 220 * yScale, left + 125 * xScale, flipy - 160 * yScale));
-        segments.add(new Segment2D(left + 125 * xScale, flipy - 160 * yScale, left + 125 * xScale, flipy - 100 * yScale));
-        segments.add(new Segment2D(left + 125 * xScale, flipy - 100 * yScale, left + 115 * xScale, flipy -  70 * yScale));
-        segments.add(new Segment2D(left + 115 * xScale, flipy -  70 * yScale, left + 105 * xScale, flipy -  40 * yScale));
-        segments.add(new Segment2D(left + 105 * xScale, flipy -  40 * yScale, left + 130 * xScale, flipy -  30 * yScale));
-        segments.add(new Segment2D(left + 130 * xScale, flipy -  30 * yScale, left + 130 * xScale, flipy -  40 * yScale));
+        segments.add(new Segment2D(this, true, left +   8 * xScale, flipy - 360 * yScale, left +   8 * xScale, flipy - 330 * yScale));
+        segments.add(new Segment2D(this, true, left +   8 * xScale, flipy - 330 * yScale, left +  60 * xScale, flipy - 280 * yScale));
+        segments.add(new Segment2D(this, true, left +  60 * xScale, flipy - 280 * yScale, left + 105 * xScale, flipy - 220 * yScale));
+        segments.add(new Segment2D(this, true, left + 105 * xScale, flipy - 220 * yScale, left + 125 * xScale, flipy - 160 * yScale));
+        segments.add(new Segment2D(this, true, left + 125 * xScale, flipy - 160 * yScale, left + 125 * xScale, flipy - 100 * yScale));
+        segments.add(new Segment2D(this, true, left + 125 * xScale, flipy - 100 * yScale, left + 115 * xScale, flipy -  70 * yScale));
+        segments.add(new Segment2D(this, true, left + 115 * xScale, flipy -  70 * yScale, left + 105 * xScale, flipy -  40 * yScale));
+        segments.add(new Segment2D(this, true, left + 105 * xScale, flipy -  40 * yScale, left + 130 * xScale, flipy -  30 * yScale));
+        segments.add(new Segment2D(this, true, left + 130 * xScale, flipy -  30 * yScale, left + 130 * xScale, flipy -  40 * yScale));
 
         // interior wall, left side
-        segments.add(new Segment2D(left + 130 * xScale, flipy -  30 * yScale, left + 125 * xScale, flipy -  65 * yScale));
-        segments.add(new Segment2D(left + 125 * xScale, flipy -  65 * yScale, left + 135 * xScale, flipy - 100 * yScale));
-        segments.add(new Segment2D(left + 135 * xScale, flipy - 100 * yScale, left + 155 * xScale, flipy - 130 * yScale));
-        segments.add(new Segment2D(left + 155 * xScale, flipy - 130 * yScale, left + 170 * xScale, flipy - 160 * yScale));
-        segments.add(new Segment2D(left + 170 * xScale, flipy - 160 * yScale, left + 165 * xScale, flipy - 200 * yScale));
-        segments.add(new Segment2D(left + 165 * xScale, flipy - 200 * yScale, left + 150 * xScale, flipy - 235 * yScale));
-        segments.add(new Segment2D(left + 150 * xScale, flipy - 235 * yScale, left + 135 * xScale, flipy - 270 * yScale));
-        segments.add(new Segment2D(left + 135 * xScale, flipy - 270 * yScale, left + 125 * xScale, flipy - 300 * yScale));
-        segments.add(new Segment2D(left + 125 * xScale, flipy - 300 * yScale, left + 120 * xScale, flipy - 330 * yScale));
-        segments.add(new Segment2D(left + 120 * xScale, flipy - 330 * yScale, left + 140 * xScale, flipy - 335 * yScale));
-        segments.add(new Segment2D(left + 140 * xScale, flipy - 335 * yScale, left + 165 * xScale, flipy - 360 * yScale));
-        segments.add(new Segment2D(left + 165 * xScale, flipy - 360 * yScale, left + 165 * xScale, flipy - 360 * yScale));
+        segments.add(new Segment2D(this, false, left + 130 * xScale, flipy -  30 * yScale, left + 125 * xScale, flipy -  65 * yScale));
+        segments.add(new Segment2D(this, false, left + 125 * xScale, flipy -  65 * yScale, left + 135 * xScale, flipy - 100 * yScale));
+        segments.add(new Segment2D(this, false, left + 135 * xScale, flipy - 100 * yScale, left + 155 * xScale, flipy - 130 * yScale));
+        segments.add(new Segment2D(this, false, left + 155 * xScale, flipy - 130 * yScale, left + 170 * xScale, flipy - 160 * yScale));
+        segments.add(new Segment2D(this, false, left + 170 * xScale, flipy - 160 * yScale, left + 165 * xScale, flipy - 200 * yScale));
+        segments.add(new Segment2D(this, false, left + 165 * xScale, flipy - 200 * yScale, left + 150 * xScale, flipy - 235 * yScale));
+        segments.add(new Segment2D(this, false, left + 150 * xScale, flipy - 235 * yScale, left + 135 * xScale, flipy - 270 * yScale));
+        segments.add(new Segment2D(this, false, left + 135 * xScale, flipy - 270 * yScale, left + 125 * xScale, flipy - 300 * yScale));
+        segments.add(new Segment2D(this, false, left + 125 * xScale, flipy - 300 * yScale, left + 120 * xScale, flipy - 330 * yScale));
+        segments.add(new Segment2D(this, false, left + 120 * xScale, flipy - 330 * yScale, left + 140 * xScale, flipy - 335 * yScale));
+        segments.add(new Segment2D(this, false, left + 140 * xScale, flipy - 335 * yScale, left + 165 * xScale, flipy - 360 * yScale));
+        segments.add(new Segment2D(this, false, left + 165 * xScale, flipy - 360 * yScale, left + 165 * xScale, flipy - 360 * yScale));
 
         // floor
-        segments.add(new Segment2D(left + 165 * xScale, flipy - 360 * yScale, left + 305 * xScale, flipy - 360 * yScale));
+        segments.add(new Segment2D(this, false, left + 165 * xScale, flipy - 360 * yScale, left + 305 * xScale, flipy - 360 * yScale));
 
         // interior wall, right side
-        segments.add(new Segment2D(left + 305 * xScale, flipy - 360 * yScale, left + 340 * xScale, flipy - 335 * yScale));
-        segments.add(new Segment2D(left + 340 * xScale, flipy - 335 * yScale, left + 360 * xScale, flipy - 325 * yScale));
-        segments.add(new Segment2D(left + 360 * xScale, flipy - 325 * yScale, left + 360 * xScale, flipy - 300 * yScale));
-        segments.add(new Segment2D(left + 360 * xScale, flipy - 300 * yScale, left + 340 * xScale, flipy - 265 * yScale));
-        segments.add(new Segment2D(left + 340 * xScale, flipy - 265 * yScale, left + 315 * xScale, flipy - 200 * yScale));
-        segments.add(new Segment2D(left + 315 * xScale, flipy - 200 * yScale, left + 315 * xScale, flipy - 155 * yScale));
-        segments.add(new Segment2D(left + 315 * xScale, flipy - 155 * yScale, left + 335 * xScale, flipy - 115 * yScale));
-        segments.add(new Segment2D(left + 335 * xScale, flipy - 115 * yScale, left + 350 * xScale, flipy -  80 * yScale));
-        segments.add(new Segment2D(left + 350 * xScale, flipy -  80 * yScale, left + 365 * xScale, flipy -  50 * yScale));
-        segments.add(new Segment2D(left + 365 * xScale, flipy -  50 * yScale, left + 360 * xScale, flipy -  30 * yScale));
-        segments.add(new Segment2D(left + 360 * xScale, flipy -  30 * yScale, left + 360 * xScale, flipy -  30 * yScale));
+        segments.add(new Segment2D(this, false, left + 305 * xScale, flipy - 360 * yScale, left + 340 * xScale, flipy - 335 * yScale));
+        segments.add(new Segment2D(this, false, left + 340 * xScale, flipy - 335 * yScale, left + 360 * xScale, flipy - 325 * yScale));
+        segments.add(new Segment2D(this, false, left + 360 * xScale, flipy - 325 * yScale, left + 360 * xScale, flipy - 300 * yScale));
+        segments.add(new Segment2D(this, false, left + 360 * xScale, flipy - 300 * yScale, left + 340 * xScale, flipy - 265 * yScale));
+        segments.add(new Segment2D(this, false, left + 340 * xScale, flipy - 265 * yScale, left + 315 * xScale, flipy - 200 * yScale));
+        segments.add(new Segment2D(this, false, left + 315 * xScale, flipy - 200 * yScale, left + 315 * xScale, flipy - 155 * yScale));
+        segments.add(new Segment2D(this, false, left + 315 * xScale, flipy - 155 * yScale, left + 335 * xScale, flipy - 115 * yScale));
+        segments.add(new Segment2D(this, false, left + 335 * xScale, flipy - 115 * yScale, left + 350 * xScale, flipy -  80 * yScale));
+        segments.add(new Segment2D(this, false, left + 350 * xScale, flipy -  80 * yScale, left + 365 * xScale, flipy -  50 * yScale));
+        segments.add(new Segment2D(this, false, left + 365 * xScale, flipy -  50 * yScale, left + 360 * xScale, flipy -  30 * yScale));
+        segments.add(new Segment2D(this, false, left + 360 * xScale, flipy -  30 * yScale, left + 360 * xScale, flipy -  30 * yScale));
 
         // exterior wall, right side
-        segments.add(new Segment2D(left + 360 * xScale, flipy -  30 * yScale, left + 370 * xScale, flipy -  45 * yScale));
-        segments.add(new Segment2D(left + 370 * xScale, flipy -  45 * yScale, left + 360 * xScale, flipy -  75 * yScale));
-        segments.add(new Segment2D(left + 360 * xScale, flipy -  75 * yScale, left + 360 * xScale, flipy - 100 * yScale));
-        segments.add(new Segment2D(left + 360 * xScale, flipy - 100 * yScale, left + 360 * xScale, flipy - 160 * yScale));
-        segments.add(new Segment2D(left + 360 * xScale, flipy - 160 * yScale, left + 370 * xScale, flipy - 200 * yScale));
-        segments.add(new Segment2D(left + 370 * xScale, flipy - 200 * yScale, left + 395 * xScale, flipy - 250 * yScale));
-        segments.add(new Segment2D(left + 395 * xScale, flipy - 250 * yScale, left + 440 * xScale, flipy - 300 * yScale));
-        segments.add(new Segment2D(left + 440 * xScale, flipy - 300 * yScale, left + 470 * xScale, flipy - 330 * yScale));
-        segments.add(new Segment2D(left + 470 * xScale, flipy - 330 * yScale, left + 470 * xScale, flipy - 360 * yScale));
-        segments.add(new Segment2D(left + 470 * xScale, flipy - 360 * yScale, left + 500 * xScale, flipy - 360 * yScale));
+        segments.add(new Segment2D(this, true, left + 360 * xScale, flipy -  30 * yScale, left + 370 * xScale, flipy -  45 * yScale));
+        segments.add(new Segment2D(this, true, left + 370 * xScale, flipy -  45 * yScale, left + 360 * xScale, flipy -  75 * yScale));
+        segments.add(new Segment2D(this, true, left + 360 * xScale, flipy -  75 * yScale, left + 360 * xScale, flipy - 100 * yScale));
+        segments.add(new Segment2D(this, true, left + 360 * xScale, flipy - 100 * yScale, left + 360 * xScale, flipy - 160 * yScale));
+        segments.add(new Segment2D(this, true, left + 360 * xScale, flipy - 160 * yScale, left + 370 * xScale, flipy - 200 * yScale));
+        segments.add(new Segment2D(this, true, left + 370 * xScale, flipy - 200 * yScale, left + 395 * xScale, flipy - 250 * yScale));
+        segments.add(new Segment2D(this, true, left + 395 * xScale, flipy - 250 * yScale, left + 440 * xScale, flipy - 300 * yScale));
+        segments.add(new Segment2D(this, true, left + 440 * xScale, flipy - 300 * yScale, left + 470 * xScale, flipy - 330 * yScale));
+        segments.add(new Segment2D(this, true, left + 470 * xScale, flipy - 330 * yScale, left + 470 * xScale, flipy - 360 * yScale));
+        segments.add(new Segment2D(this, true, left + 470 * xScale, flipy - 360 * yScale, left + 500 * xScale, flipy - 360 * yScale));
 
 //        for (int i = 0; i <10 ; i++){
 //            float dx = 280 / 11f;
@@ -114,6 +121,15 @@ public class Reactor {
 
     public float getTemperaturePercent() {
         return currTemperature / maxTemperature;
+    }
+
+    public void damageStructure(DamageAmount amount) {
+        currStructureDmg += amount.value;
+        if (currStructureDmg >= maxStructureDmg) {
+            currStructureDmg = maxStructureDmg;
+            // TODO: trigger end game
+            Gdx.app.log("END STATE", "Your tower broke, that's game over man, game over!");
+        }
     }
 
     public void update(float dt) {

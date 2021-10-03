@@ -20,6 +20,7 @@ public class EndScreen extends BaseScreen {
 
     private Animation<TextureRegion> catAnimation;
     private Animation<TextureRegion> dogAnimation;
+    private TextureRegion background;
 
     static String title = "{GRADIENT=purple;cyan}Banana Republic: Nuclear Power Plantain{ENDGRADIENT}";
     static String theme = "Made for Ludum Dare 49: Unstable";
@@ -51,6 +52,7 @@ public class EndScreen extends BaseScreen {
         leftCreditLabel.setFontScale(1f);
         catAnimation = game.assets.cat;
         dogAnimation = game.assets.dog;
+        background = game.assets.atlas.findRegion("lando");
 
         rightCreditLabel = new TypingLabel(game.assets.pixelFont16, artists.toLowerCase() + "\n\n" + music.toLowerCase() + "\n\n" + libgdx.toLowerCase(), Config.window_width / 2 + 75f, Config.window_height / 2f + 135f);
         rightCreditLabel.setWidth(Config.window_width / 2f - 150f);
@@ -86,6 +88,8 @@ public class EndScreen extends BaseScreen {
         batch.setProjectionMatrix(windowCamera.combined);
         batch.begin();
         {
+            batch.draw(background, 0, 0, Config.window_width, Config.window_height);
+
             batch.setColor(0f, 0f, 0f, 0.6f);
             batch.draw(game.assets.pixel, 25f, 130f, Config.window_width / 2f - 50f, 400f);
             batch.draw(game.assets.pixel, Config.window_width / 2f + 25f, 130f, Config.window_width / 2f - 50f, 400f);

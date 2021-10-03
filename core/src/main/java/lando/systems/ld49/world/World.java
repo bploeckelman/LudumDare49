@@ -26,6 +26,7 @@ public class World {
     private float animState1 = 0;
     private float animState2 = MathUtils.random(1, 2);
     private float animState3 = MathUtils.random(3, 10);
+    private float ambianceSoundTime;
 
     public World(GameScreen screen) {
         this.gameScreen = screen;
@@ -36,9 +37,15 @@ public class World {
         collisionManager = new CollisionManager(this);
         bananas.add(new Banana(assets, 340f, 0, this));
         bananas.add(new Banana(assets, 520f, 0, this));
+        ambianceSoundTime = MathUtils.random(5f, 10f);
     }
 
     public void update(float dt) {
+        ambianceSoundTime-= dt;
+        if (ambianceSoundTime <= 0){
+            // TODO: Pete play sound here
+            ambianceSoundTime = MathUtils.random(4f, 10f);
+        }
         animIdleState += dt;
         animRunState += dt;
         animState1 += dt;

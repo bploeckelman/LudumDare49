@@ -55,6 +55,7 @@ public class UI extends InputAdapter {
     private float tempPercent = 0;
     private float structPercent = 0;
     private float accum = 0;
+    private float tempAccum = 0;
 
     private final Rectangle controlPanelBounds = new Rectangle();
 
@@ -137,10 +138,20 @@ public class UI extends InputAdapter {
         // force solid red when max
         if (temp == 1f) tempFlash = 1;
 
+        // if we just got damaged, single pulse a warning flash in the structure meter
         float structFlashSlowdownSpeed = 1;
         structDamageFlash -= structFlashSlowdownSpeed * dt;
         if (structDamageFlash < 0) {
             structDamageFlash = 0;
+        }
+
+        // if we're in real structural danger, flash or solid red the structure meter
+        float struct = MathUtils.clamp(1f - structPercent, 0, 1);
+        if (struct == 1f) {
+            structDamageFlash = 1;
+        } else if (struct >= .8) {
+            tempAccum += 1000 * dt;
+            structDamageFlash = (MathUtils.sinDeg(tempAccum) + 1) / 2f;
         }
 
         ciaGuyAnimState += dt;

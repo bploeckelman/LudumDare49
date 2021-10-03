@@ -36,6 +36,8 @@ public class Catapult {
             if (Gdx.input.justTouched() && bounds.contains(mousePos.x, mousePos.y)){
                 held = true;
                 screen.game.audio.playSound(Audio.Sounds.slingshotPull);
+
+
             }
         } else {
             if (!Gdx.input.isTouched()) {

@@ -56,6 +56,7 @@ public class Assets implements Disposable {
     public ShaderProgram dreamyShader;
 
     public Music exampleMusic;
+    public Music music1;
 
     public Sound exampleSound;
     public Sound slingshotReload;
@@ -120,6 +121,7 @@ public class Assets implements Disposable {
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
             mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
             mgr.load("audio/music/example-music.ogg", Music.class);
+            mgr.load("audio/music/music1.ogg", Music.class);
             mgr.load("audio/sound/example-sound.wav", Sound.class);
             mgr.load("audio/sound/slingshotPull1.ogg", Sound.class);
             mgr.load("audio/sound/slingshotPull2.ogg", Sound.class);
@@ -194,6 +196,7 @@ public class Assets implements Disposable {
         dreamyShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/dreamy.frag");
 
         exampleMusic = mgr.get("audio/music/example-music.ogg", Music.class);
+        music1 = mgr.get("audio/music/music1.ogg", Music.class);
 
         exampleSound = mgr.get("audio/sound/example-sound.wav", Sound.class);
         slingshotPull1 = mgr.get("audio/sound/slingshotPull1.ogg", Sound.class);

@@ -20,7 +20,7 @@ public class TitleScreen extends BaseScreen {
         super(game);
         placeholder = new Vector2(MathUtils.random(Config.window_width - size), MathUtils.random(Config.window_height - size));
         vel = new Vector2(MathUtils.random(-1f, 1), MathUtils.random(-1f, 1f)).nor().scl(100);
-        game.audio.playMusic(Audio.Musics.example);
+        game.audio.playMusic(Audio.Musics.music1);
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import lando.systems.ld49.Audio;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.particles.Particles;
@@ -40,7 +41,7 @@ public class GameScreen extends BaseScreen {
         cameraPos.set(Config.viewport_width / 2f, Config.viewport_height / 2f);//world.bounds.width / 2, world.bounds.height / 2);
         worldCamera.position.set(cameraPos, 0);
         worldCamera.update();
-
+        game.audio.playMusic(Audio.Musics.music1, true);
         // TODO: add a mux if we need more input processors
         Gdx.input.setInputProcessor(ui);
     }

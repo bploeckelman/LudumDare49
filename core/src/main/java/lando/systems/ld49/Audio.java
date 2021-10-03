@@ -34,7 +34,8 @@ public class Audio implements Disposable {
 
     public enum Musics {
         none,
-        example
+        example,
+        music1
     }
 
     public ObjectMap<Sounds, SoundContainer> sounds = new ObjectMap<>();
@@ -51,6 +52,7 @@ public class Audio implements Disposable {
     public Audio(Main game) {
         this.assets = game.assets;
         this.tween = game.tween;
+
 
         putSound(Sounds.example, assets.exampleSound);
         putSound(Sounds.slingshotPull, assets.slingshotPull1);
@@ -70,8 +72,9 @@ public class Audio implements Disposable {
         putSound(Sounds.rodHit, assets.rodHit7);
 
         musics.put(Musics.example, assets.exampleMusic);
+        musics.put(Musics.music1, assets.music1);
 
-        musicVolume = new MutableFloat(0);
+        musicVolume = new MutableFloat(0.5f);
         setMusicVolume(MUSIC_VOLUME, 2f);
     }
 

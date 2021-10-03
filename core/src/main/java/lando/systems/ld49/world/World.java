@@ -29,11 +29,14 @@ public class World {
     private float animState3 = MathUtils.random(3, 10);
     private float ambianceSoundTime;
 
+    private final float bananaHammockLeft = 280;
+    private final float bananaHammockBottom = 120;
+
     public World(GameScreen screen) {
         this.gameScreen = screen;
         this.assets = screen.assets;
         this.bounds = new Rectangle(0, 0, 1024, 1024);
-        catapult = new Catapult(assets, 120, 150);
+        catapult = new Catapult(assets, bananaHammockLeft, bananaHammockBottom);
         reactor = new Reactor(this);
         collisionManager = new CollisionManager(this);
         bananas.add(new Banana(assets, 340f, 0, this));
@@ -91,14 +94,14 @@ public class World {
 
         // plants
         float horizon = bottom + groundLevel;
-        batch.draw(assets.treesActive.getKeyFrame(animState1), bounds.x + 150, horizon);
+        batch.draw(assets.treesActive.getKeyFrame(animState1), bounds.x + 20, horizon);
         batch.draw(assets.treesActive.getKeyFrame(animState2), bounds.x + bounds.width - 100, horizon);
-        batch.draw(assets.treesIdle.getKeyFrame(animState3), -15, 130);
+        batch.draw(assets.treesIdle.getKeyFrame(animState3), bananaHammockLeft - 135, bananaHammockBottom - 20);
         batch.draw(assets.grassA.getKeyFrame(animState1), bounds.x + 20, horizon);
         batch.draw(assets.grassB.getKeyFrame(animState2), bounds.x + 450, horizon);
-        batch.draw(assets.grassC.getKeyFrame(animState2), 100, 130);
-        batch.draw(assets.grassD.getKeyFrame(animState3), 400, 130);
-        batch.draw(assets.bushA.getKeyFrame(animState1), 200, 130);
+        batch.draw(assets.grassC.getKeyFrame(animState2), bananaHammockLeft - 20, bananaHammockBottom - 20);
+        batch.draw(assets.grassD.getKeyFrame(animState3), bananaHammockLeft + 380, bananaHammockBottom - 20);
+        batch.draw(assets.bushA.getKeyFrame(animState1), bananaHammockLeft + 80, bananaHammockBottom - 20);
         batch.draw(assets.bushB.getKeyFrame(animState2), 350, horizon);
 
         // foreground stuff

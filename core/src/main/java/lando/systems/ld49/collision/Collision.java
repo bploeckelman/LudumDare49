@@ -16,6 +16,10 @@ public class Collision implements Comparable {
 
     @Override
     public int compareTo(Object o) {
+        if (o instanceof Collision) {
+            Collision other = (Collision)o;
+            return Float.compare(this.t, other.t);
+        }
         return 0;
     }
 }

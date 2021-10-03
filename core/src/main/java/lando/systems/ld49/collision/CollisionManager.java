@@ -1,5 +1,7 @@
 package lando.systems.ld49.collision;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -33,13 +35,15 @@ public class CollisionManager {
         }
 
         boolean collisionHappened = true;
+        int fuckInfiniteLoops = 0;
 
         collisionLoop:
         while (collisionHappened) {
+            fuckInfiniteLoops++;
             collisionHappened = false;
             for (Shot s : world.shots){
                 if (s.dtLeft <= 0) continue;
-                s.pos.add(s.velocity.x * dt, s.velocity.y * dt);
+                collisions.clear();
                 boolean collided = false;
 
                 frameVel1.set(s.velocity.x * s.dtLeft, s.velocity.y * s.dtLeft);
@@ -49,8 +53,30 @@ public class CollisionManager {
 
                 // check boundary
                 for (Segment2D segment : world.reactor.segments){
-
+                    float t = checkSegmentCollision(tempStart1, tempEnd1, segment.start, segment.end, nearest1, nearest2);
+                    if (t != Float.MAX_VALUE && nearest1.dst(nearest2) < s.radius) {
+                        normal.set(tempStart1).sub(nearest2).nor().scl(s.radius + 1.5f);
+                        collisions.add(new Collision(t, nearest2.add(normal), segment.normal));
+                    }
                 }
+
+                if (collisions.size > 0) {
+                    collisionHappened = true;
+                    collisions.sort();
+                    Collision c = collisions.get(0);
+                    s.velocity.set(reflectVector(incomingVector.set(s.velocity), c.normal));
+                    s.velocity.scl(.8f);
+                    s.dtLeft -= c.t*dt;
+                    s.pos.set(c.pos);
+
+                } else {
+                    s.dtLeft = 0;
+                    s.pos.set(frameEndPos);
+                }
+            }
+            if (fuckInfiniteLoops > 10000) {
+                Gdx.app.log("Collisions", "Collision had an infinite loop. =(");
+                break;
             }
         }
     }
@@ -94,5 +120,16 @@ public class CollisionManager {
         nearestSeg1.set(seg1Start).add(d1.scl(s));
         nearestSeg2.set(seg2Start).add(d2.scl(t));
         return s;
+    }
+
+    public static Vector2 reflectVector(Vector2 incoming, Vector2 normal) {
+        float initalSize = incoming.len();
+        normal.nor();
+        incoming.nor();
+        float iDotN = incoming.dot(normal);
+        incoming.set(incoming.x - 2f * normal.x * iDotN,
+                incoming.y - 2f * normal.y * iDotN)
+                .nor().scl(initalSize);
+        return incoming;
     }
 }

@@ -104,6 +104,7 @@ public class Main extends ApplicationAdapter {
 
         // update systems
         tween.update(Time.delta);
+        audio.update(Time.delta);
         currentScreen.update(Time.delta);
     }
 

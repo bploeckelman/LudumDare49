@@ -54,7 +54,7 @@ public class Catapult {
                 screen.world.addShot(new Shot(pos, new Vector2(launchAngle.x * strength * strengthMultiplier, launchAngle.y * strength * strengthMultiplier)));
             } else {
                 launchAngle.set(pos.x - mousePos.x, pos.y - mousePos.y).nor();
-                strength = MathUtils.clamp(pos.dst(mousePos.x, mousePos.y), 0, 80f);
+                strength = MathUtils.clamp(pos.dst(mousePos.x, mousePos.y), 0, 60f);
             }
         }
     }

@@ -184,11 +184,11 @@ public class UI extends InputAdapter {
             float lineSpacing = 10;
             BitmapFont font = game.assets.pixelFont16;
             font.getData().setScale(0.5f);
-            game.assets.layout.setText(font, String.format("$%,d", cash), Color.GREEN, Align.left, (int) controlPanelBounds.width, false);
+            game.assets.layout.setText(font, "$" + cash, Color.GREEN, Align.left, (int) controlPanelBounds.width, false);
             y = controlPanelBounds.y + controlPanelBounds.height - 10;
             font.draw(batch, game.assets.layout, controlPanelBounds.x + game.assets.layout.width, y);
 
-            game.assets.layout.setText(font, String.format("Shots: %d", shots), Color.SKY, Align.left, (int) controlPanelBounds.width, false);
+            game.assets.layout.setText(font, "Shots: " + shots, Color.SKY, Align.left, (int) controlPanelBounds.width, false);
             y -= game.assets.layout.height + lineSpacing;
             font.draw(batch, game.assets.layout, controlPanelBounds.x + game.assets.layout.width, y);
             font.getData().setScale(1f);

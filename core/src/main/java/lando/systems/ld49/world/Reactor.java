@@ -1,5 +1,6 @@
 package lando.systems.ld49.world;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
@@ -12,6 +13,7 @@ public class Reactor {
 
     public Array<Segment2D> segments = new Array<>();
     public Array<Pin> pins = new Array<>();
+    public Array<Piston> pistons = new Array<>();
 
     private final TextureRegion shellTexture;
     private final TextureRegion backTexture;
@@ -23,6 +25,7 @@ public class Reactor {
 
     private float currTemperature = 0;
     private final float maxTemperature = 100;
+    private final Flame greenFlame;
 
     // TODO: pistons and sockets
 
@@ -37,6 +40,7 @@ public class Reactor {
         poolTexture = assets.atlas.findRegion("tower/pool-glow/tower-pool");
         glowTexture = assets.atlas.findRegion("tower/pool-glow/tower-pool-glow");
 
+        greenFlame = new Flame(left + 115 * xScale, 0, 250*xScale, 80 * yScale, new Color(.2f, .8f, .3f, 1.0f), new Color(1f, .3f, 1f, 1.0f));
         // height of image, since pixels are top left origin the coords we got from the image are y-flipped, need to re-orient to y-up
         float flipy = 360 * yScale;
 
@@ -113,6 +117,7 @@ public class Reactor {
     }
 
     public void update(float dt) {
+        greenFlame.update(dt*.5f);
         for (Pin p : pins) {
             p.update(dt);
         }
@@ -122,9 +127,10 @@ public class Reactor {
         TextureRegion tex = backTexture;
         batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
         tex = poolTexture;
-        batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
+//        batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
         tex = glowTexture;
-        batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
+//        batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
+        greenFlame.render(batch);
         tex = shellTexture;
         batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
 

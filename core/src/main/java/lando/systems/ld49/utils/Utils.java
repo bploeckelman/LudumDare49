@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 public class Utils {
     public static Color hsvToRgb(float hue, float saturation, float value, Color outColor) {
         if (outColor == null) outColor = new Color();
-        while (hue < 0) hue += 1f;
+        while (hue < 0) hue += 10f;
         hue = hue % 1f;
         int h = (int) (hue * 6);
         h = h % 6;

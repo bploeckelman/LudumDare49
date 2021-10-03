@@ -20,6 +20,6 @@ void main() {
 
     vec4 color = mix(u_color1, u_color2, smoothstep(.01, 1.5, noise));
 
-    color.a = clamp(0., 1., noise) * edgeFade * noise;
+    color.a *= clamp(0., 1., noise) * edgeFade * noise;
     gl_FragColor = color;
 }

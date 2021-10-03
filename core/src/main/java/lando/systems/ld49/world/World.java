@@ -44,6 +44,7 @@ public class World {
         animState1 += dt;
         animState2 += dt;
         animState3 += dt;
+        reactor.update(dt);
         catapult.update(dt, gameScreen);
         collisionManager.solve(dt);
 

@@ -9,8 +9,8 @@ import lando.systems.ld49.Main;
 
 public class Flame {
     private ShaderProgram shader;
-    private Color insideColor = new Color();
-    private Color outsideColor = new Color();
+    public Color insideColor = new Color();
+    public Color outsideColor = new Color();
     private float accum;
     private Rectangle bounds;
 
@@ -31,6 +31,8 @@ public class Flame {
     }
 
     public void render(SpriteBatch batch) {
+        boolean isDrawing = batch.isDrawing();
+        if (isDrawing) batch.end();
         batch.setShader(shader);
         batch.begin();
         shader.setUniformf("u_time", accum);
@@ -39,6 +41,7 @@ public class Flame {
         batch.draw(Main.game.assets.noise, bounds.x, bounds.y, bounds.width, bounds.height);
         batch.end();
         batch.setShader(null);
+        if (isDrawing) batch.begin();
     }
 
 

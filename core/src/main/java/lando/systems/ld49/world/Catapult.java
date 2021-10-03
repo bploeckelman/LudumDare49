@@ -3,6 +3,7 @@ package lando.systems.ld49.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -20,13 +21,15 @@ public class Catapult {
     private Vector2 launchAngle = new Vector2();
     private float strength;
 
-    private float width = 50;
-
+    private TextureRegion bananaHammock;
+    private float width = 108;
+    private float height = 36;
 
     public Catapult(Assets assets, float x, float y) {
         this.assets = assets;
         pos.set(x, y);
-        bounds.set(x - width/2f, y - width/2f, width, width);
+        bounds.set(x - width/2f, y - height/2f, width, height);
+        this.bananaHammock = assets.atlas.findRegion("catapult/bhc-thong");
     }
 
     public void update(float dt, GameScreen screen) {
@@ -57,11 +60,11 @@ public class Catapult {
         } else {
             batch.setColor(Color.RED);
         }
-        batch.draw(assets.pixel, pos.x - width/2, pos.y - width/2, width, width);
+        batch.draw(bananaHammock, pos.x - width/2, pos.y - height/2, width, height);
 
         if (held){
             batch.setColor(Color.YELLOW);
-            batch.draw(assets.pixel, pos.x - launchAngle.x * strength - 10, pos.y - launchAngle.y * strength - 10, 20, 20);
+            batch.draw(bananaHammock, pos.x - launchAngle.x * strength - 10, pos.y - launchAngle.y * strength - 10, 20, 20);
         }
 
         batch.setColor(Color.WHITE);

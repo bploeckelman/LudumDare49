@@ -33,7 +33,7 @@ public class World {
         this.center = new Vector2();
         this.bounds = new Rectangle(0, 0, 1024, 1024);
         this.bounds.getCenter(center);
-        catapult = new Catapult(assets, 100, 150);
+        catapult = new Catapult(assets, 150, 100);
         reactor = new Reactor();
         collisionManager = new CollisionManager(this);
         // Build the collidable areas

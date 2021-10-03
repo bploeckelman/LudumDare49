@@ -2,6 +2,7 @@ package lando.systems.ld49.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -25,21 +26,35 @@ public class Catapult {
     private float accum;
 
     private TextureRegion bananaHammock;
+    private Animation<TextureRegion> bananaHammockShineAnim;
+    private float shineStateTime = 0;
     private float width = 108;
     private float height = 36;
+    private float shineCountdownMax;
+    private float shineCountdown = 0;
 
     public Catapult(Assets assets, float x, float y) {
         this.assets = assets;
-        pos.set(x, y);
-        bounds.set(x - width/2f, y - height/2f, width, height);
+        this.pos.set(x, y);
+        this.bounds.set(x - width/2f, y - height/2f, width, height);
+        this.accum = 0;
         this.bananaHammock = assets.atlas.findRegion("catapult/bhc-thong");
-        accum = 0;
+        this.bananaHammockShineAnim = new Animation<>(0.1f, assets.atlas.findRegions("catapult/bhc-thong-shine"), Animation.PlayMode.NORMAL);
     }
 
     public void update(float dt, GameScreen screen) {
-        accum += dt;
         Vector3 mousePos = screen.mousePos;
+        accum += dt;
+        shineStateTime += dt;
+        shineCountdown -= dt;
+        if (shineCountdown <= 0) {
+            shineCountdownMax = MathUtils.random(1, 4);
+            shineCountdown = shineCountdownMax;
+            shineStateTime = 0;
+        }
+
         //TODO: If no ore, exit here
+
         if (!held){
             if (Gdx.input.justTouched() && bounds.contains(mousePos.x, mousePos.y)){
                 held = true;
@@ -60,17 +75,18 @@ public class Catapult {
     }
 
     public void render(SpriteBatch batch) {
-        if (held){
-            batch.setColor(Color.GREEN);
-        } else {
-            batch.setColor(Color.RED);
-        }
+        batch.setColor(held ? Color.LIGHT_GRAY : Color.WHITE);
         batch.draw(bananaHammock, pos.x - width/2, pos.y - height/2, width, height);
+        batch.setColor(Color.WHITE);
+
+        if (shineCountdown > 0 && !held) {
+            TextureRegion shineFrame = bananaHammockShineAnim.getKeyFrame(shineStateTime);
+            batch.draw(shineFrame, pos.x - width / 2, pos.y - height / 2, width, height);
+        }
 
         if (held){
             batch.setColor(Color.YELLOW);
             batch.draw(bananaHammock, pos.x - launchAngle.x * strength - 10, pos.y - launchAngle.y * strength - 10, 20, 20);
-
             drawPath(batch);
         }
 

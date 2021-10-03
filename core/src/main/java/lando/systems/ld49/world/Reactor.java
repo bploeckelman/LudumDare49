@@ -15,9 +15,12 @@ public class Reactor {
     private final TextureRegion backTexture;
     private final TextureRegion poolTexture;
     private final TextureRegion glowTexture;
+
     // TODO: pistons and sockets
-    private final float left = 650;
-    private final float scale = 1.25f;
+
+    private final float left = 350;
+    private final float xScale = 1.5f;
+    private final float yScale = 1.5f;
 
     public Reactor() {
         Assets assets = Main.game.assets;;
@@ -26,28 +29,29 @@ public class Reactor {
         poolTexture = assets.atlas.findRegion("tower/pool-glow/tower-pool");
         glowTexture = assets.atlas.findRegion("tower/pool-glow/tower-pool-glow");
 
-        float offset = 300;
-        segments.add(new Segment2D(offset + 500, 0,   offset + 510, 40));
-        segments.add(new Segment2D(offset + 510, 40,  offset + 510, 140));
-        segments.add(new Segment2D(offset + 510, 140, offset + 480, 220));
-        segments.add(new Segment2D(offset + 480, 220, offset + 481, 220));
-        segments.add(new Segment2D(offset + 481, 220, offset + 511, 140));
-        segments.add(new Segment2D(offset + 511, 140, offset + 511, 40));
-        segments.add(new Segment2D(offset + 511, 40,  offset + 501, 0));
-        segments.add(new Segment2D(offset + 501, 0,   offset + 800, 0));
-        segments.add(new Segment2D(offset + 800, 0,   offset + 790, 40));
-        segments.add(new Segment2D(offset + 790, 40,  offset + 790, 140));
-        segments.add(new Segment2D(offset + 790, 140, offset + 820, 220));
+        // height of image, since pixels are top left origin the coords we got from the image are y-flipped, need to re-orient to y-up
+        float flipy = 360 * yScale;
 
-        for (int i = 0; i <10 ; i++){
-            float dx = 280 / 11f;
-            pins.add(new Pin(offset + 510 +dx + dx*i, 200, Pin.Type.steel));
-            pins.add(new Pin(offset + 510 +dx + dx*i, 100, Pin.Type.steel));
+        // exterior wall, left side
+        segments.add(new Segment2D(left +   5 * xScale, flipy - 360 * yScale, left +   5 * xScale, flipy - 330 * yScale));
+        segments.add(new Segment2D(left +   5 * xScale, flipy - 330 * yScale, left +  55 * xScale, flipy - 280 * yScale));
+        segments.add(new Segment2D(left +  55 * xScale, flipy - 280 * yScale, left + 100 * xScale, flipy - 220 * yScale));
+        segments.add(new Segment2D(left + 100 * xScale, flipy - 220 * yScale, left + 120 * xScale, flipy - 160 * yScale));
+        segments.add(new Segment2D(left + 120 * xScale, flipy - 160 * yScale, left + 120 * xScale, flipy - 100 * yScale));
+        segments.add(new Segment2D(left + 120 * xScale, flipy - 100 * yScale, left + 115 * xScale, flipy -  70 * yScale));
+        segments.add(new Segment2D(left + 115 * xScale, flipy -  70 * yScale, left + 105 * xScale, flipy -  40 * yScale));
+        segments.add(new Segment2D(left + 105 * xScale, flipy -  40 * yScale, left + 130 * xScale, flipy -  30 * yScale));
+        segments.add(new Segment2D(left + 130 * xScale, flipy -  30 * yScale, left + 130 * xScale, flipy -  40 * yScale));
 
-            if (i < 9){
-                pins.add(new Pin(offset + 510 +dx + dx/2f + i*dx, 150, Pin.Type.bumper));
-            }
-        }
+//        for (int i = 0; i <10 ; i++){
+//            float dx = 280 / 11f;
+//            pins.add(new Pin(offset + 510 +dx + dx*i, 200, Pin.Type.steel));
+//            pins.add(new Pin(offset + 510 +dx + dx*i, 100, Pin.Type.steel));
+//
+//            if (i < 9){
+//                pins.add(new Pin(offset + 510 +dx + dx/2f + i*dx, 150, Pin.Type.bumper));
+//            }
+//        }
     }
 
     public void update(float dt) {
@@ -58,13 +62,13 @@ public class Reactor {
 
     public void render(SpriteBatch batch) {
         TextureRegion tex = backTexture;
-        batch.draw(tex, left, 0, scale * tex.getRegionWidth(), scale * tex.getRegionHeight());
+        batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
         tex = poolTexture;
-        batch.draw(tex, left, 0, scale * tex.getRegionWidth(), scale * tex.getRegionHeight());
+        batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
         tex = glowTexture;
-        batch.draw(tex, left, 0, scale * tex.getRegionWidth(), scale * tex.getRegionHeight());
+        batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
         tex = shellTexture;
-        batch.draw(tex, left, 0, scale * tex.getRegionWidth(), scale * tex.getRegionHeight());
+        batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
 
         for (Pin p : pins) {
             p.render(batch);

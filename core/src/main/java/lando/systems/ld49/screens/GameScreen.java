@@ -36,7 +36,7 @@ public class GameScreen extends BaseScreen {
         world = new World(this);
         ui = new UI(game, uiElements);
 
-        cameraPos.set(Config.viewport_width / 2f, 220);
+        cameraPos.set(Config.viewport_width / 2f, 270);
         worldCamera.position.set(cameraPos, 0);
         worldCamera.update();
         game.audio.playMusic(Audio.Musics.music1, true);

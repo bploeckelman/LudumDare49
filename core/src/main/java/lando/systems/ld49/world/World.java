@@ -2,6 +2,7 @@ package lando.systems.ld49.world;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -13,39 +14,28 @@ public class World {
 
     private final GameScreen gameScreen;
     private final Assets assets;
-    private final Vector2 center;
-
     public final Rectangle bounds;
-    public static float cameraMargin = 30;
 
     private float animIdleState = 0f;
     private float animRunState = 0f;
     private Catapult catapult;
     public Array<Shot> shots = new Array<>();
     public Reactor reactor;
-    private float groundLevel;
     private CollisionManager collisionManager;
     private Array<Banana> bananas = new Array<>();
     private float animState1 = 0;
-    private float animState2 = 0;
-    private float animState3 = 0;
+    private float animState2 = MathUtils.random(1, 2);
+    private float animState3 = MathUtils.random(3, 10);
 
     public World(GameScreen screen) {
         this.gameScreen = screen;
         this.assets = screen.assets;
-        this.center = new Vector2();
         this.bounds = new Rectangle(0, 0, 1024, 1024);
-        this.bounds.getCenter(center);
-        catapult = new Catapult(assets, 250, 80);
+        catapult = new Catapult(assets, 120, 150);
         reactor = new Reactor();
         collisionManager = new CollisionManager(this);
-        // Build the collidable areas
         bananas.add(new Banana(assets, 340f, 0, this));
         bananas.add(new Banana(assets, 520f, 0, this));
-    }
-
-    public Vector2 getCenter() {
-        return bounds.getCenter(center);
     }
 
     public void update(float dt) {
@@ -91,14 +81,14 @@ public class World {
 
         // plants
         float horizon = bottom + groundLevel;
-        batch.draw(assets.treesActive.getKeyFrame(animState1), bounds.x + 60, horizon);
-        batch.draw(assets.treesActive.getKeyFrame(animState2), bounds.x + 400, horizon);
-        batch.draw(assets.treesIdle.getKeyFrame(animState3), 120, 60);
+        batch.draw(assets.treesActive.getKeyFrame(animState1), bounds.x + 150, horizon);
+        batch.draw(assets.treesActive.getKeyFrame(animState2), bounds.x + bounds.width - 100, horizon);
+        batch.draw(assets.treesIdle.getKeyFrame(animState3), -15, 130);
         batch.draw(assets.grassA.getKeyFrame(animState1), bounds.x + 20, horizon);
         batch.draw(assets.grassB.getKeyFrame(animState2), bounds.x + 450, horizon);
-        batch.draw(assets.grassC.getKeyFrame(animState2), 100, 60);
-        batch.draw(assets.grassD.getKeyFrame(animState3), 400, 60);
-        batch.draw(assets.bushA.getKeyFrame(animState1), 150, 60);
+        batch.draw(assets.grassC.getKeyFrame(animState2), 100, 130);
+        batch.draw(assets.grassD.getKeyFrame(animState3), 400, 130);
+        batch.draw(assets.bushA.getKeyFrame(animState1), 200, 130);
         batch.draw(assets.bushB.getKeyFrame(animState2), 350, horizon);
 
         // foreground stuff

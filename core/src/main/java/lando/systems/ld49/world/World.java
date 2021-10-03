@@ -35,13 +35,12 @@ public class World {
         this.center = new Vector2();
         this.bounds = new Rectangle(0, 0, 1024, 1024);
         this.bounds.getCenter(center);
-        catapult = new Catapult(assets, 330, bounds.height / 2f - 99);
-        groundLevel = bounds.height / 2f - 99;
-        reactor = new Reactor(groundLevel);
+        catapult = new Catapult(assets, 100, 150);
+        reactor = new Reactor();
         collisionManager = new CollisionManager(this);
         // Build the collidable areas
-        bananas.add(new Banana(assets, 340f, groundLevel, this));
-        bananas.add(new Banana(assets, 520f, groundLevel, this));
+        bananas.add(new Banana(assets, 340f, 0, this));
+        bananas.add(new Banana(assets, 520f, 0, this));
     }
 
     public Vector2 getCenter() {
@@ -75,7 +74,7 @@ public class World {
         batch.draw(assets.pixel, bounds.x, bounds.y, bounds.width, groundLevel);
         batch.setColor(Color.WHITE);
 
-        float scale = 1f;//1.5f;
+        float scale = 2f;
         float width  = scale * assets.backgrounds.nuclearPlant.getRegionWidth();
         float height = scale * assets.backgrounds.nuclearPlant.getRegionHeight();
         batch.draw(assets.backgrounds.nuclearPlant,

@@ -35,6 +35,7 @@ public class Assets implements Disposable {
 
     public Animation<TextureRegion> ripelyIdleAnim;
     public Animation<TextureRegion> ripelyRunAnim;
+    public Animation<TextureRegion> presidenteRunAnim;
     public Animation<TextureRegion> cat;
     public Animation<TextureRegion> dog;
     public TextureRegion tower;
@@ -152,8 +153,10 @@ public class Assets implements Disposable {
 
         ripelyIdleAnim = new Animation<>(0.1f, atlas.findRegions("ripely/idle/ripely-idle"));
         ripelyRunAnim  = new Animation<>(0.1f, atlas.findRegions("ripely/run/ripely-run"));
+        presidenteRunAnim = new Animation<>(0.1f, atlas.findRegions("presidente/run/presidente-run"));
         ripelyIdleAnim.setPlayMode(Animation.PlayMode.LOOP);
         ripelyRunAnim.setPlayMode(Animation.PlayMode.LOOP);
+        presidenteRunAnim.setPlayMode(Animation.PlayMode.LOOP);
         cat = new Animation<>(0.1f, atlas.findRegions("pets/cat"), Animation.PlayMode.LOOP);
         dog = new Animation<>(0.1f, atlas.findRegions("pets/dog"), Animation.PlayMode.LOOP);
 

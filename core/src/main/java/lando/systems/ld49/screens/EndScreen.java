@@ -21,7 +21,7 @@ public class EndScreen extends BaseScreen {
     private Animation<TextureRegion> catAnimation;
     private Animation<TextureRegion> dogAnimation;
 
-    static String title = "{GRADIENT=purple;cyan}Dole Presidente{ENDGRADIENT}";
+    static String title = "{GRADIENT=purple;cyan}Banana Republic: Nuclear Power Plantain{ENDGRADIENT}";
     static String theme = "Made for Ludum Dare 49: Unstable";
 
     static String thanks = "{GRADIENT=purple;cyan}Thanks for playing our game!{ENDGRADIENT}";

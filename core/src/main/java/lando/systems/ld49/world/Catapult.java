@@ -119,7 +119,7 @@ public class Catapult {
 
     private Vector2 pathFunction(float t, Vector2 point) {
         tempVel.set(launchAngle.x * strength * strengthMultiplier, launchAngle.y * strength * strengthMultiplier);
-        point.set(pos.x + tempVel.x * t, pos.y + tempVel.y *t + -250*t*t);
+        point.set(pos.x + tempVel.x * t, pos.y + tempVel.y *t + (Shot.gravity/2f)*t*t);
         return point;
     }
 

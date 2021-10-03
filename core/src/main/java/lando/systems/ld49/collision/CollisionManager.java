@@ -72,9 +72,9 @@ public class CollisionManager {
                             // ball was inside pin
                             Gdx.app.log("collision", "ball was already inside a pin");
                             float overlapDist = tempStart1.dst(tempStart2) - (s.radius + p.radius);
-                            overlapDist += .5f;
+                            overlapDist += 1.5f;
                             normal.set(tempStart2).sub(tempStart1).nor();
-                            tempEnd1.set(tempStart2.x + (overlapDist) * normal.x, tempStart2.y + (overlapDist) * normal.y);
+                            tempEnd1.set(tempStart1.x + (overlapDist) * normal.x, tempStart1.y + (overlapDist) * normal.y);
                             s.pos.x = tempEnd1.x;
                             s.pos.y = tempEnd1.y;
                             continue collisionLoop;
@@ -202,17 +202,11 @@ public class CollisionManager {
         return incoming;
     }
 
-    public static float intersectParabolaSegment(Segment2D segment, float a, float b, float c) {
+    public static float intersectParabolaSegment(Segment2D segment, Vector2 point1, Vector2 point2, Vector2 point3) {
         if (segment.start.x == segment.end.x) {
             // Line is vertical check where that line would intersect
         } else {
-            // y = a + bt +ct^2
-            //
-            // y = mx + d
-            // d = y - mx
-            // m = (y2 - y1) / (x2 - x1)
-            //
-            // together
+            // convert the parameterized parabola to rectangular
 
             float m = (segment.end.y - segment.start.y) / (segment.end.x - segment.start.x);
             float d = segment.start.y - (m * segment.start.x);

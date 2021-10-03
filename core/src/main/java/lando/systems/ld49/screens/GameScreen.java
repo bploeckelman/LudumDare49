@@ -40,6 +40,7 @@ public class GameScreen extends BaseScreen {
         worldCamera.position.set(cameraPos, 0);
         worldCamera.update();
         game.audio.playMusic(Audio.Musics.music1, true);
+//        game.audio.playMusic(Audio.Musics.example, true);
         // TODO: add a mux if we need more input processors
         Gdx.input.setInputProcessor(ui);
     }

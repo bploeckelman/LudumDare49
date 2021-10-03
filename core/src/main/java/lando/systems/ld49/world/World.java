@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld49.Assets;
+import lando.systems.ld49.Audio;
 import lando.systems.ld49.collision.CollisionManager;
 import lando.systems.ld49.screens.GameScreen;
 
@@ -44,6 +45,7 @@ public class World {
         ambianceSoundTime-= dt;
         if (ambianceSoundTime <= 0){
             // TODO: Pete play sound here
+            gameScreen.game.audio.playSound(Audio.Sounds.steamHiss, 0.1f);
             ambianceSoundTime = MathUtils.random(4f, 10f);
         }
         animIdleState += dt;

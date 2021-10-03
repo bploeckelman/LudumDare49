@@ -24,7 +24,7 @@ public class TitleScreen extends BaseScreen {
         placeholder = new Vector2(MathUtils.random(Config.window_width - size), MathUtils.random(Config.window_height - size));
         vel = new Vector2(MathUtils.random(-1f, 1), MathUtils.random(-1f, 1f)).nor().scl(100);
         flame = new Flame(0, 0, worldCamera.viewportWidth, worldCamera.viewportHeight, new Color(1.0f, .8f, .5f, 1.0f), new Color(.8f, .1f, .1f, 1.0f));
-//        game.audio.playMusic(Audio.Musics.music1);
+        game.audio.playMusic(Audio.Musics.example);
     }
 
     @Override

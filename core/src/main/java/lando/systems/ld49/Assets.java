@@ -106,6 +106,16 @@ public class Assets implements Disposable {
     public Sound pistonDown3;
     public Sound pistonDown4;
     public Sound pistonDown5;
+    public Sound steamHiss1;
+    public Sound steamHiss2;
+    public Sound steamHiss3;
+    public Sound steamHiss4;
+    public Sound steamHiss5;
+    public Sound steamHiss6;
+    public Sound steamHiss7;
+    public Sound steamHiss8;
+    public Sound steamHiss9;
+    public Sound steamHiss10;
 
     public Particles particles;
     public static class Particles {
@@ -191,6 +201,16 @@ public class Assets implements Disposable {
             mgr.load("audio/sound/pistonDown3.ogg", Sound.class);
             mgr.load("audio/sound/pistonDown4.ogg", Sound.class);
             mgr.load("audio/sound/pistonDown5.ogg", Sound.class);
+            mgr.load("audio/sound/steamHiss1.ogg", Sound.class);
+            mgr.load("audio/sound/steamHiss2.ogg", Sound.class);
+            mgr.load("audio/sound/steamHiss3.ogg", Sound.class);
+            mgr.load("audio/sound/steamHiss4.ogg", Sound.class);
+            mgr.load("audio/sound/steamHiss5.ogg", Sound.class);
+            mgr.load("audio/sound/steamHiss6.ogg", Sound.class);
+            mgr.load("audio/sound/steamHiss7.ogg", Sound.class);
+            mgr.load("audio/sound/steamHiss8.ogg", Sound.class);
+            mgr.load("audio/sound/steamHiss9.ogg", Sound.class);
+            mgr.load("audio/sound/steamHiss10.ogg", Sound.class);
         }
 
         if (load == Load.SYNC) {
@@ -302,6 +322,16 @@ public class Assets implements Disposable {
         pistonDown3 = mgr.get("audio/sound/pistonDown3.ogg", Sound.class);
         pistonDown4 = mgr.get("audio/sound/pistonDown4.ogg", Sound.class);
         pistonDown5 = mgr.get("audio/sound/pistonDown5.ogg", Sound.class);
+        steamHiss1 = mgr.get("audio/sound/steamHiss1.ogg", Sound.class);
+        steamHiss2 = mgr.get("audio/sound/steamHiss2.ogg", Sound.class);
+        steamHiss3 = mgr.get("audio/sound/steamHiss3.ogg", Sound.class);
+        steamHiss4 = mgr.get("audio/sound/steamHiss4.ogg", Sound.class);
+        steamHiss5 = mgr.get("audio/sound/steamHiss5.ogg", Sound.class);
+        steamHiss6 = mgr.get("audio/sound/steamHiss6.ogg", Sound.class);
+        steamHiss7 = mgr.get("audio/sound/steamHiss7.ogg", Sound.class);
+        steamHiss8 = mgr.get("audio/sound/steamHiss8.ogg", Sound.class);
+        steamHiss9 = mgr.get("audio/sound/steamHiss9.ogg", Sound.class);
+        steamHiss10 = mgr.get("audio/sound/steamHiss1.ogg", Sound.class);
 
         randomTransitions.add(radialShader);
         randomTransitions.add(pizelizeShader);

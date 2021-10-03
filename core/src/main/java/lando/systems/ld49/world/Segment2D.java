@@ -47,6 +47,6 @@ public class Segment2D implements Collidable {
     @Override
     public void hit() {
         // Todo: play a sound or something
-        Main.game.audio.playSound(Audio.Sounds.rodHit, 0.07f);
+        Main.game.audio.playSound(Audio.Sounds.wallHit, 0.2f);
     }
 }

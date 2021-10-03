@@ -20,7 +20,7 @@ public class Audio implements Disposable {
     public static final float SOUND_VOLUME = 0.5f;
 
     public static boolean soundEnabled = true;
-    public static boolean musicEnabled = false;
+    public static boolean musicEnabled = true;
 
     // none should not have a sound
     public enum Sounds {
@@ -29,7 +29,8 @@ public class Audio implements Disposable {
         slingshotReload,
         slingshotPull,
         slingshotRelease,
-        rodHit
+        rodHit,
+        wallHit
     }
 
     public enum Musics {
@@ -70,6 +71,16 @@ public class Audio implements Disposable {
         putSound(Sounds.rodHit, assets.rodHit5);
         putSound(Sounds.rodHit, assets.rodHit6);
         putSound(Sounds.rodHit, assets.rodHit7);
+        putSound(Sounds.wallHit, assets.wallHit1);
+        putSound(Sounds.wallHit, assets.wallHit2);
+        putSound(Sounds.wallHit, assets.wallHit3);
+        putSound(Sounds.wallHit, assets.wallHit4);
+        putSound(Sounds.wallHit, assets.wallHit5);
+        putSound(Sounds.wallHit, assets.wallHit6);
+        putSound(Sounds.wallHit, assets.wallHit7);
+        putSound(Sounds.wallHit, assets.wallHit8);
+        putSound(Sounds.wallHit, assets.wallHit9);
+        putSound(Sounds.wallHit, assets.wallHit10);
 
         musics.put(Musics.example, assets.exampleMusic);
         musics.put(Musics.music1, assets.music1);
@@ -149,7 +160,7 @@ public class Audio implements Disposable {
     }
 
     public Music playMusic(Musics musicOptions) {
-        return playMusic(musicOptions, false);
+        return playMusic(musicOptions, true);
     }
 
     public Music playMusic(Musics musicOptions, boolean playImmediately) {

@@ -75,6 +75,16 @@ public class Assets implements Disposable {
     public Sound rodHit5;
     public Sound rodHit6;
     public Sound rodHit7;
+    public Sound wallHit1;
+    public Sound wallHit2;
+    public Sound wallHit3;
+    public Sound wallHit4;
+    public Sound wallHit5;
+    public Sound wallHit6;
+    public Sound wallHit7;
+    public Sound wallHit8;
+    public Sound wallHit9;
+    public Sound wallHit10;
 
     public Particles particles;
     public static class Particles {
@@ -138,6 +148,17 @@ public class Assets implements Disposable {
             mgr.load("audio/sound/rodHit5.ogg", Sound.class);
             mgr.load("audio/sound/rodHit6.ogg", Sound.class);
             mgr.load("audio/sound/rodHit7.ogg", Sound.class);
+            mgr.load("audio/sound/wallHit1.ogg", Sound.class);
+            mgr.load("audio/sound/wallHit1.ogg", Sound.class);
+            mgr.load("audio/sound/wallHit2.ogg", Sound.class);
+            mgr.load("audio/sound/wallHit3.ogg", Sound.class);
+            mgr.load("audio/sound/wallHit4.ogg", Sound.class);
+            mgr.load("audio/sound/wallHit5.ogg", Sound.class);
+            mgr.load("audio/sound/wallHit6.ogg", Sound.class);
+            mgr.load("audio/sound/wallHit7.ogg", Sound.class);
+            mgr.load("audio/sound/wallHit8.ogg", Sound.class);
+            mgr.load("audio/sound/wallHit9.ogg", Sound.class);
+            mgr.load("audio/sound/wallHit10.ogg", Sound.class);
         }
 
         if (load == Load.SYNC) {
@@ -214,6 +235,16 @@ public class Assets implements Disposable {
         rodHit5 = mgr.get("audio/sound/rodHit5.ogg", Sound.class);
         rodHit6 = mgr.get("audio/sound/rodHit6.ogg", Sound.class);
         rodHit7 = mgr.get("audio/sound/rodHit7.ogg", Sound.class);
+        wallHit1 = mgr.get("audio/sound/wallHit1.ogg", Sound.class);
+        wallHit2 = mgr.get("audio/sound/wallHit2.ogg", Sound.class);
+        wallHit3 = mgr.get("audio/sound/wallHit3.ogg", Sound.class);
+        wallHit4 = mgr.get("audio/sound/wallHit4.ogg", Sound.class);
+        wallHit5 = mgr.get("audio/sound/wallHit5.ogg", Sound.class);
+        wallHit6 = mgr.get("audio/sound/wallHit6.ogg", Sound.class);
+        wallHit7 = mgr.get("audio/sound/wallHit7.ogg", Sound.class);
+        wallHit8 = mgr.get("audio/sound/wallHit8.ogg", Sound.class);
+        wallHit9 = mgr.get("audio/sound/wallHit9.ogg", Sound.class);
+        wallHit10 = mgr.get("audio/sound/wallHit10.ogg", Sound.class);
 
         randomTransitions.add(radialShader);
         randomTransitions.add(pizelizeShader);

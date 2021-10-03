@@ -2,12 +2,10 @@ package lando.systems.ld49.world;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld49.Assets;
-import lando.systems.ld49.Audio;
 import lando.systems.ld49.collision.CollisionManager;
 import lando.systems.ld49.screens.GameScreen;
 
@@ -67,11 +65,11 @@ public class World {
     }
 
     public void draw(SpriteBatch batch) {
-        batch.draw(assets.backgrounds.castles, bounds.x, bounds.y, bounds.width, bounds.height);
+        batch.draw(assets.backgrounds.castles, bounds.x, bounds.y - 200, bounds.width + 300, bounds.height);
 
-        float groundLevel = bounds.height / 2f - 99;
+        float groundLevel = bounds.height / 2f;
         batch.setColor(198 / 255f, 156 / 255f, 108 / 255f, 1);
-        batch.draw(assets.pixel, bounds.x, bounds.y, bounds.width, groundLevel);
+        batch.draw(assets.pixel, bounds.x, bounds.y - 200, bounds.width + 300, 350);
         batch.setColor(Color.WHITE);
 
         float scale = 2f;
@@ -79,7 +77,7 @@ public class World {
         float height = scale * assets.backgrounds.nuclearPlant.getRegionHeight();
         batch.draw(assets.backgrounds.nuclearPlant,
                 bounds.x + bounds.width  / 2f - width  / 2f,
-                bounds.y + bounds.height / 2f - height / 2f,
+                bounds.y + bounds.height / 2f - height,
                 width, height);
 
         reactor.render(batch);

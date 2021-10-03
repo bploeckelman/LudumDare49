@@ -2,7 +2,6 @@ package lando.systems.ld49.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -10,7 +9,6 @@ import lando.systems.ld49.Audio;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.particles.Particles;
-import lando.systems.ld49.ui.InputPrompts;
 import lando.systems.ld49.ui.UI;
 import lando.systems.ld49.world.World;
 
@@ -38,7 +36,7 @@ public class GameScreen extends BaseScreen {
         world = new World(this);
         ui = new UI(game, uiElements);
 
-        cameraPos.set(Config.viewport_width / 2f, Config.viewport_height / 2f);//world.bounds.width / 2, world.bounds.height / 2);
+        cameraPos.set(Config.viewport_width / 2f, 220);
         worldCamera.position.set(cameraPos, 0);
         worldCamera.update();
         game.audio.playMusic(Audio.Musics.music1, true);
@@ -54,6 +52,7 @@ public class GameScreen extends BaseScreen {
         KeyState.space_pressed = Gdx.input.isKeyPressed(Input.Keys.SPACE);
         worldCamera.unproject(mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
+        ui.shots = world.shots.size;
         ui.update(dt);
         world.update(dt);
 

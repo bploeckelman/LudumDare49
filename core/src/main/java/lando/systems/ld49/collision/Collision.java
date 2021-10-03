@@ -7,11 +7,13 @@ public class Collision implements Comparable {
     public float t;
     public Vector2 pos = new Vector2();
     public Vector2 normal = new Vector2();
+    public Collidable collidable;
 
-    public Collision (float t, Vector2 pos, Vector2 normal) {
+    public Collision (float t, Vector2 pos, Vector2 normal, Collidable collidable) {
         this.t = t;
         this.pos.set(pos);
         this.normal.set(normal);
+        this.collidable = collidable;
     }
 
     @Override

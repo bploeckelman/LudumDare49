@@ -4,8 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld49.Main;
+import lando.systems.ld49.collision.Collidable;
 
-public class Segment2D {
+public class Segment2D implements Collidable {
     public Vector2 start;
     public Vector2 end;
     public Vector2 delta;
@@ -35,5 +36,15 @@ public class Segment2D {
         batch.draw(Main.game.assets.pixelRegion, (start.x + end.x)/2f, (start.y  + end.y )/2f, 0, width/2f, 10, .5f, 1, 1, normal.angleDeg());
         batch.setColor(Color.WHITE);
 
+    }
+
+    @Override
+    public float getElastisity() {
+        return .8f;
+    }
+
+    @Override
+    public void hit() {
+        // Todo: play a sound or something
     }
 }

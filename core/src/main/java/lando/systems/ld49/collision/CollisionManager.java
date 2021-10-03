@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld49.world.Pin;
 import lando.systems.ld49.world.Segment2D;
 import lando.systems.ld49.world.Shot;
 import lando.systems.ld49.world.World;
@@ -56,7 +57,35 @@ public class CollisionManager {
                     float t = checkSegmentCollision(tempStart1, tempEnd1, segment.start, segment.end, nearest1, nearest2);
                     if (t != Float.MAX_VALUE && nearest1.dst(nearest2) < s.radius) {
                         normal.set(tempStart1).sub(nearest2).nor().scl(s.radius + 1.5f);
-                        collisions.add(new Collision(t, nearest2.add(normal), segment.normal));
+                        collisions.add(new Collision(t, nearest2.add(normal), segment.normal, segment));
+                    }
+                }
+
+                // check pins
+                for (Pin p : world.reactor.pins) {
+                    tempStart1.set(s.pos.x, s.pos.y);
+                    frameVel1.set(s.velocity.x * s.dtLeft, s.velocity.y * s.dtLeft);
+                    tempEnd1.set(s.pos.x + frameVel1.x, s.pos.y + frameVel1.y);
+                    tempStart2.set(p.position.x, p.position.y);
+                    frameVel2.set(0,0);
+
+                    Float time = intersectCircleCircle(tempStart1, tempStart2, frameVel1, frameVel2, s.radius, p.radius);
+                    if (time != null){
+                        if (time == 0.0f) {
+                            // ball was inside pin
+                            Gdx.app.log("collision", "ball was already inside a pin");
+                            float overlapDist = tempStart1.dst(tempStart2) - (s.radius + p.radius);
+                            overlapDist += .5f;
+                            normal.set(tempStart2).sub(tempStart1).nor();
+                            tempEnd1.set(tempStart2.x + (overlapDist) * normal.x, tempStart2.y + (overlapDist) * normal.y);
+                            p.position.x = tempEnd1.x;
+                            p.position.y = tempEnd1.y;
+                            continue collisionLoop;
+                        } else if (time < 1) {
+                            frameEndPos.set(tempStart1.x + frameVel1.x * (time * .99f), tempStart1.y + frameVel1.y * (time * .99f));
+                            normal.set(frameEndPos).sub(tempStart2).nor();
+                            collisions.add(new Collision(time, frameEndPos, normal, p));
+                        }
                     }
                 }
 
@@ -65,9 +94,10 @@ public class CollisionManager {
                     collisions.sort();
                     Collision c = collisions.get(0);
                     s.velocity.set(reflectVector(incomingVector.set(s.velocity), c.normal));
-                    s.velocity.scl(.8f);
+                    s.velocity.scl(c.collidable.getElastisity());
                     s.dtLeft -= c.t*dt;
                     s.pos.set(c.pos);
+                    c.collidable.hit();
 
                 } else {
                     s.dtLeft = 0;
@@ -120,6 +150,36 @@ public class CollisionManager {
         nearestSeg1.set(seg1Start).add(d1.scl(s));
         nearestSeg2.set(seg2Start).add(d2.scl(t));
         return s;
+    }
+
+    static Vector2 s = new Vector2();
+    static Vector2 v = new Vector2();
+    public static Float intersectCircleCircle(Vector2 pos1, Vector2 pos2, Vector2 vel1, Vector2 vel2, float rad1, float rad2) {
+        return intersectCircleCircle(pos1.x, pos1.y, pos2.x, pos2.y, vel1.x, vel1.y, vel2.x, vel2.y, rad1, rad2);
+    }
+
+    public static Float intersectCircleCircle(float pos1x, float pos1y, float pos2x, float pos2y,
+                                              float vel1x, float vel1y, float vel2x, float vel2y,
+                                              float rad1, float rad2) {
+        float t;
+        s.set(pos2x, pos2y).sub(pos1x, pos1y);
+        v.set(vel2x, vel2y).sub(vel1x, vel1y);
+        float r = rad1 + rad2;
+        float c = s.dot(s) - r * r;
+        if (c < 0){
+            // Already overlap early out
+            t = 0f;
+            return t;
+        }
+        float a = v.dot(v);
+        if (a < .1f) return null; // circles not moving relative to each other
+        float b = v.dot(s);
+        if (b >= 0f) return null; // circles moving away from each other
+        float d = b * b - a * c;
+        if (d < 0) return null; // No intersections
+        t = (float)(-b - Math.sqrt(d)) / a;
+
+        return t;
     }
 
     public static Vector2 reflectVector(Vector2 incoming, Vector2 normal) {

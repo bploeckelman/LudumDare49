@@ -27,7 +27,7 @@ public class Shot {
 
     public void render(SpriteBatch batch) {
         batch.setColor(Color.PURPLE);
-        batch.draw(Main.game.assets.pixel, pos.x - radius, pos.y - radius, radius*2, radius*2);
+        batch.draw(Main.game.assets.particles.circle, pos.x - radius, pos.y - radius, radius*2, radius*2);
         batch.setColor(Color.WHITE);
     }
 }

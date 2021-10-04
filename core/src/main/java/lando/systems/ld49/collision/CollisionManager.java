@@ -83,6 +83,7 @@ public class CollisionManager {
                             tempEnd1.set(tempStart1.x + (overlapDist) * normal.x, tempStart1.y + (overlapDist) * normal.y);
                             s.pos.x = tempEnd1.x;
                             s.pos.y = tempEnd1.y;
+                            collisionHappened = true;
                             continue collisionLoop;
                         } else if (time < 1) {
                             frameEndPos.set(tempStart1.x + frameVel1.x * (time * .99f), tempStart1.y + frameVel1.y * (time * .99f));

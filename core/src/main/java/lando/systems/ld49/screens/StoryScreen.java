@@ -90,12 +90,20 @@ public class StoryScreen extends BaseScreen {
         accum += 75*dt;
 //        accum = MathUtils.clamp(accum, 0, layout.height);
         if (accum > layout.height && Gdx.input.justTouched()) {
-            game.setScreen(new GameScreen(game), assets.cubeShader, 3f);
+            launchGame();
         } else if (Gdx.input.justTouched()) {
             accum = layout.height;
         }
         if (accum >= layout.height * 2f) {
+            launchGame();
+        }
+    }
+
+    private void launchGame() {
+        if (!exitingScreen){
+            exitingScreen = true;
             game.setScreen(new GameScreen(game), assets.cubeShader, 3f);
+
         }
     }
 

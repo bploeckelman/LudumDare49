@@ -23,6 +23,7 @@ public abstract class BaseScreen extends InputAdapter {
     public final Particles particles;
     public final UIElements uiElements;
     public final InputPrompts inputPrompts;
+    public boolean exitingScreen;
 
     public OrthographicCamera worldCamera;
     public OrthographicCamera windowCamera;
@@ -35,6 +36,7 @@ public abstract class BaseScreen extends InputAdapter {
         this.assets = game.assets;
         this.tween = game.tween;
         this.batch = assets.batch;
+        this.exitingScreen = false;
         this.particles = new Particles(assets);
         this.uiElements = new UIElements(assets);
         this.inputPrompts = new InputPrompts(assets);
@@ -63,7 +65,6 @@ public abstract class BaseScreen extends InputAdapter {
         worldCamera.update();
         windowCamera.update();
     }
-
 
     public void renderFrameBuffers(SpriteBatch batch )  {
     }

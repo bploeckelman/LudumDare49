@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import lando.systems.ld49.Assets;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.Config;
+import lando.systems.ld49.Main;
 import lando.systems.ld49.collision.CollisionManager;
 import lando.systems.ld49.screens.GameOverScreen;
 import lando.systems.ld49.screens.GameScreen;
@@ -121,7 +122,10 @@ public class World {
             }
             gameOverTimer += dt;
             if (gameOverTimer > 10f) {
-                gameScreen.game.setScreen(new GameOverScreen(gameScreen.game));
+                if (!gameScreen.exitingScreen) {
+                    gameScreen.exitingScreen = true;
+                    gameScreen.game.setScreen(new GameOverScreen(gameScreen.game), Main.game.assets.heartShader, 3f);
+                }
             }
             return;
         }

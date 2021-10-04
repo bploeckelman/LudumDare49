@@ -38,7 +38,8 @@ public class TitleScreen extends BaseScreen {
     public void update(float dt) {
         super.update(dt);
         accum += dt;
-        if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+        if (!exitingScreen && (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ENTER))){
+            exitingScreen = true;
             game.audio.stopMusic();
             game.setScreen(new StoryScreen(game), assets.doorwayShader, 3f);
         }

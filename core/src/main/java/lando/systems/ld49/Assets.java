@@ -190,6 +190,7 @@ public class Assets implements Disposable {
     public static class Projectiles {
         public Animation<TextureRegion> skull;
         public Animation<TextureRegion> coconut;
+        public Animation<TextureRegion> bananaMan;
     }
 
     public Assets() {
@@ -371,6 +372,7 @@ public class Assets implements Disposable {
         projectiles = new Projectiles();
         projectiles.coconut = new Animation<>(0.1f, atlas.findRegions("projectiles/coconut/coconut"), Animation.PlayMode.LOOP);
         projectiles.skull = new Animation<>(0.1f, atlas.findRegions("projectiles/skull/skull"), Animation.PlayMode.LOOP);
+        projectiles.bananaMan = new Animation<>(0.1f, atlas.findRegions("ripely/idle/ripely-idle"), Animation.PlayMode.LOOP);
 
         tower = atlas.findRegion("tower");
 

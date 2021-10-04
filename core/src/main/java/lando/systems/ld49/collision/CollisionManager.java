@@ -102,7 +102,7 @@ public class CollisionManager {
                     s.velocity.scl(c.collidable.getElastisity());
                     s.dtLeft -= c.t*dt;
                     s.pos.set(c.pos);
-                    c.collidable.hit();
+                    c.collidable.hit(s);
                     if (c.collidable instanceof Piston) {
                        s.remove = true;
                        s.dtLeft = 0;

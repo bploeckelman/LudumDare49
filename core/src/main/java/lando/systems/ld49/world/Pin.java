@@ -47,8 +47,8 @@ public class Pin implements Collidable {
     }
 
     @Override
-    public void hit() {
-        // TODO: play a sound or do something
+    public void hit(Shot shot) {
+        shot.hitPulse();
         Main.game.audio.playSound(Audio.Sounds.rodHit, 0.4f);
     }
 }

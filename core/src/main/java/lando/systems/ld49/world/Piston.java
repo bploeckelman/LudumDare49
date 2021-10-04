@@ -1,13 +1,12 @@
 package lando.systems.ld49.world;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import lando.systems.ld49.Main;
 import lando.systems.ld49.Audio;
+import lando.systems.ld49.Main;
 import lando.systems.ld49.collision.Collidable;
 
 
@@ -87,8 +86,7 @@ public class Piston implements Collidable {
     }
 
     @Override
-    public void hit() {
-
+    public void hit(Shot shot) {
         if (!broken) {
 //            Gdx.app.log("some tag", "current heat  " + getPercentHeat());
             float vol = getPercentHeat();

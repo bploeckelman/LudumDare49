@@ -77,9 +77,9 @@ public class CollisionManager {
                     if (time != null){
                         if (time == 0.0f) {
                             // ball was inside pin
-                            Gdx.app.log("collision", "ball was already inside a pin");
+//                            Gdx.app.log("collision", "ball was already inside a pin");
                             float overlapDist = tempStart1.dst(tempStart2) - (s.radius + p.radius);
-                            overlapDist += 1.5f;
+                            overlapDist -= 2.5f;
                             normal.set(tempStart2).sub(tempStart1).nor();
                             tempEnd1.set(tempStart1.x + (overlapDist) * normal.x, tempStart1.y + (overlapDist) * normal.y);
                             s.pos.x = tempEnd1.x;
@@ -207,16 +207,62 @@ public class CollisionManager {
         return incoming;
     }
 
-    public static float intersectParabolaSegment(Segment2D segment, Vector2 point1, Vector2 point2, Vector2 point3) {
-        if (segment.start.x == segment.end.x) {
-            // Line is vertical check where that line would intersect
-        } else {
+    /***
+     * y = a + b*t + c*t^2
+     * x = d + e*t
+     *
+     * @param segment
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     * @param e
+     * @return
+     */
+    public static float intersectParabolaSegment(Segment2D segment, float a, float b, float c, float d, float e) {
+        if (e == 0) return Float.MAX_VALUE;
+
             // convert the parameterized parabola to rectangular
 
             float m = (segment.end.y - segment.start.y) / (segment.end.x - segment.start.x);
-            float d = segment.start.y - (m * segment.start.x);
+            float y0 = -m * segment.start.x + segment.start.y;
 
-        }
-        return 0;
+            float quadA = a + (c*d*d)/e*e - b*d/e;
+            float quadB = (b/e - 2*d/(e*e));
+            float quadC = 1/(e*e);
+
+            double det = (quadB - m) * (quadB -m) - 4 * quadA * (quadC - y0);
+            if (det < 0) return Float.MAX_VALUE;
+
+            float negRoot = (float)(-b - Math.sqrt(det))/(2*a);
+            float posRoot = (float)(-b + Math.sqrt(det))/(2*a);
+
+            float time = Float.MAX_VALUE;
+
+            // Test negRoot
+            float y = (quadA + quadB * negRoot + quadC * negRoot * negRoot);
+            Gdx.app.log("COllision", "X: " + negRoot + " Y: " + y);
+            if (pointInSegment(negRoot, y, segment)){
+                float t = (negRoot -d)/e;
+                if (t > 0) {
+                    time = Math.min(time, (negRoot - d) / e);
+                }
+            }
+
+            // Test posRoot
+            y = (quadA + quadB * posRoot + quadC * posRoot * posRoot);
+            Gdx.app.log("COllision", "X: " + posRoot + " Y: " + y);
+            if (pointInSegment(posRoot, y, segment)){
+                float t = (posRoot -d)/e;
+                if (t > 0) {
+                    time = Math.min(time, (posRoot - d) / e);
+                }
+            }
+            return time;
+
+    }
+
+    private static boolean pointInSegment(float x, float y, Segment2D segment) {
+        return Intersector.distanceSegmentPoint(segment.start, segment.end, new Vector2(x, y)) == 0;
     }
 }

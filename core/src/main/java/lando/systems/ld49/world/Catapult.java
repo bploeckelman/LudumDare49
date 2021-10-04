@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld49.Assets;
 import lando.systems.ld49.Audio;
+import lando.systems.ld49.collision.CollisionManager;
 import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.utils.Time;
 import lando.systems.ld49.utils.Utils;
@@ -109,6 +110,15 @@ public class Catapult {
     Color pathColor = new Color();
     private void drawPath(SpriteBatch batch) {
         float hatch = .02f;
+        tempVel.set(launchAngle.x * strength * strengthMultiplier, launchAngle.y * strength * strengthMultiplier);
+
+        float nearestTime = Float.MAX_VALUE;
+        // This might have been close....
+//        for (Segment2D segment : world.reactor.segments) {
+//            float time = CollisionManager.intersectParabolaSegment(segment, pos.y, tempVel.y, Shot.gravity, pos.x, tempVel.x );
+//            nearestTime = Math.min(nearestTime, time);
+//        }
+
         for (int i = 0; i < 1000; i+=3) {
             tempVec2 = pathFunction(i * hatch, tempVec2);
             temp2Vec2 = pathFunction((i+1)* hatch, temp2Vec2);
@@ -116,10 +126,9 @@ public class Catapult {
 
             batch.draw(assets.pixelRegion, tempVec2.x, tempVec2.y - 2, 0, 2, tempVec2.dst(temp2Vec2), 4, 1, 1, tempVel.set(temp2Vec2).sub(tempVec2).angleDeg());
 
-            // TODO Break out when it is within the reactor
-            for (Segment2D segment : world.reactor.segments) {
+            if (tempVec2.y < 0) break;
+            if (i * hatch > nearestTime) break;
 
-            }
         }
         batch.setColor(Color.WHITE);
     }

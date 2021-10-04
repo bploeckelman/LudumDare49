@@ -1,11 +1,10 @@
 package lando.systems.ld49.world;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld49.Assets;
 import lando.systems.ld49.Main;
@@ -26,15 +25,13 @@ public class Reactor {
 
     private final TextureRegion shellTexture;
     private final TextureRegion backTexture;
-    private final TextureRegion poolTexture;
-    private final TextureRegion glowTexture;
+    private final Animation<TextureRegion> glowAnim;
+    private float glowAnimTime = 0;
 
     private float currStructureDmg = 0;
     private final float maxStructureDmg = 100;
 
     private final Flame greenFlame;
-
-    // TODO: pistons and sockets
 
     private final World world;
     public final float left = 450;
@@ -46,8 +43,7 @@ public class Reactor {
         Assets assets = Main.game.assets;;
         shellTexture = assets.atlas.findRegion("tower/frontwall/tower-frontwall");
         backTexture = assets.atlas.findRegion("tower/backwall/tower-backwall");
-        poolTexture = assets.atlas.findRegion("tower/pool-glow/tower-pool");
-        glowTexture = assets.atlas.findRegion("tower/pool-glow/tower-pool-glow");
+        glowAnim = new Animation<>(0.05f, assets.atlas.findRegions("tower/glow/tower-glow"), Animation.PlayMode.LOOP);
 
         greenFlame = new Flame(left + 115 * xScale, 0, 250*xScale, 180 * yScale, new Color(.2f, .8f, .3f, 1.0f), new Color(1f, .3f, 1f, 1.0f));
         // height of image, since pixels are top left origin the coords we got from the image are y-flipped, need to re-orient to y-up
@@ -118,8 +114,12 @@ public class Reactor {
         for (int i = 0; i < 5 ; i++){
             float dx = 200 / 4f;
             float pinLeft = 215;
-            pins.add(new Pin(left + pinLeft + dx + dx*i, 350, Pin.Type.steel));
-            pins.add(new Pin(left + pinLeft + dx + dx*i, 200, Pin.Type.steel));
+
+            // it's too tight, skip the ones at the edge
+            if (i > 0 && i < 4) {
+                pins.add(new Pin(left + pinLeft + dx + dx * i, 350, Pin.Type.steel));
+                pins.add(new Pin(left + pinLeft + dx + dx * i, 200, Pin.Type.steel));
+            }
 
             if (i < 4){
                 pins.add(new Pin(left + pinLeft + dx + dx/2f + i*dx, 275, Pin.Type.bumper));
@@ -152,7 +152,7 @@ public class Reactor {
     }
 
     public void update(float dt) {
-
+        glowAnimTime += dt;
         greenFlame.update(dt*.5f);
         for (Pin p : pins) {
             p.update(dt);
@@ -163,13 +163,17 @@ public class Reactor {
     }
 
     public void render(SpriteBatch batch) {
-        TextureRegion tex = backTexture;
+//        TextureRegion tex = backTexture;
+        // try just grabbing a single frame of the glow animation, might look better than the plain background
+        TextureRegion tex = glowAnim.getKeyFrames()[3];
         batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
-        tex = poolTexture;
+
+        // the animation doesn't look quite right, sad trombone
+//        tex = glowAnim.getKeyFrame(glowAnimTime);
 //        batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
-        tex = glowTexture;
-//        batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
+
         greenFlame.render(batch);
+
         for (Piston p : pistons) {
             p.render(batch);
         }

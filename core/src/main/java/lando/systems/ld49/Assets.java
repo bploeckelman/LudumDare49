@@ -75,6 +75,7 @@ public class Assets implements Disposable {
     public Music exampleMusic;
     public Music music1;
     public Music introMusic;
+    public Music storyMusic;
     public Music outroMusic;
 
     public Sound exampleSound;
@@ -143,6 +144,7 @@ public class Assets implements Disposable {
     public Sound bananaMob2;
     public Sound explosions;
     public Sound chaching;
+    public Sound dingUp;
 
     public I18NBundle strings;
 
@@ -304,10 +306,12 @@ public class Assets implements Disposable {
             mgr.load("audio/sound/bananaMob2.ogg", Sound.class);
             mgr.load("audio/sound/explosions.ogg", Sound.class);
             mgr.load("audio/sound/chaching.ogg", Sound.class);
+            mgr.load("audio/sound/dingUp.ogg", Sound.class);
 
             mgr.load("audio/music/example-music.ogg", Music.class);
             mgr.load("audio/music/music1.ogg", Music.class);
             mgr.load("audio/music/introMusic.ogg", Music.class);
+            mgr.load("audio/music/storyMusic.ogg", Music.class);
             mgr.load("audio/music/outro1.ogg", Music.class);
 
 
@@ -432,6 +436,7 @@ public class Assets implements Disposable {
         exampleMusic = mgr.get("audio/music/example-music.ogg", Music.class);
         music1 = mgr.get("audio/music/music1.ogg", Music.class);
         introMusic = mgr.get("audio/music/introMusic.ogg", Music.class);
+        storyMusic = mgr.get("audio/music/storyMusic.ogg", Music.class);
         outroMusic = mgr.get("audio/music/outro1.ogg", Music.class);
 
         exampleSound = mgr.get("audio/sound/example-sound.wav", Sound.class);
@@ -499,6 +504,7 @@ public class Assets implements Disposable {
         bananaMob2 = mgr.get("audio/sound/bananaMob2.ogg", Sound.class);
         explosions = mgr.get("audio/sound/explosions.ogg", Sound.class);
         chaching = mgr.get("audio/sound/chaching.ogg", Sound.class);
+        dingUp = mgr.get("audio/sound/dingUp.ogg", Sound.class);
 
         randomTransitions.add(radialShader);
         randomTransitions.add(pizelizeShader);

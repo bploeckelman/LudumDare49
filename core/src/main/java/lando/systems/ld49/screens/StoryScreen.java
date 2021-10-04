@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
+import lando.systems.ld49.Audio;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
 
@@ -75,6 +76,7 @@ public class StoryScreen extends BaseScreen {
         layout.setText(game.assets.pixelFont16, text, Color.WHITE, worldCamera.viewportWidth, Align.center, true);
 
         game.assets.pixelFont16.getData().setScale(1f);
+        game.audio.playMusic(Audio.Musics.storyMusic);
 
         perspectiveCamera = new PerspectiveCamera(90, 1280, 800);
         perspectiveCamera.far=10000;

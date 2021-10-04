@@ -42,7 +42,8 @@ public class Audio implements Disposable {
         scream,
         bananaMob,
         explosions,
-        chaching
+        chaching,
+        dingUp
 
     }
 
@@ -51,6 +52,7 @@ public class Audio implements Disposable {
         example,
         music1,
         introMusic,
+        storyMusic,
         outroMusic
     }
 
@@ -133,11 +135,13 @@ public class Audio implements Disposable {
         putSound(Sounds.bananaMob, assets.bananaMob2);
         putSound(Sounds.explosions, assets.explosions);
         putSound(Sounds.chaching, assets.chaching);
+        putSound(Sounds.dingUp, assets.dingUp);
 
 
         musics.put(Musics.example, assets.exampleMusic);
         musics.put(Musics.music1, assets.music1);
         musics.put(Musics.introMusic, assets.introMusic);
+        musics.put(Musics.storyMusic, assets.storyMusic);
         musics.put(Musics.outroMusic, assets.outroMusic);
 
         musicVolume = new MutableFloat(0.3f);

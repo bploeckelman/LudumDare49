@@ -264,7 +264,7 @@ public class UI extends InputAdapter {
         griftProgressPercent += griftSpeed * dt;
         if (griftProgressPercent > 1) {
             griftProgressPercent = 0;
-            game.audio.playSound(Audio.Sounds.chaching, 0.5f);
+            game.audio.playSound(Audio.Sounds.dingUp, 0.35f);
             addToCash(50);
         }
 

@@ -1,5 +1,6 @@
 package lando.systems.ld49.collision;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
@@ -43,7 +44,9 @@ public class CollisionManager {
                 if (s.pos.y < -100) s.remove = true;
                 if (s.dtLeft <= 0) continue;
                 if (fuckInfiniteLoops > 100) {
-                    Gdx.app.log("Collisions", "Collision had an infinite loop. =(");
+                    if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+                        Gdx.app.log("Collisions", "Collision had an infinite loop. =(");
+                    }
                     fuckInfiniteLoops = 0;
                     s.dtLeft = 0;
                     continue;

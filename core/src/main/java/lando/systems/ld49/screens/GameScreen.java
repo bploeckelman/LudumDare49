@@ -1,5 +1,6 @@
 package lando.systems.ld49.screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
@@ -80,7 +81,9 @@ public class GameScreen extends BaseScreen {
 
         if (Gdx.input.justTouched()){
             windowCamera.unproject(mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0));
-            Gdx.app.log("Touch", "X: " + mousePos.x + " Y: " + mousePos.y);
+            if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+                Gdx.app.log("Touch", "X: " + mousePos.x + " Y: " + mousePos.y);
+            }
         }
 
     }

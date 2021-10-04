@@ -31,6 +31,7 @@ public class World {
     private float animState2 = MathUtils.random(1, 2);
     private float animState3 = MathUtils.random(3, 10);
     private float ambianceSoundTime;
+    private boolean isRiotInProgress = false;
 
     private final float bananaHammockLeft = 280;
     private final float bananaHammockBottom = 120;
@@ -147,14 +148,23 @@ public class World {
         for (Banana banana : bananas) {
             banana.startRiot(true, new Vector2(reactor.left, 0f), 600f, 10f);
         }
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                //damage
-                reactor.damageStructure(Reactor.DamageAmount.large);
+        isRiotInProgress = true;
+//        Timer.schedule(new Timer.Task() {
+//            @Override
+//            public void run() {
+//                //damage
+//                reactor.damageStructure(Reactor.DamageAmount.large);
+//
+//            }
+//        }, 10f);
+    }
 
-            }
-        }, 10f);
+    public void riotFinished() {
+        if (isRiotInProgress) {
+            reactor.damageStructure(Reactor.DamageAmount.large);
+            gameScreen.particles.addLargeSmoke(reactor.left + 300f, 300f);
+            isRiotInProgress = false;
+        }
     }
 
 

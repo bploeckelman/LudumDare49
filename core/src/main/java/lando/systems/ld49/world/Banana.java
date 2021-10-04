@@ -165,7 +165,7 @@ public class Banana {
             feeling = Feelings.NEUTRAL;
             status = Status.WALK_LEFT;
             emoteCooldown = 0f;
-            world.gameScreen.particles.addLargeSmoke(world.reactor.left + 300f, 300f);
+            world.riotFinished();
         }
     }
 
@@ -275,7 +275,7 @@ public class Banana {
         }
         if (isEmoting) {
             batch.setColor(1f, 1f, 1f, 0.8f);
-            batch.draw(emoteTexture, pos.x, pos.y + height * scale + 5f, width * scale, height * scale);
+            batch.draw(emoteTexture, pos.x + width * scale / 2 - emoteTexture.getRegionWidth() / 2, pos.y + height * scale + 5f);
         }
         batch.setColor(Color.WHITE);
     }

@@ -110,15 +110,15 @@ public class Particles implements Disposable {
         TextureRegion keyframe = assets.particles.smoke;
         float grayValue = MathUtils.random(.7f) + .3f;
         tempColor.set(grayValue, grayValue, grayValue, 1f);
-        int numParticles = 50;
+        int numParticles = 150;
         for (int i = 0; i < numParticles; ++i) {
             activeParticles.get(Layer.foreground).add(Particle.initializer(particlePool.obtain())
                     .keyframe(keyframe)
                     .startPos(x + MathUtils.random(-70f, 70f), y + MathUtils.random(-70f, 70f))
                     .targetPos(x + MathUtils.random(0f, 250f), y + MathUtils.random(0f, 250f))
-                    .velocityDirection(MathUtils.random(-40f, 40f), MathUtils.random(-40, 140f))
-                    .startSize(MathUtils.random(50, 90))
-                    .endSize(MathUtils.random(10, 10))
+                    .velocityDirection(MathUtils.random(-40f, 40f), MathUtils.random(-40f, 140f))
+                    .startSize(MathUtils.random(100f, 200f))
+                    .endSize(MathUtils.random(50f, 80f))
                     .startAlpha(1f)
                     .endAlpha(0f)
                     .timeToLive(MathUtils.random(1.5f, 3.5f))

@@ -74,7 +74,6 @@ public class World {
     public void update(float dt, boolean pause) {
         ambianceSoundTime-= dt;
         if (ambianceSoundTime <= 0){
-            // TODO: Pete play sound here
             gameScreen.game.audio.playSound(Audio.Sounds.steamHiss, 0.1f);
             ambianceSoundTime = MathUtils.random(4f, 10f);
         }
@@ -95,29 +94,26 @@ public class World {
         }
         reactor.update(dt);
 
-
         if (reactor.getStructurePercent() >= 0.85f || reactor.getTemperaturePercent() >= 0.85f) {
-            if(World.playFastMusic == true) {
+            if (World.playFastMusic) {
+                World.playFastMusic = false;
                 gameScreen.game.audio.stopMusic();
                 gameScreen.game.audio.playMusic(Audio.Musics.fastMusic);
-                World.playFastMusic = false;
             }
-
-
         }
+
         if (reactor.getStructurePercent() >= 1.0f || reactor.getTemperaturePercent() >= 1.0f) {
             gameScreen.particles.addSmoke(MathUtils.random(590f, 996f), MathUtils.random(130f, 480f));
-
-
+            gameScreen.shaker.addDamage(100);
 
             if (MathUtils.random(1f) > .9f){
                 gameScreen.particles.addLargeSmoke(MathUtils.random(590f, 996f), MathUtils.random(130f, 480f));
                 gameScreen.game.audio.playSound(Audio.Sounds.alarm, 0.3F);
                 gameScreen.game.audio.playSound(Audio.Sounds.fire, 0.5F);
-                if(World.playFinalExplosion == true) {
-                    gameScreen.game.audio.playSound(Audio.Sounds.explosions, 1.5F);
-                    World.playFinalExplosion = false;
 
+                if (World.playFinalExplosion) {
+                    World.playFinalExplosion = false;
+                    gameScreen.game.audio.playSound(Audio.Sounds.explosions, 1.5F);
                 }
             }
             gameOverTimer += dt;

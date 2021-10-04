@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld49.Assets;
 import lando.systems.ld49.Main;
@@ -160,6 +161,7 @@ public class Reactor {
         }
     }
 
+    Rectangle reactorRect = new Rectangle(570, 0, 520, 300);
     public void update(float dt) {
         glowAnimTime += dt;
         greenFlame.update(dt*.5f);
@@ -168,6 +170,21 @@ public class Reactor {
         }
         for (Piston p : pistons) {
             p.update(dt);
+        }
+
+        if (getTemperaturePercent() > .1){
+            world.gameScreen.particles.reactorSteam(reactorRect);
+
+        }
+        if (getTemperaturePercent() > .25f) {
+            world.gameScreen.particles.reactorSteam(reactorRect);
+        }
+        if (getTemperaturePercent() > .5f) {
+            world.gameScreen.particles.reactorSteam(reactorRect);
+        }
+        if (getTemperaturePercent() > .75f) {
+            world.gameScreen.particles.reactorSteam(reactorRect);
+            world.gameScreen.particles.reactorSteam(reactorRect);
         }
     }
 

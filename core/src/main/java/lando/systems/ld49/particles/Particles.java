@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
 import lando.systems.ld49.Assets;
@@ -196,12 +197,33 @@ public class Particles implements Disposable {
         }
     }
 
+    public void reactorSteam(Rectangle rect) {
+        TextureRegion keyframe = assets.particles.smoke;
+        int numParticles = 5;
+
+        for (int i = 0; i < numParticles; ++i) {
+            float x = rect.x + MathUtils.random(rect.width);
+            float y = rect.y + MathUtils.random(rect.height);
+            tempColor.set(1, 1, 1, 1f);
+            activeParticles.get(Layer.background).add(Particle.initializer(particlePool.obtain())
+                    .keyframe(keyframe)
+                    .startPos(x, y) // + MathUtils.random(-70f, 70f), y)
+                    .velocityDirection(MathUtils.random(0, 180), MathUtils.random(50f, 100f))
+                    .startSize(MathUtils.random(30f, 80f))
+                    .endSize(MathUtils.random(1f, 10f))
+                    .startColor(tempColor)
+                    .startAlpha(MathUtils.random(.3f, .6f))
+                    .endAlpha(0f)
+                    .timeToLive(MathUtils.random(.5f, 2.5f))
+                    .init());
+        }    }
+
     public void projectileTrail(float x, float y) {
         TextureRegion keyframe = assets.particles.sparkle;
         tempColor.set(Color.WHITE);
         int numParticles = 1;
         for (int i = 0; i < numParticles; ++i) {
-            activeParticles.get(Layer.background).add(Particle.initializer(particlePool.obtain())
+            activeParticles.get(Layer.middle).add(Particle.initializer(particlePool.obtain())
                     .keyframe(keyframe)
                     .startPos(x, y)
                     .startSize(MathUtils.random(32, 40))

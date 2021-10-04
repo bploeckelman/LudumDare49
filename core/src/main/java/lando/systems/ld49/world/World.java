@@ -104,8 +104,8 @@ public class World {
         smokeAccum += dt;
 //        if (smokeAccum > 0.1f) {
 //            smokeAccum = 0;
-            gameScreen.particles.addSmokeStackSmoke(325, 400);
-            gameScreen.particles.addSmokeStackSmoke(505, 460);
+            gameScreen.particles.addSmokeStackSmoke(325, 390);
+            gameScreen.particles.addSmokeStackSmoke(505, 450);
 //        }
 
         // Things that shouldn't run when paused should be here
@@ -236,8 +236,11 @@ public class World {
             }
         }
 
-        reactor.renderBackground(batch);
         gameScreen.particles.draw(batch, Particles.Layer.background);
+
+        reactor.renderBackground(batch);
+
+        gameScreen.particles.draw(batch, Particles.Layer.middle);
         reactor.render(batch);
 
         for (Banana banana : bananas) {

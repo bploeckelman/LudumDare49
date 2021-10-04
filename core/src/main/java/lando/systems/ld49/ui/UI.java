@@ -151,6 +151,7 @@ public class UI extends InputAdapter {
     }
 
     public UI(GameScreen gameScreen, UIElements uiElements) {
+        Stats.moneyEarned = startingCash;
         this.game = gameScreen.game;
         this.gameScreen = gameScreen;
         this.uiElements = uiElements;

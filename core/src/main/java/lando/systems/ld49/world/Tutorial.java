@@ -7,14 +7,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
+import lando.systems.ld49.screens.GameScreen;
 
 public class Tutorial {
     private static float maxAlpha = 1f;
 
+    OrthographicCamera camera;
+    GameScreen screen;
     Array<TutorialItem> activeItems = new Array<>();
     TutorialItem currentTutorialItem;
     boolean initialized = false;
@@ -22,14 +27,20 @@ public class Tutorial {
     float accum = 0;
     float targetAlpha;
     float alpha;
+    boolean cancelTutorial = false;
+    Rectangle cancelTutorialButton;
+    Vector3 mousePos = new Vector3();
 
-    public Tutorial ( ) {
+    public Tutorial ( GameScreen screen ) {
+        this.screen = screen;
+        this.camera = screen.windowCamera;
         targetAlpha = 0;
         alpha = 0;
+        cancelTutorialButton = new Rectangle(camera.viewportWidth- 180, camera.viewportHeight - 60, 170, 50);
     }
 
     public void update(float dt) {
-        if (!Config.show_tutorial) {
+        if (!Config.show_tutorial || cancelTutorial) {
             currentTutorialItem = null;
             activeItems.clear();
         }
@@ -51,7 +62,12 @@ public class Tutorial {
                 // Ready to draw
                 currentTutorialItem.typingLabel.update(dt);
                 if (Gdx.input.justTouched()){
-                    if (!currentTutorialItem.typingLabel.hasEnded()){
+                    camera.unproject(mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+                    if (cancelTutorialButton.contains(mousePos.x, mousePos.y)){
+                        cancelTutorial = true;
+                    }
+                    else if (!currentTutorialItem.typingLabel.hasEnded()){
                         currentTutorialItem.typingLabel.skipToTheEnd();
                     } else {
                         targetAlpha = 0;
@@ -73,12 +89,16 @@ public class Tutorial {
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("structureText"), new Rectangle(1059, 0, 225, 136), new Rectangle(200, 400, 800, 300)));
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("pistonText"), new Rectangle(636, 100, 350, 50), new Rectangle(200, 400, 800, 300)));
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("slingText"), new Rectangle(215, 184, 130, 70), new Rectangle(200, 400, 800, 300)));
+        activeItems.add(new TutorialItem(Main.game.assets.strings.get("ammoText"), new Rectangle(225, 0, 210, 93), new Rectangle(200, 400, 800, 300)));
+        activeItems.add(new TutorialItem(Main.game.assets.strings.get("griftText"), new Rectangle(435, 0, 415, 93), new Rectangle(200, 400, 800, 300)));
+        activeItems.add(new TutorialItem(Main.game.assets.strings.get("repairText"), new Rectangle(850, 0, 210, 93), new Rectangle(200, 400, 800, 300)));
 
 
     }
 
-    public void render(SpriteBatch batch, OrthographicCamera camera) {
+    public void render(SpriteBatch batch) {
         if (currentTutorialItem != null){
+
             TutorialItem item = currentTutorialItem;
             TextureRegion pixel = Main.game.assets.pixelRegion;
 
@@ -111,6 +131,23 @@ public class Tutorial {
                 Main.game.assets.pixelFont16.draw(batch, "Click to Continue", item.textBounds.x + item.textBounds.width - Main.game.assets.layout.width, item.textBounds.y + 5 + Main.game.assets.layout.height);
                 Main.game.assets.pixelFont16.getData().setScale(1f);
             }
+
+            // Cancel Button
+            batch.setColor(1f, .6f, .6f, 1.0f);
+            screen.assets.panelNinePatch.draw(batch, cancelTutorialButton.x, cancelTutorialButton.y, cancelTutorialButton.width, cancelTutorialButton.height);
+            screen.assets.pixelFont16.getData().setScale(.4f);
+            screen.assets.layout.setText(screen.assets.pixelFont16, "Cancel Tutorial", Color.BLACK, cancelTutorialButton.width, Align.center, false);
+            screen.assets.pixelFont16.setColor(0,0,0, alpha);
+            screen.assets.pixelFont16.draw(batch, "Cancel Tutorial", cancelTutorialButton.x+1, -1 + cancelTutorialButton.y + cancelTutorialButton.height/2f + screen.assets.layout.height/2, cancelTutorialButton.width, Align.center, false);
+            screen.assets.pixelFont16.setColor(1,1f,1f, alpha);
+            screen.assets.pixelFont16.draw(batch, "Cancel Tutorial", cancelTutorialButton.x, cancelTutorialButton.y + cancelTutorialButton.height/2f + screen.assets.layout.height/2,  cancelTutorialButton.width, Align.center, false);
+
+            screen.assets.pixelFont16.getData().setScale(1);
+
+            batch.setColor(Color.WHITE);
+            Main.game.assets.pixelFont16.setColor(Color.WHITE);
+
+
         }
 
     }

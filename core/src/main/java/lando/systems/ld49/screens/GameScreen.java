@@ -39,7 +39,7 @@ public class GameScreen extends BaseScreen {
         super(game);
         world = new World(this);
         ui = new UI(this, uiElements);
-        tutorial = new Tutorial();
+        tutorial = new Tutorial(this);
 
         cameraPos.set(Config.viewport_width / 2f, 270);
         worldCamera.position.set(cameraPos, 0);
@@ -99,7 +99,7 @@ public class GameScreen extends BaseScreen {
         batch.begin();
         {
             ui.draw(batch);
-            tutorial.render(batch, windowCamera);
+            tutorial.render(batch);
 
         }
         batch.end();

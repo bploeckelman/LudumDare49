@@ -8,13 +8,15 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Timer;
 import lando.systems.ld49.Assets;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.collision.CollisionManager;
 import lando.systems.ld49.screens.GameOverScreen;
 import lando.systems.ld49.screens.GameScreen;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 public class World {
 
@@ -117,7 +119,6 @@ public class World {
         for (int i = shots.size-1; i >=0; i--){
             Shot shot = shots.get(i);
             shot.update(dt);
-            // TODO: remove if done
             if (shot.remove) {
                 shots.removeIndex(i);
             }
@@ -126,6 +127,7 @@ public class World {
             Banana banana = bananas.get(i);
             banana.update(dt);
         }
+        bananas.sort(Collections.reverseOrder(Comparator.comparing(banana -> banana.pos.y)));
         presidente.update(dt);
     }
 

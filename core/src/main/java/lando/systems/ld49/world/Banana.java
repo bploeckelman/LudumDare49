@@ -12,7 +12,7 @@ import lando.systems.ld49.Config;
 public class Banana {
     private Assets assets;
 
-    private Vector2 pos = new Vector2();
+    public Vector2 pos = new Vector2();
     private float width;
     private float height;
     private float scale;

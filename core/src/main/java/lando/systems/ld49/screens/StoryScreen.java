@@ -30,7 +30,7 @@ public class StoryScreen extends BaseScreen {
             "\n\n\n\n" +
             "I got in one little fight and my mom got scared\n\n" +
             "and said you're movin' with your auntie and uncle in Bel-Air" +
-            "\n";
+            "\n\n\n\nClick to continue";
 
     public StoryScreen(Main game) {
         super(game);
@@ -50,11 +50,14 @@ public class StoryScreen extends BaseScreen {
 
     public void update(float dt) {
         accum += 75*dt;
-        accum = MathUtils.clamp(accum, 0, layout.height);
-        if (accum == layout.height && Gdx.input.justTouched()) {
+//        accum = MathUtils.clamp(accum, 0, layout.height);
+        if (accum > layout.height && Gdx.input.justTouched()) {
             game.setScreen(new GameScreen(game), assets.cubeShader, 3f);
         } else if (Gdx.input.justTouched()) {
             accum = layout.height;
+        }
+        if (accum >= layout.height * 2f) {
+            game.setScreen(new GameScreen(game), assets.cubeShader, 3f);
         }
     }
 

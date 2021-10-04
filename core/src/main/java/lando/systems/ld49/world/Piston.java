@@ -23,7 +23,7 @@ public class Piston implements Collidable {
 
     private float heat;
     private float heatupSpeed = 1;
-    private float heatupSpeedMax = 5;
+    private float heatupSpeedMax = 2;
 
     public boolean broken;
     private Flame flameBackground;

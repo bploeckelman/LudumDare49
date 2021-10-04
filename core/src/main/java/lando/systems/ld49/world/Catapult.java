@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld49.Assets;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.screens.GameScreen;
+import lando.systems.ld49.utils.Time;
 import lando.systems.ld49.utils.Utils;
 
 public class Catapult {
@@ -74,6 +75,7 @@ public class Catapult {
                 screen.game.audio.playSound(Audio.Sounds.slingshotRelease, 0.1f);
                 screen.world.addShot(new Shot(pos, new Vector2(launchAngle.x * strength * strengthMultiplier, launchAngle.y * strength * strengthMultiplier)));
                 world.gameScreen.ui.numProjectiles--;
+                Time.pause_for(0.1f);
             } else {
                 launchAngle.set(pos.x - mousePos.x, pos.y - mousePos.y).nor();
                 strength = MathUtils.clamp(pos.dst(mousePos.x, mousePos.y), 0, 80f);

@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.I18NBundle;
+import lando.systems.ld49.world.Pin;
 import org.w3c.dom.Text;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
@@ -353,6 +354,9 @@ public class Assets implements Disposable {
         grassD = new Animation<>(0.1f, atlas.findRegions("plants/grasspatch-d"), Animation.PlayMode.LOOP);
         bushA = new Animation<>(0.1f, atlas.findRegions("plants/bush-a"), Animation.PlayMode.LOOP);
         bushB = new Animation<>(0.1f, atlas.findRegions("plants/bush-b"), Animation.PlayMode.LOOP);
+
+        Pin.Type.steel.anim  = new Animation<>(0.1f, atlas.findRegions("rods/rod-spin"), Animation.PlayMode.LOOP);
+        Pin.Type.bumper.anim = new Animation<>(0.1f, atlas.findRegions("rods/rod-spin"), Animation.PlayMode.LOOP);
 
         emotes = new Emotes();
         emotes.alert = atlas.findRegion("icons/emote-alert");

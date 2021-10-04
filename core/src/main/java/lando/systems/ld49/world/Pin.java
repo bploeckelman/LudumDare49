@@ -1,7 +1,9 @@
 package lando.systems.ld49.world;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.Main;
@@ -9,10 +11,15 @@ import lando.systems.ld49.collision.Collidable;
 
 public class Pin implements Collidable {
 
-    enum Type {steel, bumper};
+    public enum Type {
+        steel, bumper;
+        public Animation<TextureRegion> anim;
+    }
+
     public Type type;
     public Vector2 position = new Vector2();
     public float radius = 6;
+    private float animTime = 0;
 
     public Pin(float x, float y, Type type){
         this.position.set(x, y);
@@ -25,16 +32,11 @@ public class Pin implements Collidable {
     }
 
     public void update(float dt) {
-
+        animTime += dt;
     }
 
     public void render(SpriteBatch batch) {
-        batch.setColor(Color.RED);
-        if (type == Type.bumper) {
-            batch.setColor(Color.BLUE);
-        }
-        batch.draw(Main.game.assets.particles.circle, position.x - radius, position.y -radius, radius*2, radius*2);
-        batch.setColor(Color.WHITE);
+        batch.draw(type.anim.getKeyFrame(animTime), position.x - radius, position.y -radius, radius*2, radius*2);
     }
 
     @Override

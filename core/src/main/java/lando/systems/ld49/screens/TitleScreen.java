@@ -30,7 +30,7 @@ public class TitleScreen extends BaseScreen {
                 new Color(1.0f, .8f, .5f, 0.75f),
                 new Color(.8f, .1f, .1f, 0.75f)
         );
-        game.audio.playMusic(Audio.Musics.introMusic);
+        game.audio.fadeMusic(Audio.Musics.introMusic);
 //        game.audio.playMusic(Audio.Musics.outroMusic);
     }
 

@@ -76,7 +76,7 @@ public class StoryScreen extends BaseScreen {
         layout.setText(game.assets.pixelFont16, text, Color.WHITE, worldCamera.viewportWidth, Align.center, true);
 
         game.assets.pixelFont16.getData().setScale(1f);
-        game.audio.playMusic(Audio.Musics.storyMusic);
+        game.audio.fadeMusic(Audio.Musics.storyMusic);
 
         perspectiveCamera = new PerspectiveCamera(90, 1280, 800);
         perspectiveCamera.far=10000;
@@ -90,7 +90,7 @@ public class StoryScreen extends BaseScreen {
         float speedMultiplier = 1.0f;
 
         if (Gdx.input.isTouched()){
-            speedMultiplier = 3f;
+            speedMultiplier = 10f;
         }
         accum += 75*dt * speedMultiplier;
 //        accum = MathUtils.clamp(accum, 0, layout.height);

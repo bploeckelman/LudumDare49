@@ -87,9 +87,11 @@ public class World {
         // Things that shouldn't run when paused should be here
         if (pause) return;
 
-        ciaTimer -= dt;
+        if (!gameScreen.ui.commsOpen) {
+            ciaTimer -= dt;
+        }
         if (ciaTimer <= 0){
-            ciaTimer = 45;
+            ciaTimer = MathUtils.random(45f, 60f);
             gameScreen.ui.toggleComms();
             makeBananasPrepRiot();
         }

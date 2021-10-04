@@ -70,7 +70,7 @@ public class UI extends InputAdapter {
     private boolean canAcceptCiaBuyoffOffer = false;
     private boolean respondedToComms = false;
     private boolean commsAnimating = false;
-    private boolean commsOpen = false;
+    public boolean commsOpen = false;
     private float ciaGuyAnimState = 0;
     private float presidenteAnimState = 0;
     private float bananaManAnimState = 0;

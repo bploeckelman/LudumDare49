@@ -63,7 +63,7 @@ public class UIElements {
         // can't really use ninepatches for something that is much more stretched on one axis than the other
 
         batch.setColor(1f, 1f, 1f, 0.5f);
-        batch.draw(assets.pixel, bounds.x, bounds.y, bounds.width, bounds.height);
+        batch.draw(assets.pixelRegion, bounds.x, bounds.y, bounds.width, bounds.height);
         batch.setColor(Color.LIGHT_GRAY);
         assets.debugNinePatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
         batch.setColor(Color.WHITE);

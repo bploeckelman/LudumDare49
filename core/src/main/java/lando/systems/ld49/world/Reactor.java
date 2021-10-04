@@ -121,7 +121,7 @@ public class Reactor {
                 pins.add(new Pin(left + pinLeft + dx + dx * i, 200, Pin.Type.steel));
             }
 
-            if (i < 4){
+            if (i > 0 && i < 3){
                 pins.add(new Pin(left + pinLeft + dx + dx/2f + i*dx, 275, Pin.Type.bumper));
             }
         }

@@ -84,7 +84,7 @@ public class World {
         float groundLevel = 350;
         float bottom = bounds.y - 200;
         batch.setColor(198 / 255f, 156 / 255f, 108 / 255f, 1);
-        batch.draw(assets.pixel, bounds.x, bottom, bounds.width + 300, groundLevel);
+        batch.draw(assets.pixelRegion, bounds.x, bottom, bounds.width + 300, groundLevel);
         batch.setColor(Color.WHITE);
 
         // background nuclear plant

@@ -91,8 +91,8 @@ public class EndScreen extends BaseScreen {
             batch.draw(background, 0, 0, Config.window_width, Config.window_height);
 
             batch.setColor(0f, 0f, 0f, 0.6f);
-            batch.draw(game.assets.pixel, 25f, 130f, Config.window_width / 2f - 50f, 400f);
-            batch.draw(game.assets.pixel, Config.window_width / 2f + 25f, 130f, Config.window_width / 2f - 50f, 400f);
+            batch.draw(game.assets.pixelRegion, 25f, 130f, Config.window_width / 2f - 50f, 400f);
+            batch.draw(game.assets.pixelRegion, Config.window_width / 2f + 25f, 130f, Config.window_width / 2f - 50f, 400f);
 
             batch.setColor(Color.WHITE);
             titleLabel.render(batch);

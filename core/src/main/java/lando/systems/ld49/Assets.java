@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import org.w3c.dom.Text;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Assets implements Disposable {
@@ -214,7 +213,6 @@ public class Assets implements Disposable {
             pixmap.setColor(Color.WHITE);
             pixmap.drawPixel(0, 0);
             pixel = new Texture(pixmap);
-            pixelRegion = new TextureRegion(pixel);
         }
         pixmap.dispose();
 
@@ -311,7 +309,7 @@ public class Assets implements Disposable {
         noise = mgr.get("textures/noise.png");
         noise.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
-
+        pixelRegion = atlas.findRegion("pixel");
         ripelyIdleAnim = new Animation<>(0.1f, atlas.findRegions("ripely/idle/ripely-idle"));
         ripelyRunAnim  = new Animation<>(0.1f, atlas.findRegions("ripely/run/ripely-run"));
         presidenteRunAnim = new Animation<>(0.1f, atlas.findRegions("presidente/run/presidente-run"));

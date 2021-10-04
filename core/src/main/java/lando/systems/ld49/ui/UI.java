@@ -241,7 +241,7 @@ public class UI extends InputAdapter {
 
             if (commsOpen && !commsAnimating) {
                 batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
-                batch.draw(game.assets.pixel, bounds.x + bounds.width, bounds.y, bounds.width, bounds.height);
+                batch.draw(game.assets.pixelRegion, bounds.x + bounds.width, bounds.y, bounds.width, bounds.height);
                 batch.setColor(Color.LIGHT_GRAY);
                 game.assets.debugNinePatch.draw(batch, bounds.x + bounds.width, bounds.y, bounds.width, bounds.height);
                 batch.setColor(Color.WHITE);

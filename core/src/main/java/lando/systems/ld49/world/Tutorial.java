@@ -112,7 +112,9 @@ public class Tutorial {
 
     public void addCIA() {
         if (addedCIA) return;
-        activeItems.add(new TutorialItem(Main.game.assets.strings.get("ciaText"), new Rectangle(0, Config.window_height - 248, Config.window_width / 2f, 248), new Rectangle(200, 100, 800, 300)));
+        int panelHeight = 128;
+        int buttonHeight = 40;
+        activeItems.add(new TutorialItem(Main.game.assets.strings.get("ciaText"), new Rectangle(0, Config.window_height - panelHeight - buttonHeight, Config.window_width / 2f, panelHeight + buttonHeight), new Rectangle(200, 100, 800, 300)));
 
     }
 }

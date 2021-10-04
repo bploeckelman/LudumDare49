@@ -156,8 +156,8 @@ public class UI extends InputAdapter {
         float buttonWidth = commsSize;
         this.commsLeftNamePlateBounds.set(commsLeftVisible.x, commsLeftVisible.y - buttonHeight, buttonWidth, buttonHeight);
         this.commsRightNamePlateBounds.set(commsRightVisible.x, commsRightVisible.y - buttonHeight, buttonWidth, buttonHeight);
-        this.commsLeftAcceptButton.set(commsLeftVisible.x, commsLeftVisible.y - 2 * buttonHeight, buttonWidth, buttonHeight);
-        this.commsLeftRejectButton.set(commsLeftVisible.x, commsLeftVisible.y - 3 * buttonHeight, buttonWidth, buttonHeight);
+        this.commsLeftAcceptButton.set(commsLeftNamePlateBounds.x + commsLeftNamePlateBounds.width, commsLeftNamePlateBounds.y, 2 * buttonWidth, buttonHeight);
+        this.commsLeftRejectButton.set(commsLeftAcceptButton.x + commsLeftAcceptButton.width, commsLeftAcceptButton.y, 2 * buttonWidth, buttonHeight);
 
         this.meterTexture = game.assets.atlas.findRegion("meter");
         this.bananaTexture = game.assets.atlas.findRegion("banana");

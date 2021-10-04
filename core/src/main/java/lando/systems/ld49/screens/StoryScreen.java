@@ -67,7 +67,9 @@ public class StoryScreen extends BaseScreen {
             "destroys Potassia and its people…\n\n" +
             "\n\n________\n\n" +
 
-            "\n\nAre you a bad enough plantain to save Potassia?";
+            "\n\nAre you a bad enough plantain to save Potassia?" +
+
+            "\n\n\nClick to play!";
 
     public StoryScreen(Main game) {
         super(game);

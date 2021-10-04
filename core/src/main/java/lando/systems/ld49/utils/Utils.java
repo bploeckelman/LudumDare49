@@ -5,6 +5,14 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import lando.systems.ld49.world.Segment2D;
 
 public class Utils {
+
+    public static String intToDollarString(int money) {
+        final String commaRegex = "(\\d)(?=(\\d{3})+$)";
+        String source = "$" + Integer.toString(money, 10);
+        String moneyString = source.replaceAll(commaRegex, "$1,");
+        return moneyString;
+    }
+
     public static Color hsvToRgb(float hue, float saturation, float value, Color outColor) {
         if (outColor == null) outColor = new Color();
         while (hue < 0) hue += 10f;

@@ -19,12 +19,14 @@ public class Presidente {
     public boolean isDroppingCoins = false;
     private BaseScreen screen;
     private float emoteTimer = 0f;
-    private float emoteCooldown = 0f;
+    public float emoteCooldown = 0f;
     private float width = 48;
     private float height = 48;
     public boolean isEmoting = false;
     public boolean enableEmote = false;
     private TextureRegion emoteTexture;
+    public boolean forceEmote = false;
+    public float forceEmoteTimer = .2f;
 
     public Presidente(Assets assets, float x, float y, BaseScreen screen) {
         this.animation = assets.presidenteIdleAnim;
@@ -36,6 +38,9 @@ public class Presidente {
     }
 
     public void emote(float dt) {
+        if (forceEmote) {
+            forceEmoteTimer-=dt;
+        }
         emoteCooldown -= dt;
         if (emoteCooldown < 0) {
             isEmoting = true;
@@ -62,7 +67,7 @@ public class Presidente {
 
     public void render(SpriteBatch batch) {
         batch.draw(textureRegion, pos.x, pos.y, textureRegion.getRegionWidth() * scale, textureRegion.getRegionHeight() * scale);
-        if (isEmoting && enableEmote) {
+        if ((isEmoting && enableEmote) || forceEmote && forceEmoteTimer > 0f) {
             batch.setColor(1f, 1f, 1f, 0.8f);
             batch.draw(emoteTexture, pos.x + width * scale / 2 - emoteTexture.getRegionWidth() / 2, pos.y + height * scale + 5f);
         }

@@ -22,6 +22,8 @@ public class Shot {
     public float dtLeft;
     public boolean remove;
     public float pulse = 0;
+    private float particleAccum = 0;
+    private final float particleEmitTime = 0.1f;
 
     public Shot(Vector2 pos, Vector2 velocity) {
         this.pos.set(pos);
@@ -36,7 +38,6 @@ public class Shot {
         else if (which <= 90) this.anim = assets.projectiles.coconut;
         else {
             this.anim = assets.projectiles.bananaMan;
-            // TODO: Pete, play the wilhelm scream or whatever here
             Main.game.audio.playSound(Audio.Sounds.scream, 0.5f);
         }
         this.animTime = 0;
@@ -58,6 +59,14 @@ public class Shot {
 
         float rotSpeed = 100;
         rotation -= rotSpeed * dt;
+
+        if (!remove) {
+            particleAccum += dt;
+            if (particleAccum >= particleEmitTime) {
+                particleAccum -= particleEmitTime;
+                Main.game.getScreen().particles.projectileTrail(pos.x, pos.y);
+            }
+        }
     }
 
     public void render(SpriteBatch batch) {

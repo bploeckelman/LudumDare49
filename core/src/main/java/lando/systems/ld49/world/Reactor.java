@@ -171,9 +171,8 @@ public class Reactor {
         }
     }
 
-    public void render(SpriteBatch batch) {
-//        TextureRegion tex = backTexture;
-        // try just grabbing a single frame of the glow animation, might look better than the plain background
+    public void renderBackground(SpriteBatch batch) {
+        // just grabbing a single frame of the glow animation, might look better than the plain background
         TextureRegion tex = glowAnim.getKeyFrames()[3];
         batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
 
@@ -181,12 +180,16 @@ public class Reactor {
 //        tex = glowAnim.getKeyFrame(glowAnimTime);
 //        batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
 
+    }
+
+    public void render(SpriteBatch batch) {
         greenFlame.render(batch);
 
         for (Piston p : pistons) {
             p.render(batch);
         }
-        tex = shellTexture;
+
+        TextureRegion tex = shellTexture;
         batch.draw(tex, left, 0, xScale * tex.getRegionWidth(), yScale * tex.getRegionHeight());
 
         for (Pin p : pins) {

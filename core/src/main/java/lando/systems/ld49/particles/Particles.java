@@ -149,5 +149,23 @@ public class Particles implements Disposable {
         }
     }
 
+    public void projectileTrail(float x, float y) {
+        TextureRegion keyframe = assets.particles.sparkle;
+        tempColor.set(Color.WHITE);
+        int numParticles = 1;
+        for (int i = 0; i < numParticles; ++i) {
+            activeParticles.get(Layer.background).add(Particle.initializer(particlePool.obtain())
+                    .keyframe(keyframe)
+                    .startPos(x, y)
+                    .startSize(MathUtils.random(32, 40))
+                    .endSize(MathUtils.random(3, 8))
+                    .startAlpha(1f)
+                    .endAlpha(0f)
+                    .timeToLive(MathUtils.random(0.5f, 1f))
+                    .startColor(tempColor)
+                    .init());
+        }
+    }
+
 
 }

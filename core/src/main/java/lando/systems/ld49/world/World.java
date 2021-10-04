@@ -13,6 +13,7 @@ import lando.systems.ld49.Audio;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.collision.CollisionManager;
+import lando.systems.ld49.particles.Particles;
 import lando.systems.ld49.screens.GameOverScreen;
 import lando.systems.ld49.screens.GameScreen;
 
@@ -188,17 +189,24 @@ public class World {
                 banana.render(batch);
             }
         }
+
+        reactor.renderBackground(batch);
+        gameScreen.particles.draw(batch, Particles.Layer.background);
         reactor.render(batch);
+
         for (Banana banana : bananas) {
             if (banana.isRioting || banana.isFinishingRiot) {
                 banana.render(batch);
             }
         }
+
         presidente.render(batch);
         catapult.render(batch);
+
         for (Shot shot: shots) {
             shot.render(batch);
         }
+
         reactor.renderDebug(batch);
     }
 

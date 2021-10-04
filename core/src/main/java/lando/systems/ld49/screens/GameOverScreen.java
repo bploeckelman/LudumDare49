@@ -59,7 +59,7 @@ public class GameOverScreen extends BaseScreen {
         idleAnimation = new Animation<>(0.2f, assets.atlas.findRegions("people/dole-presidente/dole-presidente-idle/dole-presidente-idle"), Animation.PlayMode.LOOP);
         talkingTextureRegion = talkingAnimation.getKeyFrame(0);
         String stats = "Money Earned:\n" + moneyEarned + "\n\nMoney Spent:\n" + moneySpent + "\n\nMoney grifted: \n" + netMoney + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n{RAINBOW}Worth It.{ENDRAINBOW}";
-        String secondsSurvived = "Survived for:\n" + (int)secondsRan + "s";
+        String secondsSurvived = "Survived for:\n" + (int)secondsRan + " sec";
         String clickNext = "{COLOR=red}{JUMP=.2}Next Page{ENDJUMP}";
         String page1 = "{COLOR=black}People of Potassia,\n"+
                 "I thank you for your generosity \n"+

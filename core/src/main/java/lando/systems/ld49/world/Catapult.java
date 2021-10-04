@@ -1,6 +1,7 @@
 package lando.systems.ld49.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -64,19 +65,21 @@ public class Catapult {
         }
 
         if (!held){
-            if (Gdx.input.justTouched() && bounds.contains(mousePos.x, mousePos.y)){
+            if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && bounds.contains(mousePos.x, mousePos.y)){
                 held = true;
                 screen.game.audio.playSound(Audio.Sounds.slingshotPull);
 
             }
         } else {
-            if (!Gdx.input.isTouched()) {
+            if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 held = false;
                 // TODO: Launch something
                 screen.game.audio.playSound(Audio.Sounds.slingshotRelease, 0.1f);
                 screen.world.addShot(new Shot(pos, new Vector2(launchAngle.x * strength * strengthMultiplier, launchAngle.y * strength * strengthMultiplier)));
                 world.gameScreen.ui.numProjectiles--;
                 Time.pause_for(0.1f);
+            } else if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+                held = false;
             } else {
                 launchAngle.set(pos.x - mousePos.x, pos.y - mousePos.y).nor();
                 strength = MathUtils.clamp(pos.dst(mousePos.x, mousePos.y), 0, 80f);

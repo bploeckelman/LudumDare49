@@ -641,7 +641,7 @@ public class UI extends InputAdapter {
                 commsText = commsTextAccepted;
 
                 gameScreen.world.makeBananasHappy();
-                addToCash(PurchasePrice.ciaBuyoff);
+                addToCash(-PurchasePrice.ciaBuyoff);
 
                 Timer.schedule(new Timer.Task() {
                     @Override

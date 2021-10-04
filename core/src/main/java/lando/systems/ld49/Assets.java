@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.I18NBundle;
+import org.w3c.dom.Text;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Assets implements Disposable {
@@ -34,6 +36,7 @@ public class Assets implements Disposable {
     public TextureRegion pixelRegion;
     public TextureRegion bananaHammockSign;
     public NinePatch debugNinePatch;
+    public NinePatch panelNinePatch;
 
     public Animation<TextureRegion> ripelyIdleAnim;
     public Animation<TextureRegion> ripelyRunAnim;
@@ -133,6 +136,8 @@ public class Assets implements Disposable {
     public Sound scream3;
     public Sound scream4;
 
+    public I18NBundle strings;
+
 
 
     public Particles particles;
@@ -223,6 +228,7 @@ public class Assets implements Disposable {
         {
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
             mgr.load("textures/noise.png", Texture.class);
+            mgr.load("i18n/strings", I18NBundle.class);
             mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
             mgr.load("audio/sound/example-sound.wav", Sound.class);
             mgr.load("audio/sound/slingshotPull1.ogg", Sound.class);
@@ -385,6 +391,8 @@ public class Assets implements Disposable {
         tower = atlas.findRegion("tower");
 
         debugNinePatch = new NinePatch(atlas.findRegion("debug-patch"), 2, 2, 2, 2);
+        panelNinePatch = new NinePatch(atlas.findRegion("panel-nine"), 20, 20, 20, 20);
+        strings = mgr.get("i18n/strings", I18NBundle.class);
 
 
         randomTransitions = new Array<>();

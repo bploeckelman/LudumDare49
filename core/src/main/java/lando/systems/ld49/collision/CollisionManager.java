@@ -41,7 +41,7 @@ public class CollisionManager {
             collisionHappened = false;
             for (Shot s : world.shots){
                 if (s.dtLeft <= 0) continue;
-                if (fuckInfiniteLoops > 10000) {
+                if (fuckInfiniteLoops > 100) {
                     Gdx.app.log("Collisions", "Collision had an infinite loop. =(");
                     fuckInfiniteLoops = 0;
                     s.dtLeft = 0;

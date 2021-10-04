@@ -49,7 +49,7 @@ public class World {
         ambianceSoundTime = MathUtils.random(5f, 10f);
     }
 
-    public void update(float dt) {
+    public void update(float dt, boolean pause) {
         ambianceSoundTime-= dt;
         if (ambianceSoundTime <= 0){
             // TODO: Pete play sound here
@@ -61,6 +61,10 @@ public class World {
         animState1 += dt;
         animState2 += dt;
         animState3 += dt;
+
+        // Things that shouldn't run when paused should be here
+        if (pause) return;
+
         reactor.update(dt);
         catapult.update(dt, gameScreen);
         collisionManager.solve(dt);

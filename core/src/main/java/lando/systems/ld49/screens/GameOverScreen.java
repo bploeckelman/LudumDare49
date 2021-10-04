@@ -29,6 +29,49 @@ public class GameOverScreen extends BaseScreen {
         presidente.animation = game.assets.presidenteRunAnim;
         game.audio.playMusic(Audio.Musics.outroMusic, true);
 
+
+
+        String endText = "\n\n"+
+                "People of Potassia,\n\n"+
+                "I thank you for your generosity \n\n"+
+                "during Cavendish’s time on your island.\n\n"+
+
+                "Without your hard work and sacrifice,\n\n"+
+                "I wouldn’t have been able to afford \n\n"+
+                "that second solid gold bidet,\n\n"+
+                "which I will use to rinse out my banananus.\n\n"+
+
+                "While we would love to continue\n\n"+
+                "to work with you fine people,\n\n"+
+                "I regret to inform you that,\n\n"+
+                "circumstances no longer\n\n"+
+                "make that a possibility.\n\n"+
+                "\n\n"+
+                "Specifically, the circumstances\n\n"+
+                "that we completely ratfucked your \n\n"+
+                "entire island through negligence\n\n"+
+                "and raw greed, and plundered\n\n"+
+                "every morsel of natural abundance\n\n"+
+                "until it was no longer profitable\n\n"+
+                "thus rendering the land unlivable.\n\n"+
+                "\n\n"+
+                "We hope you have enjoyed\n\n"+
+                "your partnership with Cavendish\n\n"+
+                "as much as we have. \n\n"+
+                "\n\n"+
+                "Also you probably shouldn’t drink\n\n"+
+                "any of the water here for a while. \n\n"+
+                "A looooong while.\n\n"+
+                "Like, centuries probably.\n\n"+
+                "Radiation, and whatever.\n\n"+
+                "\n\n"+
+                "Anyway, thanks for the memories,\n\n"+
+                "hashtag goals, hashtag blessed,\n\n"+
+                "Ttyl, fellow banana peeps\n\n"+
+                "\n\n"+
+                "Dole Presidente";
+
+
     }
 
 

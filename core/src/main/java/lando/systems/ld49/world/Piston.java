@@ -12,7 +12,7 @@ import lando.systems.ld49.collision.Collidable;
 
 public class Piston implements Collidable {
 
-    private static float MAX_HEAT = 120;
+    private static float MAX_HEAT = 100;
     private TextureRegion piston_back;
     private TextureRegion piston;
     private TextureRegion piston_front;

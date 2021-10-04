@@ -54,6 +54,8 @@ public class World {
     private float ciaTimer;
     private static boolean playFinalExplosion;
     private static boolean playFastMusic;
+    private Flame backgroundFlame1;
+    private Flame backgroundFlame2;
 
     public World(GameScreen screen) {
         this.gameScreen = screen;
@@ -77,6 +79,8 @@ public class World {
         for (int i = 0; i < 8; i ++){
             clouds.add(new Cloud(true));
         }
+        backgroundFlame1 = new Flame(new Rectangle(295, 328, 75, 40), new Color(1f, 1f, .8f, .7f), new Color ( .6f, .3f, .3f, .3f));
+        backgroundFlame2 = new Flame(new Rectangle(454, 380, 85, 45), new Color(1f, 1f, .8f, .7f), new Color ( .6f, .3f, .3f, .3f));
     }
 
     private float smokeAccum = 0;
@@ -94,13 +98,15 @@ public class World {
 
         // update clouds on pause
         updateClouds(dt);
+        backgroundFlame1.update(dt);
+        backgroundFlame2.update(dt);
 
         smokeAccum += dt;
-        if (smokeAccum > 0.1f) {
-            smokeAccum = 0;
-            gameScreen.particles.addSmokeStackSmoke(320, 400);
-            gameScreen.particles.addSmokeStackSmoke(500, 460);
-        }
+//        if (smokeAccum > 0.1f) {
+//            smokeAccum = 0;
+            gameScreen.particles.addSmokeStackSmoke(325, 400);
+            gameScreen.particles.addSmokeStackSmoke(505, 460);
+//        }
 
         // Things that shouldn't run when paused should be here
         if (pause) return;
@@ -191,9 +197,12 @@ public class World {
         float width  = scale * assets.backgrounds.nuclearPlant.getRegionWidth();
         float height = scale * assets.backgrounds.nuclearPlant.getRegionHeight();
         batch.draw(assets.backgrounds.nuclearPlant,
-                bounds.x + bounds.width  / 2f - width  / 2f,
+                bounds.x + bounds.width  / 2f - width  / 2f + 10,
                 bounds.y + bounds.height / 2f - height,
                 width, height);
+
+        backgroundFlame1.render(batch);
+        backgroundFlame2.render(batch);
 
         // background trees
         float horizon = bottom + groundLevel;

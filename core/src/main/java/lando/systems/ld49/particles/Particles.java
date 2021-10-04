@@ -149,22 +149,23 @@ public class Particles implements Disposable {
 
     public void addSmokeStackSmoke(float x, float y){
         TextureRegion keyframe = assets.particles.smoke;
-        float grayValue = MathUtils.random(.2f) + .3f;
-        tempColor.set(grayValue, grayValue, grayValue, 1f);
-        //int numParticles = 10;
-        //for (int i = 0; i < numParticles; ++i) {
+
+        int numParticles = 1;
+        for (int i = 0; i < numParticles; ++i) {
+            float grayValue = MathUtils.random(.95f, 1f);
+            tempColor.set(grayValue, grayValue, grayValue, 1f);
             activeParticles.get(Layer.foreground).add(Particle.initializer(particlePool.obtain())
                     .keyframe(keyframe)
-                    .startPos(x, y) // + MathUtils.random(-70f, 70f), y)
-                    .velocityDirection(-90, MathUtils.random(-50f, -100f))
-                    .startSize(MathUtils.random(100f, 200f))
-                    .endSize(MathUtils.random(50f, 80f))
-                    .startAlpha(1f)
+                    .startPos(x+MathUtils.random(-20f, 20f), y + MathUtils.random(-20f, 20f)) // + MathUtils.random(-70f, 70f), y)
+                    .velocityDirection(MathUtils.random(-90f, -30f), MathUtils.random(-50f, -200f))
+                    .startSize(MathUtils.random(100f, 120f))
+                    .endSize(MathUtils.random(10f, 80f))
+                    .startColor(tempColor)
+                    .startAlpha(MathUtils.random(.3f, .6f))
                     .endAlpha(0f)
                     .timeToLive(MathUtils.random(1.5f, 2.5f))
-                    .startColor(tempColor)
                     .init());
-        //}
+        }
     }
 
     private final Color[] projectilePistonColors = new Color[] {

@@ -18,7 +18,7 @@ void main() {
     float noise = (noise1.r*.9 + noise2.r*.9 + noise1.g*.2 + noise2.g*.2) * smoothstep(.1, 1., v_texCoord.y);
     float edgeFade = smoothstep(.01, .2, v_texCoord.x) * smoothstep(.99, .8, v_texCoord.x);
 
-    vec4 color = mix(u_color1, u_color2, smoothstep(.01, 1.5, noise));
+    vec4 color = mix(u_color1, u_color2, smoothstep(.5, 1.6, noise));
 
     color.a *= clamp(0., 1., noise) * edgeFade * noise;
     gl_FragColor = color;

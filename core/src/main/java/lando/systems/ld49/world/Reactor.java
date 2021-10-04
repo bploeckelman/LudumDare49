@@ -47,7 +47,7 @@ public class Reactor {
         backTexture = assets.atlas.findRegion("tower/backwall/tower-backwall");
         glowAnim = new Animation<>(0.05f, assets.atlas.findRegions("tower/glow/tower-glow"), Animation.PlayMode.LOOP);
 
-        greenFlame = new Flame(left + 115 * xScale, 0, 250*xScale, 180 * yScale, new Color(.2f, .8f, .3f, 1.0f), new Color(1f, .3f, 1f, 1.0f));
+        greenFlame = new Flame(left + 115 * xScale, 20, 250*xScale, 180 * yScale, new Color(.2f, .8f, .3f, 1.0f), new Color(1f, .3f, 1f, .5f));
         // height of image, since pixels are top left origin the coords we got from the image are y-flipped, need to re-orient to y-up
         float flipy = 360 * yScale;
 

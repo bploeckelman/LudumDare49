@@ -66,6 +66,9 @@ public class StoryScreen extends BaseScreen {
         batch.begin();
 //        batch.setColor(Color.RED);
 //        batch.draw(game.assets.pixelRegion, 1, 1, worldCamera.viewportWidth- 2, worldCamera.viewportHeight - 2);
+        game.assets.pixelFont16.setColor(.3f, .3f, .3f, 1.0f);
+        game.assets.pixelFont16.draw(batch, text, 5, accum-5, worldCamera.viewportWidth, Align.center, true);
+        game.assets.pixelFont16.setColor(Color.YELLOW);
         game.assets.pixelFont16.draw(batch, text, 0, accum, worldCamera.viewportWidth, Align.center, true);
         batch.end();
 

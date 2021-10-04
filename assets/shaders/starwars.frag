@@ -9,7 +9,7 @@ varying vec2 v_texCoord;
 
 void main() {
 
-    float margin = (v_texCoord.y) * .3;
+    float margin = (v_texCoord.y) * .4;
     vec2 mapped = vec2(smoothstep(margin, 1.-margin, v_texCoord.x), v_texCoord.y);
     vec4 color = texture2D(u_texture, mapped);
 

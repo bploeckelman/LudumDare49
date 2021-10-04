@@ -132,6 +132,8 @@ public class Main extends ApplicationAdapter {
             currentScreen.render(assets.batch);
             originalFBO.end();
 
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
             assets.batch.setShader(transitionShader);
             assets.batch.setProjectionMatrix(camera.combined);
             assets.batch.begin();

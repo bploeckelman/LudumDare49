@@ -156,8 +156,7 @@ public class Reactor {
         }
         if (currStructureDmg >= maxStructureDmg) {
             currStructureDmg = maxStructureDmg;
-            // TODO: trigger end game
-            Gdx.app.log("END STATE", "Your tower broke, that's game over man, game over!");
+
         }
     }
 

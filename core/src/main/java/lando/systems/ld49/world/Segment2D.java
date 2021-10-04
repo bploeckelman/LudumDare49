@@ -51,7 +51,6 @@ public class Segment2D implements Collidable {
 
     @Override
     public void hit(Shot shot) {
-        // Todo: play a sound or something
         Main.game.audio.playSound(Audio.Sounds.wallHit, 0.7f);
         reactor.damageStructure(isExterior ? Reactor.DamageAmount.medium : Reactor.DamageAmount.small);
     }

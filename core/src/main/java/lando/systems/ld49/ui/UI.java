@@ -108,7 +108,6 @@ public class UI extends InputAdapter {
     private float commsTimer = 0;
     private float griftProgressPercent = 0;
 
-    // TODO: change these values over time?
     static class PurchasePrice {
         static int ciaBuyoff = 100;
         static int grift = 100;

@@ -26,7 +26,6 @@ public class TitleScreen extends BaseScreen {
         super(game);
         placeholder = new Vector2(MathUtils.random(Config.window_width - size), MathUtils.random(Config.window_height - size));
         vel = new Vector2(MathUtils.random(-1f, 1), MathUtils.random(-1f, 1f)).nor().scl(100);
-        // TODO: not sure if we want to keep the fire on this screen
         for (int i = 0; i < 10; i ++){
             flames.add(new Flame(
                     -50 + i * 150, 0,
@@ -49,10 +48,10 @@ public class TitleScreen extends BaseScreen {
             game.setScreen(new StoryScreen(game), assets.doorwayShader, 3f);
         }
         // TODO: remove these shortcuts
-        if (Gdx.input.isKeyJustPressed(Input.Keys.P)){
-            game.setScreen(new EndScreen(game), assets.cubeShader, 3f);
-            game.audio.stopMusic();
-        }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.P)){
+//            game.setScreen(new EndScreen(game), assets.cubeShader, 3f);
+//            game.audio.stopMusic();
+//        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.O)){
             game.setScreen(new GameOverScreen(game), assets.cubeShader, 3f);
             game.audio.stopMusic();

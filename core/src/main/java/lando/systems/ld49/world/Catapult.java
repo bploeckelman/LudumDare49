@@ -73,7 +73,6 @@ public class Catapult {
         } else {
             if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 held = false;
-                // TODO: Launch something
                 screen.game.audio.playSound(Audio.Sounds.slingshotRelease, 0.1f);
                 screen.world.addShot(new Shot(pos, new Vector2(launchAngle.x * strength * strengthMultiplier, launchAngle.y * strength * strengthMultiplier)));
                 world.gameScreen.ui.numProjectiles--;

@@ -32,6 +32,7 @@ public class Assets implements Disposable {
     public Texture pixel;
     public Texture noise;
     public TextureRegion pixelRegion;
+    public TextureRegion bananaHammockSign;
     public NinePatch debugNinePatch;
 
     public Animation<TextureRegion> ripelyIdleAnim;
@@ -310,6 +311,7 @@ public class Assets implements Disposable {
         noise.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
         pixelRegion = atlas.findRegion("pixel");
+        bananaHammockSign = atlas.findRegion("banana-hammock-sign");
         ripelyIdleAnim = new Animation<>(0.1f, atlas.findRegions("ripely/idle/ripely-idle"));
         ripelyRunAnim  = new Animation<>(0.1f, atlas.findRegions("ripely/run/ripely-run"));
         presidenteRunAnim = new Animation<>(0.1f, atlas.findRegions("presidente/run/presidente-run"));

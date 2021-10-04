@@ -113,6 +113,9 @@ public class World {
         batch.draw(assets.bushA.getKeyFrame(animState1), bananaHammockLeft + 80, bananaHammockBottom - 20);
         batch.draw(assets.bushB.getKeyFrame(animState2), 350, horizon);
 
+        // awesome sign
+        batch.draw(assets.bananaHammockSign, bananaHammockLeft - 150, bananaHammockBottom);
+
         // foreground stuff
         reactor.render(batch);
         catapult.render(batch);

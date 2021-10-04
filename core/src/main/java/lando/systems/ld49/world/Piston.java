@@ -113,13 +113,14 @@ public class Piston implements Collidable {
 //            Gdx.app.log("some tag", "current heat  " + getPercentHeat());
             float vol = getPercentHeat();
             Main.game.audio.playSound(Audio.Sounds.pistonDown, vol);
-            Main.game.getScreen().particles.projectileBreak(shot.pos.x, shot.pos.y);
+            Main.game.getScreen().particles.projectileBreak(shot.pos.x, shot.pos.y, false);
 
             heat = 0;
         }
         if (broken) {
+            Main.game.getScreen().particles.projectileBreak(shot.pos.x, shot.pos.y, true);
 //            Gdx.app.log("some tag", "Broken Hit");
-            Main.game.audio.playSound(Audio.Sounds.downHit, 0.24f);
+            Main.game.audio.playSound(Audio.Sounds.downHit, 0.36f);
         }
 
     }

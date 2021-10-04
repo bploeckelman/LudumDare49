@@ -95,7 +95,7 @@ public class World {
         reactor.update(dt);
 
 
-        if (reactor.getStructurePercent() >= 0.8f || reactor.getTemperaturePercent() >= 0.8f) {
+        if (reactor.getStructurePercent() >= 0.85f || reactor.getTemperaturePercent() >= 0.85f) {
             if(World.playFastMusic == true) {
                 gameScreen.game.audio.stopMusic();
                 gameScreen.game.audio.playMusic(Audio.Musics.fastMusic);

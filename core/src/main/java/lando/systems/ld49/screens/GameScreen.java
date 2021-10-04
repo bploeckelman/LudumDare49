@@ -53,7 +53,6 @@ public class GameScreen extends BaseScreen {
 
         Time.millis_since_play_started = Time.elapsed_millis();
 
-        Stats.moneyEarned = 0;
         Stats.moneySpent = 0;
         Stats.secondsRan = 0;
     }

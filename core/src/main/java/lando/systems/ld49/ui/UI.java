@@ -120,6 +120,8 @@ public class UI extends InputAdapter {
                     .setCallback((type, source) -> {
                         commsOpen = true;
                         commsAnimating = false;
+                        ((GameScreen)game.getScreen()).tutorial.addCIA();
+
                     })
                     .start(game.tween);
         }

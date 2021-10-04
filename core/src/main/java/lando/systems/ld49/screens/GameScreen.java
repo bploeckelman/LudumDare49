@@ -59,9 +59,10 @@ public class GameScreen extends BaseScreen {
         ui.shots = world.shots.size;
         ui.setTemperature(world.reactor.getTemperaturePercent());
         ui.setStructuralDmg(world.reactor.getStructurePercent());
-        ui.update(dt);
         tutorial.update(dt);
         boolean pause = tutorial.isActive();
+        // TODO: don't allow you to click on the buttons if the tutorial is active?
+        ui.update(dt);
         world.update(dt, pause);
 
         // draw some sparkle for nice

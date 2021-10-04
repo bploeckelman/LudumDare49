@@ -8,4 +8,5 @@ public class Config {
     public static final int viewport_height = 720;
     public static final boolean show_launch_screen = false;
     public static final boolean shader_debug = false;
+    public static final boolean show_tutorial = false;
 }

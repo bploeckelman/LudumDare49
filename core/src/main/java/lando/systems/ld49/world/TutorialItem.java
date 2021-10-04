@@ -14,9 +14,9 @@ public class TutorialItem {
         this.text = text;
         this.bounds = bounds;
         this.textBounds = textBounds;
-        typingLabel = new TypingLabel(Main.game.assets.font, text, textBounds.x, textBounds.y + textBounds.height);
+        typingLabel = new TypingLabel(Main.game.assets.pixelFont16, text, textBounds.x, textBounds.y + textBounds.height- 10);
         typingLabel.setWidth(textBounds.width);
-        typingLabel.setFontScale(1.5f);
+        typingLabel.setFontScale(.8f);
 
     }
 }

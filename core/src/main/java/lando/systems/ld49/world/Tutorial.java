@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
 
 public class Tutorial {
@@ -17,6 +18,7 @@ public class Tutorial {
     Array<TutorialItem> activeItems = new Array<>();
     TutorialItem currentTutorialItem;
     boolean initialized = false;
+    boolean addedCIA = false;
     float accum = 0;
     float targetAlpha;
     float alpha;
@@ -27,6 +29,10 @@ public class Tutorial {
     }
 
     public void update(float dt) {
+        if (!Config.show_tutorial) {
+            currentTutorialItem = null;
+            activeItems.clear();
+        }
         accum += dt;
         if (!initialized && accum > 3) {
             initialize();
@@ -61,8 +67,8 @@ public class Tutorial {
 
     public void initialize(){
         initialized = true;
-        activeItems.add(new TutorialItem(Main.game.assets.strings.get("introText"), new Rectangle(0, 0, 225, 136), new Rectangle(400, 400, 400, 200)));
-        activeItems.add(new TutorialItem(Main.game.assets.strings.get("structureText"), new Rectangle(1059, 0, 225, 136), new Rectangle(400, 400, 400, 200)));
+        activeItems.add(new TutorialItem(Main.game.assets.strings.get("introText"), new Rectangle(0, 0, 225, 136), new Rectangle(200, 400, 800, 300)));
+        activeItems.add(new TutorialItem(Main.game.assets.strings.get("structureText"), new Rectangle(1059, 0, 225, 136), new Rectangle(200, 400, 800, 300)));
 
 
     }
@@ -92,8 +98,9 @@ public class Tutorial {
             batch.setColor(Color.WHITE);
             item.typingLabel.render(batch, alpha);
             if (item.typingLabel.hasEnded()){
-                Main.game.assets.layout.setText(Main.game.assets.font, "Click to Continue", Color.WHITE, 200, Align.left, false);
-                Main.game.assets.font.draw(batch, "Click to Continue", item.textBounds.x + item.textBounds.width - Main.game.assets.layout.width, item.textBounds.y + 5 + Main.game.assets.layout.height);
+                Main.game.assets.layout.setText(Main.game.assets.pixelFont16, "Click to Continue", Color.WHITE, 200, Align.left, false);
+                Main.game.assets.pixelFont16.setColor(1, 1, 1, alpha);
+                Main.game.assets.pixelFont16.draw(batch, "Click to Continue", item.textBounds.x + item.textBounds.width - Main.game.assets.layout.width, item.textBounds.y + 5 + Main.game.assets.layout.height);
             }
         }
 
@@ -101,5 +108,11 @@ public class Tutorial {
 
     public boolean isActive() {
         return activeItems.size > 0;
+    }
+
+    public void addCIA() {
+        if (addedCIA) return;
+        activeItems.add(new TutorialItem(Main.game.assets.strings.get("ciaText"), new Rectangle(0, 464, 512, 255), new Rectangle(200, 100, 800, 300)));
+
     }
 }

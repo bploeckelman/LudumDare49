@@ -22,7 +22,7 @@ import lando.systems.ld49.utils.typinglabel.TypingLabel;
 import lando.systems.ld49.world.Presidente;
 import lando.systems.ld49.world.Stats;
 
-public class GameOverScreen extends GameScreen {
+public class GameOverScreen extends BaseScreen {
 
     private final Animation<TextureRegion> idleAnimation;
     private TypingLabel signatureTypingLabel;
@@ -59,7 +59,7 @@ public class GameOverScreen extends GameScreen {
         idleAnimation = new Animation<>(0.2f, assets.atlas.findRegions("people/dole-presidente/dole-presidente-idle/dole-presidente-idle"), Animation.PlayMode.LOOP);
         talkingTextureRegion = talkingAnimation.getKeyFrame(0);
         String stats = "Money Earned:\n" + moneyEarned + "\n\nMoney Spent:\n" + moneySpent + "\n\nMoney grifted: \n" + netMoney + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n{RAINBOW}Worth It.{ENDRAINBOW}";
-        String secondsSurvived = "Survived for:\n" + secondsRan;
+        String secondsSurvived = "Survived for:\n" + (int)secondsRan + "s";
         String clickNext = "{COLOR=red}{JUMP=.2}Next Page{ENDJUMP}";
         String page1 = "{COLOR=black}People of Potassia,\n"+
                 "I thank you for your generosity \n"+

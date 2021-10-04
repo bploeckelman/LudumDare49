@@ -21,6 +21,7 @@ public class Banana {
     private float actionTimer;
     private float actionDuration;
     private final float VELOCITY = 1f;
+    private final float YVELOCITY = .5f;
     private final float RIOT_VELOCITY = 2f;
     private World world;
     private TextureRegion textureRegion;
@@ -33,6 +34,7 @@ public class Banana {
     private boolean isEmoting = false;
     private TextureRegion emoteTexture;
     private Feelings feeling;
+    private int yDirection = 1;
 
     public enum Status { IDLE_LEFT, IDLE_RIGHT, WALK_LEFT, WALK_RIGHT, RIOT_LEFT, RIOT_RIGHT, RIOT_IDLE }
     public enum Feelings { POSITIVE, NEUTRAL, NEGATIVE, WARN_TEMP, WARN_WRENCH}
@@ -111,12 +113,14 @@ public class Banana {
         if (pos.x > world.reactor.left) {
             return;
         }
-        if (pos.y > world.bounds.height / 3f) {
-            pos.y -= MathUtils.random(VELOCITY);
+        if (pos.y > 150f) {
+            yDirection = -1;
+            pos.y -= MathUtils.random(YVELOCITY);
         } else if (pos.y < 50f) {
-            pos.y += MathUtils.random(VELOCITY);
+            yDirection = 1;
+            pos.y += MathUtils.random(YVELOCITY);
         } else {
-            pos.y += MathUtils.random(-VELOCITY, VELOCITY);
+            pos.y += yDirection * MathUtils.random(YVELOCITY);
         }
     }
 
@@ -177,6 +181,14 @@ public class Banana {
         if (actionTimer > actionDuration) {
             actionTimer = 0f;
             actionDuration = MathUtils.random(3f, 10f);
+            switch (MathUtils.random(1)) {
+                case 0:
+                    yDirection = 1;
+                    break;
+                case 1:
+                    yDirection = -1;
+                    break;
+            }
             if (pos.x > world.reactor.left) {
                 status = Status.WALK_LEFT;
             }
@@ -260,9 +272,10 @@ public class Banana {
                 batch.draw(textureRegion, pos.x, pos.y, width * scale, height * scale);
                 break;
         }
-        batch.setColor(Color.WHITE);
         if (isEmoting) {
-            batch.draw(emoteTexture, pos.x, pos.y + height * scale + 5f, width, height);
+            batch.setColor(1f, 1f, 1f, 0.8f);
+            batch.draw(emoteTexture, pos.x, pos.y + height * scale + 5f, width * scale, height * scale);
         }
+        batch.setColor(Color.WHITE);
     }
 }

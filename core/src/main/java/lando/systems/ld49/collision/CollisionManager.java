@@ -108,6 +108,7 @@ public class CollisionManager {
                     Collision c = collisions.get(0);
                     s.velocity.set(reflectVector(incomingVector.set(s.velocity), c.normal));
                     s.velocity.scl(c.collidable.getElastisity());
+                    s.velocity.add(c.normal);
                     s.dtLeft -= c.t*dt;
                     s.pos.set(c.pos);
                     c.collidable.hit(s);

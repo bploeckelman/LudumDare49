@@ -82,11 +82,12 @@ public class Catapult {
     }
 
     public void render(SpriteBatch batch) {
-        batch.setColor(held ? Color.LIGHT_GRAY : Color.WHITE);
+        boolean noAmmo = (world.gameScreen.ui.numProjectiles == 0);
+        batch.setColor(noAmmo ? Color.DARK_GRAY : held ? Color.LIGHT_GRAY : Color.WHITE);
         batch.draw(bananaHammock, pos.x - width/2, pos.y - height/2, width, height);
         batch.setColor(Color.WHITE);
 
-        if (shineCountdown > 0 && !held) {
+        if (!noAmmo && !held && shineCountdown > 0) {
             TextureRegion shineFrame = bananaHammockShineAnim.getKeyFrame(shineStateTime);
             batch.draw(shineFrame, pos.x - width / 2, pos.y - height / 2, width, height);
         }

@@ -37,7 +37,7 @@ public class GameScreen extends BaseScreen {
     public GameScreen(Main game) {
         super(game);
         world = new World(this);
-        ui = new UI(game, uiElements);
+        ui = new UI(this, uiElements);
         tutorial = new Tutorial();
 
         cameraPos.set(Config.viewport_width / 2f, 270);

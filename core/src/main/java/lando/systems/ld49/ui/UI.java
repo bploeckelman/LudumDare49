@@ -20,6 +20,7 @@ import lando.systems.ld49.utils.accessors.RectangleAccessor;
 public class UI extends InputAdapter {
 
     private final Main game;
+    private final GameScreen gameScreen;
     private final UIElements uiElements;
 
     // TODO: add a comms dialogue for mob riot text
@@ -124,8 +125,9 @@ public class UI extends InputAdapter {
         cashOnHandString = source.replaceAll(commaRegex, "$1,");
     }
 
-    public UI(Main game, UIElements uiElements) {
-        this.game = game;
+    public UI(GameScreen gameScreen, UIElements uiElements) {
+        this.game = gameScreen.game;
+        this.gameScreen = gameScreen;
         this.uiElements = uiElements;
 
         this.ciaGuyAnim = new Animation<>(0.2f, game.assets.atlas.findRegions("people/cia-guy/cia-guy"), Animation.PlayMode.LOOP);
@@ -261,13 +263,15 @@ public class UI extends InputAdapter {
             structDamageFlash = (MathUtils.sinDeg(tempAccum) + 1) / 2f;
         }
 
-        griftProgressPercent += griftSpeed * dt;
-        if (griftProgressPercent > 1) {
-            griftProgressPercent = 0;
-
-            game.audio.playSound(Audio.Sounds.dingUp, 0.35f);
-
-            addToCash(50);
+        // the grift only lasts until the end of the world
+        if (gameScreen.world.reactor.getStructurePercent() < 1
+         && gameScreen.world.reactor.getTemperaturePercent() < 1) {
+            griftProgressPercent += griftSpeed * dt;
+            if (griftProgressPercent > 1) {
+                griftProgressPercent = 0;
+                game.audio.playSound(Audio.Sounds.dingUp, 0.35f);
+                addToCash(50);
+            }
         }
 
         ciaGuyAnimState += dt;
@@ -389,11 +393,11 @@ public class UI extends InputAdapter {
                 float width = projectilesCtrlBounds.width - 2 * margin;
                 float height = 30;
                 buyProjectilesButtonBounds.set(x + margin, projectilesCtrlBounds.y + margin, width, height);
-                uiElements.drawButton(batch, buyProjectilesButtonBounds, canBuyProjectiles ? Color.WHITE : Color.DARK_GRAY, buyProjectilesButtonPressed);
+                uiElements.drawButton(batch, buyProjectilesButtonBounds, numProjectiles == 0 ? Color.YELLOW : canBuyProjectiles ? Color.WHITE : Color.DARK_GRAY, buyProjectilesButtonPressed);
                 sx = font.getScaleX();
                 sy = font.getScaleY();
                 font.getData().setScale(0.5f);
-                layout.setText(font, buyMoreProjectilesButtonText, Color.FOREST, projectilesCtrlBounds.width, Align.center, false);
+                layout.setText(font, buyMoreProjectilesButtonText, numProjectiles == 0 ? Color.BLUE : Color.FOREST, projectilesCtrlBounds.width, Align.center, false);
                 font.draw(batch, layout, x, projectilesCtrlBounds.y + margin + height / 2f + layout.height / 2f);
                 font.getData().setScale(sx, sy);
             }
@@ -633,11 +637,10 @@ public class UI extends InputAdapter {
             if (canAcceptCiaBuyoffOffer && commsLeftAcceptButton.contains(x, y)) {
                 respondedToComms = true;
                 commsText = commsTextAccepted;
-                if (game.getScreen() instanceof GameScreen) {
-                    GameScreen currentScreen = (GameScreen) game.getScreen();
-                    currentScreen.world.makeBananasHappy();
-                    addToCash(PurchasePrice.ciaBuyoff);
-                }
+
+                gameScreen.world.makeBananasHappy();
+                addToCash(PurchasePrice.ciaBuyoff);
+
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
@@ -651,6 +654,8 @@ public class UI extends InputAdapter {
                 return true;
             }
         }
+
+        // handle control panel purchasing buttons
         {
             buyProjectilesButtonPressed = false;
             buyMoreGriftingButtonPressed = false;
@@ -671,24 +676,19 @@ public class UI extends InputAdapter {
             if (canBuyRepairing && buyRepairingButtonBounds.contains(x, y)) {
                 game.audio.playSound(Audio.Sounds.chaching, 0.5f);
                 addToCash(-PurchasePrice.repairs);
-                BaseScreen gameScreen = game.getScreen();
-                if (gameScreen instanceof GameScreen) {
-                    // TODO: play mechanical sound?
-                    ((GameScreen) gameScreen).world.reactor.repairStructure();
-                }
+                gameScreen.world.reactor.repairStructure();
                 return true;
             }
         }
+
         return super.touchUp(screenX, screenY, pointer, button);
     }
 
     private void rejectComms() {
         respondedToComms = true;
         commsText = commsTextRejected;
-        if (game.getScreen() instanceof GameScreen) {
-            GameScreen currentScreen = (GameScreen) game.getScreen();
-            currentScreen.world.makeBananasRiot();
-        }
+        gameScreen.world.makeBananasRiot();
+
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
@@ -696,6 +696,7 @@ public class UI extends InputAdapter {
             }
         }, 4);
     }
+
     // NOTE: these are inverted to get the banana needle angle correct without a hassle
 
     public void setTemperature(float temperaturePercent) {

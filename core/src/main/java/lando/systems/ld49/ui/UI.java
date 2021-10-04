@@ -3,6 +3,7 @@ package lando.systems.ld49.ui;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Back;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -236,15 +237,15 @@ public class UI extends InputAdapter {
 
         // yes this is dumb, it's ludum dare don't worry about it
         float temp = 1f - tempPercent;
-        if      (temp  < .2f)  tempWarningPulseRate =  50;
-        else if (temp  < .4f)  tempWarningPulseRate = 300;
-        else if (temp  < .6f)  tempWarningPulseRate = 500;
-        else if (temp  < .8f)  tempWarningPulseRate = 700;
-        else if (temp  <  1f)  tempWarningPulseRate = 1000;
+        if      (temp  < .15f)  tempWarningPulseRate =  50;
+        else if (temp  < .36f)  tempWarningPulseRate = 300;
+        else if (temp  < .58f)  tempWarningPulseRate = 500;
+        else if (temp  < .8f)   tempWarningPulseRate = 700;
+        else if (temp  <  1f)   tempWarningPulseRate = 1000;
         accum += tempWarningPulseRate * dt;
         tempFlash = (MathUtils.sinDeg(accum) + 1) / 2f;
         // force no flashy when low, for some value of low
-        if (temp < .2f) tempFlash = 0;
+        if (temp < .15f) tempFlash = 0;
         // force solid red when max
         if (temp == 1f) tempFlash = 1;
 
@@ -300,10 +301,32 @@ public class UI extends InputAdapter {
             float margin = 5;
 
             tempMeterBgBounds.set(tempMeterBounds.x - margin, tempMeterBounds.y - margin, tempMeterBounds.width + 2 * margin, tempMeterBounds.height + 2 * margin);
-            batch.setColor(
-                    MathUtils.lerp(0.4f, 1f, tempFlash),
-                    MathUtils.lerp(0.4f, 0f, tempFlash),
-                    MathUtils.lerp(0.4f, 0f, tempFlash), 1.0f);
+            float temp = 1f - tempPercent;
+            if (temp <= 0.36f) {
+                // light green
+                batch.setColor(
+                        MathUtils.lerp(0.4f, 200f / 255f, tempFlash),
+                        MathUtils.lerp(0.4f, 220f / 255f, tempFlash),
+                        MathUtils.lerp(0.4f,          0f, tempFlash), 1.0f);
+            } else if (temp <= 0.58f) {
+                // yellow
+                batch.setColor(
+                        MathUtils.lerp(0.4f, 1f, tempFlash),
+                        MathUtils.lerp(0.4f, 1f, tempFlash),
+                        MathUtils.lerp(0.4f, 0f, tempFlash), 1.0f);
+            } else if (temp <= 0.80f) {
+                // orange
+                batch.setColor(
+                        MathUtils.lerp(0.4f,   1f, tempFlash),
+                        MathUtils.lerp(0.4f, 0.5f, tempFlash),
+                        MathUtils.lerp(0.4f,   0f, tempFlash), 1.0f);
+            } else {
+                // red
+                batch.setColor(
+                        MathUtils.lerp(0.4f, 1f, tempFlash),
+                        MathUtils.lerp(0.4f, 0f, tempFlash),
+                        MathUtils.lerp(0.4f, 0f, tempFlash), 1.0f);
+            }
             uiElements.drawPanel(batch, tempMeterBgBounds);
             batch.setColor(Color.WHITE);
             batch.draw(meterTexture, tempMeterBounds.x, tempMeterBounds.y, tempMeterBounds.width, tempMeterBounds.height);

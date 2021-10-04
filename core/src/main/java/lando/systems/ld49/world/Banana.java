@@ -132,6 +132,7 @@ public class Banana {
         this.emoteCooldown = 0f;
         this.isPreppingRiot = false;
         this.isFinishingRiot = false;
+        this.status = Status.RIOT_IDLE;
     }
 
     public void beHappy(float happyTimer) {
@@ -141,6 +142,7 @@ public class Banana {
         this.emoteCooldown = 0f;
         this.isRioting = false;
         this.isPreppingRiot = false;
+        this.status = Status.IDLE_RIGHT;
     }
 
 
@@ -240,13 +242,14 @@ public class Banana {
     public void finishRiot(float dt) {
         animationTimer+=dt;
         if (pos.x + width * scale / 2 >= disperseLocation.x && pos.x <= disperseLocation.x) {
+            status = Status.IDLE_LEFT;
             isFinishingRiot = false;
         }
-        else if (pos.x + width * scale / 2 < disperseLocation.x) {
+        else if (pos.x + width * scale / 2 <= disperseLocation.x) {
             status = Status.WALK_RIGHT;
             world.gameScreen.particles.addSmoke(pos.x + width * scale / 2, pos.y);
         }
-        else if (pos.x > disperseLocation.x) {
+        else if (pos.x >= disperseLocation.x) {
             status = Status.WALK_LEFT;
             world.gameScreen.particles.addSmoke(pos.x + width * scale / 2, pos.y);
         }

@@ -55,14 +55,14 @@ public class Presidente {
         animationTimer += dt;
         textureRegion = animation.getKeyFrame(animationTimer);
         if (isDroppingCoins) {
-            screen.particles.sparkle(pos.x, pos.y);
+            screen.particles.addSmoke(pos.x, pos.y);
         }
         emote(dt);
     }
 
     public void render(SpriteBatch batch) {
         batch.draw(textureRegion, pos.x, pos.y, textureRegion.getRegionWidth() * scale, textureRegion.getRegionHeight() * scale);
-        if (isEmoting) {
+        if (isEmoting && enableEmote) {
             batch.setColor(1f, 1f, 1f, 0.8f);
             batch.draw(emoteTexture, pos.x + width * scale / 2 - emoteTexture.getRegionWidth() / 2, pos.y + height * scale + 5f);
         }

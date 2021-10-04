@@ -28,6 +28,8 @@ public class Assets implements Disposable {
     public ShapeDrawer shapes;
     public BitmapFont font;
     public BitmapFont pixelFont16;
+    public BitmapFont papyrusFont;
+    public BitmapFont deutschFont;
     public GlyphLayout layout;
     public AssetManager mgr;
     public TextureAtlas atlas;
@@ -35,6 +37,7 @@ public class Assets implements Disposable {
     public Texture pixel;
     public Texture noise;
     public Texture title;
+    public Texture parchment;
     public TextureRegion pixelRegion;
     public TextureRegion bananaHammockSign;
     public NinePatch debugNinePatch;
@@ -243,7 +246,10 @@ public class Assets implements Disposable {
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
             mgr.load("textures/noise.png", Texture.class);
             mgr.load("textures/banana-title_00.png", Texture.class);
+            mgr.load("textures/parchment.png", Texture.class);
             mgr.load("i18n/strings", I18NBundle.class);
+            mgr.load(new AssetDescriptor("fonts/papyrus.fnt", BitmapFont.class));
+            mgr.load(new AssetDescriptor("fonts/deutsch.fnt", BitmapFont.class));
             mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
             mgr.load("audio/sound/example-sound.wav", Sound.class);
             mgr.load("audio/sound/slingshotPull1.ogg", Sound.class);
@@ -336,11 +342,14 @@ public class Assets implements Disposable {
 
         atlas = mgr.get("sprites/sprites.atlas");
         pixelFont16 = mgr.get("fonts/chevyray-rise-16.fnt");
+        papyrusFont = mgr.get("fonts/papyrus.fnt");
+        deutschFont = mgr.get("fonts/deutsch.fnt");
 
         noise = mgr.get("textures/noise.png");
         noise.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
         title = mgr.get("textures/banana-title_00.png");
+        parchment = mgr.get("textures/parchment.png");
 
         pixelRegion = atlas.findRegion("pixel");
         bananaHammockSign = atlas.findRegion("banana-hammock-sign");
@@ -351,6 +360,7 @@ public class Assets implements Disposable {
         ripelyIdleAnim.setPlayMode(Animation.PlayMode.LOOP);
         ripelyRunAnim.setPlayMode(Animation.PlayMode.LOOP);
         presidenteIdleAnim.setPlayMode(Animation.PlayMode.LOOP);
+        presidenteRunAnim.setPlayMode(Animation.PlayMode.LOOP);
         cat = new Animation<>(0.1f, atlas.findRegions("pets/cat"), Animation.PlayMode.LOOP);
         dog = new Animation<>(0.1f, atlas.findRegions("pets/dog"), Animation.PlayMode.LOOP);
         treesIdle = new Animation<>(0.3f, atlas.findRegions("plants/bhc-trees-idle"), Animation.PlayMode.LOOP);

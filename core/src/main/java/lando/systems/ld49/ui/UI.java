@@ -534,18 +534,20 @@ public class UI extends InputAdapter {
                 font.draw(batch, game.assets.layout, bounds.x + textMargin, bounds.y + bounds.height - textMargin);
                 font.getData().setScale(scaleX, scaleY);
 
-                Color acceptButtonColor = (canAcceptCiaBuyoffOffer && !respondedToComms) ? Color.WHITE : Color.DARK_GRAY;
-                uiElements.drawButton(batch, commsLeftAcceptButton, acceptButtonColor, acceptButtonPressed);
-                uiElements.drawButton(batch, commsLeftRejectButton, respondedToComms ? Color.DARK_GRAY : Color.WHITE, rejectButtonPressed);
+                if (!respondedToComms) {
+                    Color acceptButtonColor = (canAcceptCiaBuyoffOffer) ? Color.WHITE : Color.DARK_GRAY;
+                    uiElements.drawButton(batch, commsLeftAcceptButton, acceptButtonColor, acceptButtonPressed);
+                    uiElements.drawButton(batch, commsLeftRejectButton, respondedToComms ? Color.DARK_GRAY : Color.WHITE, rejectButtonPressed);
 
-                float textPressOffset = 2f;
-                font.getData().setScale(0.5f);
-                Color acceptButtonTextColor = (canAcceptCiaBuyoffOffer && !respondedToComms) ? Color.LIME : Color.LIGHT_GRAY;
-                game.assets.layout.setText(font, "$ Pay Up $", acceptButtonTextColor, commsLeftAcceptButton.width, Align.center, false);
-                font.draw(batch, game.assets.layout, commsLeftAcceptButton.x, commsLeftAcceptButton.y + commsLeftAcceptButton.height / 2f + game.assets.layout.height / 2f + 4 - (acceptButtonPressed ? textPressOffset : 0));
-                game.assets.layout.setText(font, "Never!", respondedToComms ? Color.LIGHT_GRAY : Color.FIREBRICK, commsLeftRejectButton.width, Align.center, false);
-                font.draw(batch, game.assets.layout, commsLeftRejectButton.x, commsLeftRejectButton.y + commsLeftRejectButton.height / 2f + game.assets.layout.height / 2f + 4 - (rejectButtonPressed ? textPressOffset : 0));
-                font.getData().setScale(scaleX, scaleY);
+                    float textPressOffset = 2f;
+                    font.getData().setScale(0.5f);
+                    Color acceptButtonTextColor = (canAcceptCiaBuyoffOffer) ? Color.LIME : Color.LIGHT_GRAY;
+                    game.assets.layout.setText(font, "$ Pay Up $", acceptButtonTextColor, commsLeftAcceptButton.width, Align.center, false);
+                    font.draw(batch, game.assets.layout, commsLeftAcceptButton.x, commsLeftAcceptButton.y + commsLeftAcceptButton.height / 2f + game.assets.layout.height / 2f + 4 - (acceptButtonPressed ? textPressOffset : 0));
+                    game.assets.layout.setText(font, "Never!", respondedToComms ? Color.LIGHT_GRAY : Color.FIREBRICK, commsLeftRejectButton.width, Align.center, false);
+                    font.draw(batch, game.assets.layout, commsLeftRejectButton.x, commsLeftRejectButton.y + commsLeftRejectButton.height / 2f + game.assets.layout.height / 2f + 4 - (rejectButtonPressed ? textPressOffset : 0));
+                    font.getData().setScale(scaleX, scaleY);
+                }
 
                 // left name plate and text
                 bounds = commsLeftNamePlateBounds;

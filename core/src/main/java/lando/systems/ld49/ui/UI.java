@@ -3,7 +3,6 @@ package lando.systems.ld49.ui;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Back;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -14,7 +13,6 @@ import com.badlogic.gdx.utils.Timer;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
-import lando.systems.ld49.screens.BaseScreen;
 import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.utils.accessors.RectangleAccessor;
 
@@ -24,13 +22,8 @@ public class UI extends InputAdapter {
     private final GameScreen gameScreen;
     private final UIElements uiElements;
 
-    // TODO: add a comms dialogue for mob riot text
-    // Paid: "The people appreciate your generosity"
-    // Reject: "Viva la revolución!" (not sure if we can do accent chars)
-
-
     // comms panel related stuff
-    private final String commsTextPrompt = "Fine cooling tower you have there. Be a shame if someone incited an angry mob to destroy it...\n\nI'm sure we can find a way to prevent that, hmm?";
+    private final String commsTextPrompt = "Nice cooling tower you have there. Be a shame if someone incited an angry mob to destroy it...\n\nI'm sure we can find a way to prevent that, hmm?";
     private final String commsTextAccepted = "I'm glad we see eye to eye. \n\nCarry on with your... weird little game or whatever.";
     private final String commsTextRejected = "It seems you've forgotten who's really in charge here.\n\nYOU may get out of this alive, but Cavendish won't.";
     private final String commsTextDolePresidenteResponseCIA1 = "Do you honestly expect me to bow down to your sneaky threats, spy? \n\n...I might. This is a hell of a grift.\n\nTough call.";
@@ -38,17 +31,22 @@ public class UI extends InputAdapter {
     private final String commsTextDolePresidenteResponseCIARejected = "Do your worst!\n\nThis place is eventually going to explode in hellfire anyway.\n\nAt least this way I know when to expect it.";
     private final String commsTextBananaResponse = "\"Thank you, Dole Presidente!\n\nYou have briefly deferred the inevitable collapse of our way of life!\n\n...Which you also caused!\"";
     private final String commsTextDolePresidenteResponseBanana = "Don't mention it, kid.\n\n Like, literally don't say a word to anyone.\n\nThis was a war crime.\n";
+    private final String commsTextBananaRejectionResponse = "\"We're done being pushed around...\n\nViva la revolucion!\"";
+    private final String commsTextDolePresidenteRejectionResponseBanana = "...";
     private final String projectilesCtrlHeader = "Projectile Inventory";
     private final String griftingCtrlHeader = "Exploitation Station";
     private final String repairingCtrlHeader = "Structural\n\nRepair Station";
     private final String buyMoreProjectilesButtonText = "Ammo";
     private final String buyMoreGriftingButtonText = "Faster Exploitation";
     private final String buyStructureRepairingButtonText = "Repairs";
+    private final float commsResponseVisibleSecs = 6;
 
 
-    private String commsText = commsTextPrompt;
+    private String commsTextProposal = commsTextPrompt;
+    private String commsTextResponse = commsTextDolePresidenteResponseCIA1;
     private String commsLeftName = "";
     private String commsRightName = "";
+    private boolean ciaGuyHadHisSay = false;
 
     private final Animation<TextureRegion> ciaGuyAnim;
     private final Animation<TextureRegion> presidenteAnim;
@@ -207,7 +205,8 @@ public class UI extends InputAdapter {
 
         if (commsOpen) {
             respondedToComms = false;
-            commsText = commsTextPrompt;
+            ciaGuyHadHisSay = false;
+            commsTextProposal = commsTextPrompt;
             Timeline.createParallel()
                     .push(
                             Tween.to(commsLeftBounds, RectangleAccessor.XYWH, 0.2f)
@@ -251,7 +250,7 @@ public class UI extends InputAdapter {
         if (!paused && commsOpen){
             commsTimer += dt;
             if (commsTimer > 15){
-                rejectComms();
+                rejectProposal();
                 commsTimer = 0;
             }
         }
@@ -545,9 +544,9 @@ public class UI extends InputAdapter {
             float margin = 0;
             Rectangle bounds;
             TextureRegion keyframe;
-            Animation<TextureRegion> anim = respondedToComms ? bananaManAnim : ciaGuyAnim;
-            float animState = respondedToComms ? bananaManAnimState : ciaGuyAnimState;
-            commsLeftName = respondedToComms ? "Banana\nCitizen" : "CIA Guy";
+            Animation<TextureRegion> anim = (respondedToComms && ciaGuyHadHisSay) ? bananaManAnim : ciaGuyAnim;
+            float animState = (respondedToComms && ciaGuyHadHisSay) ? bananaManAnimState : ciaGuyAnimState;
+            commsLeftName = (respondedToComms && ciaGuyHadHisSay) ? "Banana\nCitizen" : "CIA Guy";
             commsRightName = "Dole\nPresidente";
 
             bounds = commsLeftBounds;
@@ -577,7 +576,7 @@ public class UI extends InputAdapter {
                 float scaleX = font.getScaleX();
                 float scaleY = font.getScaleY();
                 font.getData().setScale(0.5f);
-                game.assets.layout.setText(font, commsText, Color.WHITE, bounds.width - 2 * textMargin, Align.left, true);
+                game.assets.layout.setText(font, commsTextProposal, Color.WHITE, bounds.width - 2 * textMargin, Align.left, true);
                 font.draw(batch, game.assets.layout, bounds.x + textMargin, bounds.y + bounds.height - textMargin);
                 font.getData().setScale(scaleX, scaleY);
 
@@ -618,7 +617,7 @@ public class UI extends InputAdapter {
                 scaleX = font.getScaleX();
                 scaleY = font.getScaleY();
                 font.getData().setScale(0.5f);
-                game.assets.layout.setText(font, commsText, Color.WHITE, bounds.width - 2 * textMargin, Align.right, true);
+                game.assets.layout.setText(font, commsTextResponse, Color.WHITE, bounds.width - 2 * textMargin, Align.right, true);
                 font.draw(batch, game.assets.layout, bounds.x + textMargin, bounds.y + bounds.height - textMargin);
                 font.getData().setScale(scaleX, scaleY);
 
@@ -684,23 +683,11 @@ public class UI extends InputAdapter {
             acceptButtonPressed = false;
             rejectButtonPressed = false;
             if (canAcceptCiaBuyoffOffer && commsLeftAcceptButton.contains(x, y)) {
-                respondedToComms = true;
-                commsText = commsTextAccepted;
-
-                gameScreen.world.makeBananasHappy();
-                addToCash(-PurchasePrice.costToBuyCia());
-                PurchasePrice.ciaBought++;
-
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        toggleComms();
-                    }
-                }, 4);
+                acceptProposal();
                 return true;
             }
             if (commsLeftRejectButton.contains(x, y)) {
-                rejectComms();
+                rejectProposal();
                 return true;
             }
         }
@@ -736,17 +723,62 @@ public class UI extends InputAdapter {
         return super.touchUp(screenX, screenY, pointer, button);
     }
 
-    private void rejectComms() {
+    private void acceptProposal() {
         respondedToComms = true;
-        commsText = commsTextRejected;
-        gameScreen.world.makeBananasRiot();
 
+        // allow cia guy & presidente to respond to acceptance
+        commsTextProposal = commsTextAccepted;
+        commsTextResponse = commsTextDolePresidenteResponseCIAAccepted;
+
+        // pay and let citizens celebrate
+        gameScreen.world.makeBananasHappy();
+        addToCash(-PurchasePrice.costToBuyCia());
+        PurchasePrice.ciaBought++;
+
+        // now give the banana citizen a change to chime in, then dismiss after a bit
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                toggleComms();
+                commsTextProposal = commsTextBananaResponse;
+                commsTextResponse = commsTextDolePresidenteResponseBanana;
+                ciaGuyHadHisSay = true;
+
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        toggleComms();
+                    }
+                }, commsResponseVisibleSecs);
             }
-        }, 4);
+        }, commsResponseVisibleSecs);
+    }
+
+    private void rejectProposal() {
+        respondedToComms = true;
+
+        // allow cia guy & presidente to respond to rejection
+        commsTextProposal = commsTextRejected;
+        commsTextResponse = commsTextDolePresidenteResponseCIARejected;
+
+        // trigger riot
+        gameScreen.world.makeBananasRiot();
+
+        // now give the banana citizen a change to chime in, then dismiss after a bit
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                commsTextProposal = commsTextBananaRejectionResponse;
+                commsTextResponse = commsTextDolePresidenteRejectionResponseBanana;
+                ciaGuyHadHisSay = true;
+
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        toggleComms();
+                    }
+                }, commsResponseVisibleSecs);
+            }
+        }, commsResponseVisibleSecs);
     }
 
     // NOTE: these are inverted to get the banana needle angle correct without a hassle

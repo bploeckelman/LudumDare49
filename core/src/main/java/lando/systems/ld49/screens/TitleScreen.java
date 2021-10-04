@@ -23,7 +23,13 @@ public class TitleScreen extends BaseScreen {
         super(game);
         placeholder = new Vector2(MathUtils.random(Config.window_width - size), MathUtils.random(Config.window_height - size));
         vel = new Vector2(MathUtils.random(-1f, 1), MathUtils.random(-1f, 1f)).nor().scl(100);
-        flame = new Flame(0, 0, worldCamera.viewportWidth, worldCamera.viewportHeight, new Color(1.0f, .8f, .5f, 1.0f), new Color(.8f, .1f, .1f, 1.0f));
+        // TODO: not sure if we want to keep the fire on this screen
+        flame = new Flame(
+                -200, 0,
+                Config.window_width + 400, 250,
+                new Color(1.0f, .8f, .5f, 0.75f),
+                new Color(.8f, .1f, .1f, 0.75f)
+        );
         game.audio.playMusic(Audio.Musics.introMusic);
 //        game.audio.playMusic(Audio.Musics.outroMusic);
     }

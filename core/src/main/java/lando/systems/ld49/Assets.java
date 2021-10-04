@@ -34,6 +34,7 @@ public class Assets implements Disposable {
 
     public Texture pixel;
     public Texture noise;
+    public Texture title;
     public TextureRegion pixelRegion;
     public TextureRegion bananaHammockSign;
     public NinePatch debugNinePatch;
@@ -239,6 +240,7 @@ public class Assets implements Disposable {
         {
             mgr.load(new AssetDescriptor<>("sprites/sprites.atlas", TextureAtlas.class));
             mgr.load("textures/noise.png", Texture.class);
+            mgr.load("textures/banana-title_00.png", Texture.class);
             mgr.load("i18n/strings", I18NBundle.class);
             mgr.load(new AssetDescriptor("fonts/chevyray-rise-16.fnt", BitmapFont.class));
             mgr.load("audio/sound/example-sound.wav", Sound.class);
@@ -335,6 +337,8 @@ public class Assets implements Disposable {
         noise = mgr.get("textures/noise.png");
         noise.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
+        title = mgr.get("textures/banana-title_00.png");
+
         pixelRegion = atlas.findRegion("pixel");
         bananaHammockSign = atlas.findRegion("banana-hammock-sign");
         ripelyIdleAnim = new Animation<>(0.1f, atlas.findRegions("ripely/idle/ripely-idle"));
@@ -404,7 +408,8 @@ public class Assets implements Disposable {
         backgrounds.grass   = atlas.findRegion("backgrounds/grass");
         backgrounds.castles = atlas.findRegion("backgrounds/castles");
         backgrounds.nuclearPlant = atlas.findRegion("backgrounds/nuclear-plant");
-        backgrounds.titleImage = atlas.findRegion("backgrounds/title-image");
+//        backgrounds.titleImage = atlas.findRegion("backgrounds/title-image");
+        backgrounds.titleImage = new TextureRegion(title);
 
         projectiles = new Projectiles();
         projectiles.coconut = new Animation<>(0.1f, atlas.findRegions("projectiles/coconut/coconut"), Animation.PlayMode.LOOP);

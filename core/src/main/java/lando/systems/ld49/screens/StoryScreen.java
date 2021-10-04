@@ -20,34 +20,50 @@ public class StoryScreen extends BaseScreen {
             "my life got flipped turned upside down\n\n" +
             "And I'd like to take a minute so just sit right there\n\n" +
             "I'll tell you all about how corporate\n\n"+
-            "imperialism destroyed a country called\n\n"+
-            "POTASSIA"+
+            "imperialism destroyed a country called POTASSIA\n\n"+
             "\n\n" +
+            "--------\n\n" +
             "\n\n" +
             "For the plantain kingdom of Potassia,\n\n" +
             "life was peaceful and prosperous.\n\n" +
-            "The people had food to eat,\n\n" +
-            "their children were happy and healthy,\n\n" +
+            "\n\n" +
+            "The people were happy and healthy,\n\n" +
             "and there was always enough to go around. \n\n"+
-            "Life wasn’t without its problems,\n\n" +
+            "\n\n" +
+            "Life wasn`t perfect,\n\n" +
             "but the people were in charge of their own lives.\n\n" +
             "\n\n" +
-            "Until Cavendish came.\n\n" +
+            "...Until Cavendish came.\n\n" +
             "\n\n" +
-            "my life got flipped turned upside down.\n\n" +
-            "And I'd like to take a minute so just sit right there.\n\n" +
-            "I'll tell you all about how I became the prince of a town called Bel-Air" +
+            "Cavendish Industrial Agronomics\n\n" +
+            "took one look at the lush forests and abundant fruit\n\n" +
+            "of Potassia and immediately craved\n\n" +
+            "every last resource\n\n" +
+            "on that beautiful island.\n\n" +
+            "\n\n" +
+            "They stole the land from its people.\n\n" +
+            "\n\n" +
+            "________\n\n" +
+            "\n\n" +
+            "Cavendish paid the locals a pittance,\n\n" +
+            "Forcing them to work grueling hours\n\n" +
+            "in miserable conditions. \n\n" +
+            "\n\n" +
+            "The Cavendish CEO became de facto dictator.\n\n" +
+            "He forces the people to call him \"Dole Presidente,\"\n\n" +
+            "and unless he pays kickbacks to \n\n" +
+            "the OTHER CIA, they threaten to destroy\n\n" +
+            "the entire Cavendish enterprise." +
             "\n\n\n\n" +
-            "In West Philadelphia born and raised\n\n" +
-            "on the playground is where I spent most of my days\n\n" +
-            "chillin out, maxin', ralaxin' all cool\n\n" +
-            "and be shooting some b-ball outside of the school\n\n" +
-            "When a couple of guys who were up to no good\n\n" +
-            "started making trouble in my neighborhood" +
-            "\n\n\n\n" +
-            "I got in one little fight and my mom got scared\n\n" +
-            "and said you're movin' with your auntie and uncle in Bel-Air" +
-            "\n\n\n\nClick to continue";
+            "Even worse, their shoddy nuclear plants \n\n" +
+            "are always on the verge of catastrophic failure.\n\n" +
+            "\n\n" +
+            "The Potassians must slingshot whatever they can find\n\n" +
+            "into the cooling towers to keep them from overheating\n\n" +
+            "It`s only matter of time until a meltdown\n\n" +
+            "fueled by greed and consumption \n\n" +
+            "destroys Potassia and its people…\n\n" +
+            "\n\n\n\nAre you ready to save Potassia?";
 
     public StoryScreen(Main game) {
         super(game);

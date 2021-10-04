@@ -100,7 +100,8 @@ public class World {
                 shots.removeIndex(i);
             }
         }
-        for (Banana banana : bananas) {
+        for (int i = bananas.size-1; i>=0; i--) {
+            Banana banana = bananas.get(i);
             banana.update(dt);
         }
         presidente.update(dt);
@@ -143,20 +144,17 @@ public class World {
         batch.draw(assets.bushB.getKeyFrame(animState2), 350, horizon);
 
         // awesome sign
-        batch.draw(assets.bananaHammockSign, bananaHammockLeft - 150, bananaHammockBottom);
+        batch.draw(assets.bananaHammockSign, bananaHammockLeft - 160, bananaHammockBottom);
 
         // foreground stuff
-        if (bananasStatus != BananaStatus.RIOT) {
-            // if bananastatus is not rioting, draw bananas behind reactor
-            for (Banana banana : bananas) {
+        for (Banana banana : bananas) {
+            if (!banana.isRioting && !banana.isFinishingRiot) {
                 banana.render(batch);
             }
-            reactor.render(batch);
         }
-        else {
-            //else draw reactor first
-            reactor.render(batch);
-            for (Banana banana : bananas) {
+        reactor.render(batch);
+        for (Banana banana : bananas) {
+            if (banana.isRioting || banana.isFinishingRiot) {
                 banana.render(batch);
             }
         }
@@ -209,11 +207,11 @@ public class World {
             isRiotInProgress = false;
         }
         bananasStatus = BananaStatus.END_RIOT;
+        for (Banana banana : bananas) {
+            banana.setupFinishRiot(true, new Vector2(reactor.left, 0f), new Vector2(reactor.left + 600f, 0f));
+        }
     }
 
-    public void bananasBackToNormal() {
-        bananasStatus = BananaStatus.NORMAL;
-    }
 
 
 }

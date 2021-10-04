@@ -44,6 +44,8 @@ public class World {
     private final float bananaHammockBottom = 120;
     private final float bananaPopulation = 15;
 
+    private float ciaTimer;
+
     public World(GameScreen screen) {
         this.gameScreen = screen;
         this.assets = screen.assets;
@@ -58,6 +60,7 @@ public class World {
         presidente = new Presidente(assets, bananaHammockLeft - 150f, bananaHammockBottom - 20f, gameScreen);
         presidente.scale = 2.5f;
         presidente.enableEmote = true;
+        ciaTimer = 30;
     }
 
     public void update(float dt, boolean pause) {
@@ -76,6 +79,12 @@ public class World {
         // Things that shouldn't run when paused should be here
         if (pause) return;
 
+        ciaTimer -= dt;
+        if (ciaTimer <= 0){
+            ciaTimer = 45;
+            gameScreen.ui.toggleComms();
+            makeBananasPrepRiot();
+        }
         reactor.update(dt);
         if (reactor.getStructurePercent() >= 1.0f || reactor.getTemperaturePercent() >= 1.0f) {
             gameScreen.particles.addSmoke(MathUtils.random(590f, 996f), MathUtils.random(130f, 480f));

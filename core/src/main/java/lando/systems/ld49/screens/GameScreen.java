@@ -62,7 +62,7 @@ public class GameScreen extends BaseScreen {
         tutorial.update(dt);
         boolean pause = tutorial.isActive();
         // TODO: don't allow you to click on the buttons if the tutorial is active?
-        ui.update(dt);
+        ui.update(dt, pause);
         world.update(dt, pause);
 
         // draw some sparkle for nice

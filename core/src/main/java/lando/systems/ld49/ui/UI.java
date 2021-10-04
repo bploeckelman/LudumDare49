@@ -78,6 +78,7 @@ public class UI extends InputAdapter {
     private float structPercent = 0;
     private float accum = 0;
     private float tempAccum = 0;
+    private float commsTimer;
 
     private final Rectangle controlPanelBounds = new Rectangle();
 
@@ -170,6 +171,7 @@ public class UI extends InputAdapter {
                     )
                     .setCallback((type, source) -> {
                         commsOpen = true;
+                        commsTimer = 0;
                         commsAnimating = false;
                         ((GameScreen)game.getScreen()).tutorial.addCIA();
 
@@ -178,7 +180,14 @@ public class UI extends InputAdapter {
         }
     }
 
-    public void update(float dt) {
+    public void update(float dt, boolean paused) {
+        if (!paused && commsOpen){
+            commsTimer += dt;
+            if (commsTimer > 15){
+                rejectComms();
+                commsTimer = 0;
+            }
+        }
         // yes this is dumb, it's ludum dare don't worry about it
         float temp = 1f - tempPercent;
         if      (temp  < .2f)  tempWarningPulseRate =  50;
@@ -429,24 +438,27 @@ public class UI extends InputAdapter {
                 return true;
             }
             if (commsLeftRejectButton.contains(screenX, Config.window_height - screenY)) {
-                respondedToComms = true;
-                commsText = commsTextRejected;
-                if (game.getScreen() instanceof GameScreen) {
-                    GameScreen currentScreen = (GameScreen) game.getScreen();
-                    currentScreen.world.makeBananasRiot();
-                }
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        toggleComms();
-                    }
-                }, 4);
+                rejectComms();
                 return true;
             }
         }
         return super.touchUp(screenX, screenY, pointer, button);
     }
 
+    private void rejectComms() {
+        respondedToComms = true;
+        commsText = commsTextRejected;
+        if (game.getScreen() instanceof GameScreen) {
+            GameScreen currentScreen = (GameScreen) game.getScreen();
+            currentScreen.world.makeBananasRiot();
+        }
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                toggleComms();
+            }
+        }, 4);
+    }
     // NOTE: these are inverted to get the banana needle angle correct without a hassle
 
     public void setTemperature(float temperaturePercent) {

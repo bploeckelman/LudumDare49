@@ -59,6 +59,7 @@ public class UI extends InputAdapter {
     private final Rectangle commsRightNamePlateBounds = new Rectangle();
     private boolean acceptButtonPressed = false;
     private boolean rejectButtonPressed = false;
+    private boolean canAcceptCiaBuyoffOffer = false;
     private boolean respondedToComms = false;
     private boolean commsAnimating = false;
     private boolean commsOpen = false;
@@ -100,7 +101,9 @@ public class UI extends InputAdapter {
     private float commsTimer = 0;
     private float griftProgressPercent = 0;
 
+    // TODO: change these values over time?
     static class PurchasePrice {
+        static int ciaBuyoff = 1000;
         static int grift = 100;
         static int projectiles = 100;
         static int repairs = 5000;
@@ -261,7 +264,7 @@ public class UI extends InputAdapter {
         griftProgressPercent += griftSpeed * dt;
         if (griftProgressPercent > 1) {
             griftProgressPercent = 0;
-//            game.audio.playSound(Audio.Sounds.chaching, 0.5f);
+            game.audio.playSound(Audio.Sounds.chaching, 0.5f);
             addToCash(50);
         }
 
@@ -269,10 +272,10 @@ public class UI extends InputAdapter {
         presidenteAnimState += dt;
         bananaManAnimState += dt;
 
-        canBuyMoreGrifting = (cashOnHand >= PurchasePrice.grift);
-        canBuyProjectiles  = (cashOnHand >= PurchasePrice.projectiles);
-        canBuyRepairing    = (cashOnHand >= PurchasePrice.repairs);
-//        Gdx.app.log("can buy", String.format("proj: %b  grift: %b  repair: %b", canBuyProjectiles, canBuyMoreGrifting, canBuyRepairing));
+        canAcceptCiaBuyoffOffer = (cashOnHand >= PurchasePrice.ciaBuyoff);
+        canBuyMoreGrifting      = (cashOnHand >= PurchasePrice.grift);
+        canBuyProjectiles       = (cashOnHand >= PurchasePrice.projectiles);
+        canBuyRepairing         = (cashOnHand >= PurchasePrice.repairs);
 
 //        // for testing
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -525,12 +528,14 @@ public class UI extends InputAdapter {
                 font.draw(batch, game.assets.layout, bounds.x + textMargin, bounds.y + bounds.height - textMargin);
                 font.getData().setScale(scaleX, scaleY);
 
-                uiElements.drawButton(batch, commsLeftAcceptButton, respondedToComms ? Color.DARK_GRAY : Color.WHITE, acceptButtonPressed);
+                Color acceptButtonColor = (canAcceptCiaBuyoffOffer && !respondedToComms) ? Color.WHITE : Color.DARK_GRAY;
+                uiElements.drawButton(batch, commsLeftAcceptButton, acceptButtonColor, acceptButtonPressed);
                 uiElements.drawButton(batch, commsLeftRejectButton, respondedToComms ? Color.DARK_GRAY : Color.WHITE, rejectButtonPressed);
 
                 float textPressOffset = 2f;
                 font.getData().setScale(0.5f);
-                game.assets.layout.setText(font, "$ Pay Up $", respondedToComms ? Color.LIGHT_GRAY : Color.LIME, commsLeftAcceptButton.width, Align.center, false);
+                Color acceptButtonTextColor = (canAcceptCiaBuyoffOffer && !respondedToComms) ? Color.LIME : Color.LIGHT_GRAY;
+                game.assets.layout.setText(font, "$ Pay Up $", acceptButtonTextColor, commsLeftAcceptButton.width, Align.center, false);
                 font.draw(batch, game.assets.layout, commsLeftAcceptButton.x, commsLeftAcceptButton.y + commsLeftAcceptButton.height / 2f + game.assets.layout.height / 2f + 4 - (acceptButtonPressed ? textPressOffset : 0));
                 game.assets.layout.setText(font, "Never!", respondedToComms ? Color.LIGHT_GRAY : Color.FIREBRICK, commsLeftRejectButton.width, Align.center, false);
                 font.draw(batch, game.assets.layout, commsLeftRejectButton.x, commsLeftRejectButton.y + commsLeftRejectButton.height / 2f + game.assets.layout.height / 2f + 4 - (rejectButtonPressed ? textPressOffset : 0));
@@ -623,12 +628,13 @@ public class UI extends InputAdapter {
         if (commsOpen && !commsAnimating && !respondedToComms) {
             acceptButtonPressed = false;
             rejectButtonPressed = false;
-            if (commsLeftAcceptButton.contains(x, y)) {
+            if (canAcceptCiaBuyoffOffer && commsLeftAcceptButton.contains(x, y)) {
                 respondedToComms = true;
                 commsText = commsTextAccepted;
                 if (game.getScreen() instanceof GameScreen) {
                     GameScreen currentScreen = (GameScreen) game.getScreen();
                     currentScreen.world.makeBananasHappy();
+                    addToCash(PurchasePrice.ciaBuyoff);
                 }
                 Timer.schedule(new Timer.Task() {
                     @Override

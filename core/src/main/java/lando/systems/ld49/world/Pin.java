@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.Main;
@@ -16,23 +17,32 @@ public class Pin implements Collidable {
         public Animation<TextureRegion> anim;
     }
 
+    private static float PIN_DRIFT_DIST = 20;
     public Type type;
     public Vector2 position = new Vector2();
+    private Vector2 startPosition = new Vector2();
+    private float driftAngle;
+    private float accum;
+    private float positionPeriod;
+
     public float radius = 6;
     private float animTime = 0;
 
     public Pin(float x, float y, Type type){
         this.position.set(x, y);
         this.type = type;
+        this.startPosition.set(x, y);
+        driftAngle = MathUtils.random(360f);
+        this.accum = 0;
+        this.positionPeriod  = MathUtils.random(.1f, .5f);
     }
 
-    public Pin(Vector2 position, Type type) {
-        this.position.set(position);
-        this.type = type;
-    }
 
     public void update(float dt) {
         animTime += dt;
+        accum += dt;
+        position.set(startPosition.x + MathUtils.sin(accum * positionPeriod) * MathUtils.sinDeg(driftAngle) * PIN_DRIFT_DIST,
+                startPosition.y + MathUtils.sin(accum * positionPeriod) * MathUtils.cosDeg(driftAngle) * PIN_DRIFT_DIST);
     }
 
     public void render(SpriteBatch batch) {

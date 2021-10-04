@@ -11,6 +11,7 @@ import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
 
 public class StoryScreen extends BaseScreen {
+    private static float textScale = 2f;
     float accum = 0;
     OrthographicCamera textCamera;
     GlyphLayout layout;
@@ -35,7 +36,7 @@ public class StoryScreen extends BaseScreen {
     public StoryScreen(Main game) {
         super(game);
         layout = new GlyphLayout();
-
+        game.assets.pixelFont16.getData().setScale(textScale);
         layout.setText(game.assets.pixelFont16, text, Color.WHITE, worldCamera.viewportWidth, Align.center, true);
         textFb = new FrameBuffer(Pixmap.Format.RGBA8888, (int)worldCamera.viewportWidth, (int)layout.height, true);
 //        worldCamera.setToOrtho(false, Config.viewport_width, layout.height);
@@ -44,10 +45,12 @@ public class StoryScreen extends BaseScreen {
         textCamera = new OrthographicCamera();
         textCamera.setToOrtho(false, worldCamera.viewportWidth, layout.height);
         textCamera.update();
+        game.assets.pixelFont16.getData().setScale(1f);
+
     }
 
     public void update(float dt) {
-        accum += 30*dt;
+        accum += 75*dt;
         accum = MathUtils.clamp(accum, 0, layout.height);
         if (accum == layout.height && Gdx.input.justTouched()) {
             game.setScreen(new GameScreen(game), assets.cubeShader, 3f);
@@ -66,10 +69,15 @@ public class StoryScreen extends BaseScreen {
         batch.begin();
 //        batch.setColor(Color.RED);
 //        batch.draw(game.assets.pixelRegion, 1, 1, worldCamera.viewportWidth- 2, worldCamera.viewportHeight - 2);
+        game.assets.pixelFont16.getData().setScale(textScale);
+
         game.assets.pixelFont16.setColor(.3f, .3f, .3f, 1.0f);
         game.assets.pixelFont16.draw(batch, text, 5, accum-5, worldCamera.viewportWidth, Align.center, true);
         game.assets.pixelFont16.setColor(Color.YELLOW);
         game.assets.pixelFont16.draw(batch, text, 0, accum, worldCamera.viewportWidth, Align.center, true);
+
+        game.assets.pixelFont16.getData().setScale(1f);
+
         batch.end();
 
         textFb.end();

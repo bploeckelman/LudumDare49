@@ -25,11 +25,20 @@ public class UI extends InputAdapter {
     private final Main game;
     private final UIElements uiElements;
 
+    // TODO: add a comms dialogue for mob riot text
+    // Paid: "The people appreciate your generosity"
+    // Reject: "Viva la revolución!" (not sure if we can do accent chars)
+
+
+
     // comms panel related stuff
     private final String commsTextPrompt = "Fine cooling tower you have there. Be a shame if someone told an angry mob to destroy it...\n\nI'm sure we can find a way to prevent that, hmm?";
     private final String commsTextRejected = "It seems you've forgotten who's really in charge here.\n\nYOU may survive this, but your tower won't.";
     private final String commsTextAccepted = "I'm glad we see eye to eye. \n\nCarry on with your... \nweird little ritual or whatever.";
     private String commsText = commsTextPrompt;
+    private String commsLeftName = "";
+    private String commsRightName = "";
+
     private final Animation<TextureRegion> ciaGuyAnim;
     private final Animation<TextureRegion> presidenteAnim;
     private final Animation<TextureRegion> bananaManAnim;
@@ -43,6 +52,8 @@ public class UI extends InputAdapter {
     private final Rectangle commsRightHidden = new Rectangle();
     private final Rectangle commsLeftDialogueBounds = new Rectangle();
     private final Rectangle commsRightDialogueBounds = new Rectangle();
+    private final Rectangle commsLeftNamePlateBounds = new Rectangle();
+    private final Rectangle commsRightNamePlateBounds = new Rectangle();
     private boolean acceptButtonPressed = false;
     private boolean rejectButtonPressed = false;
     private boolean respondedToComms = false;
@@ -100,8 +111,10 @@ public class UI extends InputAdapter {
 
         float buttonHeight = 40;
         float buttonWidth = commsSize;
-        this.commsLeftAcceptButton.set(commsLeftVisible.x, commsLeftVisible.y - buttonHeight, buttonWidth, buttonHeight);
-        this.commsLeftRejectButton.set(commsLeftVisible.x, commsLeftVisible.y - buttonHeight * 2, buttonWidth, buttonHeight);
+        this.commsLeftNamePlateBounds.set(commsLeftVisible.x, commsLeftVisible.y - buttonHeight, buttonWidth, buttonHeight);
+        this.commsRightNamePlateBounds.set(commsRightVisible.x, commsRightVisible.y - buttonHeight, buttonWidth, buttonHeight);
+        this.commsLeftAcceptButton.set(commsLeftVisible.x, commsLeftVisible.y - 2 * buttonHeight, buttonWidth, buttonHeight);
+        this.commsLeftRejectButton.set(commsLeftVisible.x, commsLeftVisible.y - 3 * buttonHeight, buttonWidth, buttonHeight);
 
         this.meterTexture = game.assets.atlas.findRegion("meter");
         this.bananaTexture = game.assets.atlas.findRegion("banana");
@@ -282,6 +295,8 @@ public class UI extends InputAdapter {
             TextureRegion keyframe;
             Animation<TextureRegion> anim = respondedToComms ? bananaManAnim : ciaGuyAnim;
             float animState = respondedToComms ? bananaManAnimState : ciaGuyAnimState;
+            commsLeftName = respondedToComms ? "Banana\nCitizen" : "CIA Guy";
+            commsRightName = "Dole\nPresidente";
 
             bounds = commsLeftBounds;
             keyframe = anim.getKeyFrame(animState);
@@ -327,10 +342,17 @@ public class UI extends InputAdapter {
                 font.draw(batch, game.assets.layout, commsLeftRejectButton.x, commsLeftRejectButton.y + commsLeftRejectButton.height / 2f + game.assets.layout.height / 2f + 4 - (rejectButtonPressed ? textPressOffset : 0));
                 font.getData().setScale(scaleX, scaleY);
 
-                // TODO: add a comms dialogue for mob riot text
-                // Paid: "The people appreciate your generosity"
-                // Reject: "Viva la revolución!" (not sure if we can do accent chars)
-
+                // left name plate and text
+                bounds = commsLeftNamePlateBounds;
+                batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
+                batch.draw(game.assets.pixelRegion, bounds.x, bounds.y, bounds.width, bounds.height);
+                batch.setColor(Color.LIGHT_GRAY);
+                game.assets.debugNinePatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
+                batch.setColor(Color.WHITE);
+                font.getData().setScale(0.4f);
+                game.assets.layout.setText(font, commsLeftName, Color.DARK_GRAY, commsLeftNamePlateBounds.width, Align.center, false);
+                font.draw(batch, game.assets.layout, commsLeftNamePlateBounds.x, commsLeftNamePlateBounds.y + commsLeftNamePlateBounds.height / 2f + game.assets.layout.height / 2f);
+                font.getData().setScale(scaleX, scaleY);
 
                 bounds = commsRightDialogueBounds;
                 batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
@@ -339,13 +361,25 @@ public class UI extends InputAdapter {
                 game.assets.debugNinePatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
                 batch.setColor(Color.WHITE);
 
-                font = game.assets.pixelFont16;
-                textMargin = 10;
                 scaleX = font.getScaleX();
                 scaleY = font.getScaleY();
                 font.getData().setScale(0.5f);
                 game.assets.layout.setText(font, commsText, Color.WHITE, bounds.width - 2 * textMargin, Align.right, true);
                 font.draw(batch, game.assets.layout, bounds.x + textMargin, bounds.y + bounds.height - textMargin);
+                font.getData().setScale(scaleX, scaleY);
+
+                // right name plate and text
+                bounds = commsRightNamePlateBounds;
+                batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
+                batch.draw(game.assets.pixelRegion, bounds.x, bounds.y, bounds.width, bounds.height);
+                batch.setColor(Color.LIGHT_GRAY);
+                game.assets.debugNinePatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
+                batch.setColor(Color.WHITE);
+                scaleX = font.getScaleX();
+                scaleY = font.getScaleY();
+                font.getData().setScale(0.38f);
+                game.assets.layout.setText(font, commsRightName, Color.DARK_GRAY, commsRightNamePlateBounds.width, Align.center, true);
+                font.draw(batch, game.assets.layout, commsRightNamePlateBounds.x, commsRightNamePlateBounds.y + commsRightNamePlateBounds.height / 2f + game.assets.layout.height / 2f);
                 font.getData().setScale(scaleX, scaleY);
             }
         }

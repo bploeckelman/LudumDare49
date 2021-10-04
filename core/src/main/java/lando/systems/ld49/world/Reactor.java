@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld49.Assets;
 import lando.systems.ld49.Main;
@@ -126,6 +127,12 @@ public class Reactor {
                 pins.add(new Pin(left + pinLeft + dx + dx/2f + i*dx, 275, Pin.Type.bumper));
             }
         }
+    }
+
+    public void repairStructure() {
+        float repairAmount = maxStructureDmg * 0.4f;
+        currStructureDmg -= repairAmount;
+        currStructureDmg = MathUtils.clamp(currStructureDmg, 0, maxStructureDmg);
     }
 
     public float getStructurePercent() {

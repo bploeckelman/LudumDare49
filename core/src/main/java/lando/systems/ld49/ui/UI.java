@@ -3,9 +3,6 @@ package lando.systems.ld49.ui;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Back;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -13,9 +10,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
+import lando.systems.ld49.Audio;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
-import lando.systems.ld49.Audio;
+import lando.systems.ld49.screens.BaseScreen;
 import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.utils.accessors.RectangleAccessor;
 
@@ -87,6 +85,11 @@ public class UI extends InputAdapter {
     private boolean buyProjectilesButtonPressed = false;
     private boolean buyMoreGriftingButtonPressed = false;
     private boolean buyRepairingButtonPressed = false;
+    private boolean canBuyProjectiles = false;
+    private boolean canBuyMoreGrifting = false;
+    private boolean canBuyRepairing = false;
+    private final float griftSpeedIncrement = 0.05f;
+    private float griftSpeed = 0.05f;
     private float structDamageFlash = 0;
     private float tempWarningPulseRate = 0;
     private float tempFlash = 0;
@@ -97,14 +100,25 @@ public class UI extends InputAdapter {
     private float commsTimer = 0;
     private float griftProgressPercent = 0;
 
-    public int numProjectiles = 5;
-    public int cashOnHand = 42069;
-    private String cashOnHandString = recreateCashOnHandString();
+    static class PurchasePrice {
+        static int grift = 100;
+        static int projectiles = 100;
+        static int repairs = 5000;
+    }
 
+    private final int projectilesPerPurchase = 3;
+    private final int startingCash = 200;
+
+    // TODO: move these, they belong in a museum
+    public int numProjectiles = 5;
+    public int cashOnHand = startingCash;
+
+    private String cashOnHandString;
     private final String commaRegex = "(\\d)(?=(\\d{3})+$)";
-    private String recreateCashOnHandString() {
+    private void addToCash(int amount) {
+        cashOnHand += amount;
         String source = "$" + Integer.toString(cashOnHand, 10);
-        return source.replaceAll(commaRegex, "$1,");
+        cashOnHandString = source.replaceAll(commaRegex, "$1,");
     }
 
     public UI(Main game, UIElements uiElements) {
@@ -151,6 +165,9 @@ public class UI extends InputAdapter {
                 Config.window_width - meterTexture.getRegionWidth() - 2 * margin, margin,
                 meterTexture.getRegionWidth() + 2 * margin,
                 meterTexture.getRegionHeight() + 2 * margin);
+
+        // initializes cash string
+        addToCash(0);
     }
 
     public void toggleComms() {
@@ -210,6 +227,7 @@ public class UI extends InputAdapter {
                 commsTimer = 0;
             }
         }
+
         // yes this is dumb, it's ludum dare don't worry about it
         float temp = 1f - tempPercent;
         if      (temp  < .2f)  tempWarningPulseRate =  50;
@@ -240,27 +258,30 @@ public class UI extends InputAdapter {
             structDamageFlash = (MathUtils.sinDeg(tempAccum) + 1) / 2f;
         }
 
-        float griftSpeed = 0.05f;
         griftProgressPercent += griftSpeed * dt;
         if (griftProgressPercent > 1) {
             griftProgressPercent = 0;
-            // TODO: we grifted baby, add money and play cha-ching sound
-            cashOnHand += 50;
-            cashOnHandString = recreateCashOnHandString();
+//            game.audio.playSound(Audio.Sounds.chaching, 0.5f);
+            addToCash(50);
         }
 
         ciaGuyAnimState += dt;
         presidenteAnimState += dt;
         bananaManAnimState += dt;
 
-        // TODO: just for testing, remove me
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            toggleComms();
-            if (game.getScreen() instanceof GameScreen) {
-                GameScreen currentScreen = (GameScreen) game.getScreen();
-                currentScreen.world.makeBananasPrepRiot();
-            }
-        }
+        canBuyMoreGrifting = (cashOnHand >= PurchasePrice.grift);
+        canBuyProjectiles  = (cashOnHand >= PurchasePrice.projectiles);
+        canBuyRepairing    = (cashOnHand >= PurchasePrice.repairs);
+//        Gdx.app.log("can buy", String.format("proj: %b  grift: %b  repair: %b", canBuyProjectiles, canBuyMoreGrifting, canBuyRepairing));
+
+//        // for testing
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+//            toggleComms();
+//            if (game.getScreen() instanceof GameScreen) {
+//                GameScreen currentScreen = (GameScreen) game.getScreen();
+//                currentScreen.world.makeBananasPrepRiot();
+//            }
+//        }
     }
 
     public void draw(SpriteBatch batch) {
@@ -330,7 +351,9 @@ public class UI extends InputAdapter {
             griftingCtrlBounds.set(controlPanelBounds.x + projWidth, controlPanelBounds.y, griftWidth, controlPanelBounds.height);
             repairingCtrlBounds.set(controlPanelBounds.x + projWidth + griftWidth, controlPanelBounds.y, repairWidth, controlPanelBounds.height);
 
-            // draw sub-regions
+            // draw sub-regions -----------------------------------------------------------
+
+            // draw projectile inventory
             game.assets.debugNinePatch.draw(batch, projectilesCtrlBounds.x, projectilesCtrlBounds.y, projectilesCtrlBounds.width, projectilesCtrlBounds.height);
             {
                 float x = projectilesCtrlBounds.x;
@@ -361,7 +384,7 @@ public class UI extends InputAdapter {
                 float width = projectilesCtrlBounds.width - 2 * margin;
                 float height = 30;
                 buyProjectilesButtonBounds.set(x + margin, projectilesCtrlBounds.y + margin, width, height);
-                uiElements.drawButton(batch, buyProjectilesButtonBounds, Color.WHITE, buyProjectilesButtonPressed);
+                uiElements.drawButton(batch, buyProjectilesButtonBounds, canBuyProjectiles ? Color.WHITE : Color.DARK_GRAY, buyProjectilesButtonPressed);
                 sx = font.getScaleX();
                 sy = font.getScaleY();
                 font.getData().setScale(0.5f);
@@ -370,6 +393,7 @@ public class UI extends InputAdapter {
                 font.getData().setScale(sx, sy);
             }
 
+            // draw exploitation station
             game.assets.debugNinePatch.draw(batch, griftingCtrlBounds.x, griftingCtrlBounds.y, griftingCtrlBounds.width, griftingCtrlBounds.height);
             {
                 float x = griftingCtrlBounds.x;
@@ -417,7 +441,7 @@ public class UI extends InputAdapter {
 
                 // draw '$ to grift harder' button
                 buyMoreGriftingButtonBounds.set(x + margin, griftingCtrlBounds.y + margin, widgetWidth, buttonHeight);
-                uiElements.drawButton(batch, buyMoreGriftingButtonBounds, Color.WHITE, buyMoreGriftingButtonPressed);
+                uiElements.drawButton(batch, buyMoreGriftingButtonBounds, canBuyMoreGrifting ? Color.WHITE : Color.DARK_GRAY, buyMoreGriftingButtonPressed);
                 sx = font.getScaleX();
                 sy = font.getScaleY();
                 font.getData().setScale(0.5f);
@@ -426,6 +450,7 @@ public class UI extends InputAdapter {
                 font.getData().setScale(sx, sy);
             }
 
+            // draw repairs subsection
             game.assets.debugNinePatch.draw(batch, repairingCtrlBounds.x, repairingCtrlBounds.y, repairingCtrlBounds.width, repairingCtrlBounds.height);
             {
                 float x = repairingCtrlBounds.x;
@@ -447,7 +472,7 @@ public class UI extends InputAdapter {
                 float width = repairingCtrlBounds.width - 2 * margin;
                 float height = 30;
                 buyRepairingButtonBounds.set(x + margin, repairingCtrlBounds.y + margin, width, height);
-                uiElements.drawButton(batch, buyRepairingButtonBounds, Color.WHITE, buyRepairingButtonPressed);
+                uiElements.drawButton(batch, buyRepairingButtonBounds, canBuyRepairing ? Color.WHITE : Color.DARK_GRAY, buyRepairingButtonPressed);
                 sx = font.getScaleX();
                 sy = font.getScaleY();
                 font.getData().setScale(0.5f);
@@ -484,8 +509,6 @@ public class UI extends InputAdapter {
             }
 
             if (commsOpen && !commsAnimating) {
-                // TODO: update dialogue window (wider, but only as tall as comms window), add another one on the right
-
                 bounds = commsLeftDialogueBounds;
                 batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
                 batch.draw(game.assets.pixelRegion, bounds.x, bounds.y, bounds.width, bounds.height);
@@ -562,15 +585,31 @@ public class UI extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        float x = screenX;
+        float y = Config.window_height - screenY;
+
         if (commsOpen && !commsAnimating && !respondedToComms) {
-            if (commsLeftAcceptButton.contains(screenX, Config.window_height - screenY)) {
+            if (commsLeftAcceptButton.contains(x, y)) {
                 acceptButtonPressed = true;
                 return true;
             }
-            if (commsLeftRejectButton.contains(screenX, Config.window_height - screenY)) {
+            if (commsLeftRejectButton.contains(x, y)) {
                 rejectButtonPressed = true;
                 return true;
             }
+        }
+
+        if (canBuyProjectiles && buyProjectilesButtonBounds.contains(x, y)) {
+            buyProjectilesButtonPressed = true;
+            return true;
+        }
+        if (canBuyMoreGrifting && buyMoreGriftingButtonBounds.contains(x, y)) {
+            buyMoreGriftingButtonPressed = true;
+            return true;
+        }
+        if (canBuyRepairing && buyRepairingButtonBounds.contains(x, y)) {
+            buyRepairingButtonPressed = true;
+            return true;
         }
 
         return super.touchDown(screenX, screenY, pointer, button);
@@ -578,10 +617,13 @@ public class UI extends InputAdapter {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        float x = screenX;
+        float y = Config.window_height - screenY;
+
         if (commsOpen && !commsAnimating && !respondedToComms) {
             acceptButtonPressed = false;
             rejectButtonPressed = false;
-            if (commsLeftAcceptButton.contains(screenX, Config.window_height - screenY)) {
+            if (commsLeftAcceptButton.contains(x, y)) {
                 respondedToComms = true;
                 commsText = commsTextAccepted;
                 if (game.getScreen() instanceof GameScreen) {
@@ -596,8 +638,36 @@ public class UI extends InputAdapter {
                 }, 4);
                 return true;
             }
-            if (commsLeftRejectButton.contains(screenX, Config.window_height - screenY)) {
+            if (commsLeftRejectButton.contains(x, y)) {
                 rejectComms();
+                return true;
+            }
+        }
+        {
+            buyProjectilesButtonPressed = false;
+            buyMoreGriftingButtonPressed = false;
+            buyRepairingButtonPressed = false;
+
+            if (canBuyProjectiles && buyProjectilesButtonBounds.contains(x, y)) {
+                game.audio.playSound(Audio.Sounds.chaching, 0.5f);
+                addToCash(-PurchasePrice.projectiles);
+                numProjectiles += projectilesPerPurchase;
+                return true;
+            }
+            if (canBuyMoreGrifting && buyMoreGriftingButtonBounds.contains(x, y)) {
+                game.audio.playSound(Audio.Sounds.chaching, 0.5f);
+                addToCash(-PurchasePrice.grift);
+                griftSpeed += griftSpeedIncrement;
+                return true;
+            }
+            if (canBuyRepairing && buyRepairingButtonBounds.contains(x, y)) {
+                game.audio.playSound(Audio.Sounds.chaching, 0.5f);
+                addToCash(-PurchasePrice.repairs);
+                BaseScreen gameScreen = game.getScreen();
+                if (gameScreen instanceof GameScreen) {
+                    // TODO: play mechanical sound?
+                    ((GameScreen) gameScreen).world.reactor.repairStructure();
+                }
                 return true;
             }
         }

@@ -75,6 +75,7 @@ public class Assets implements Disposable {
     public Music exampleMusic;
     public Music music1;
     public Music introMusic;
+    public Music outroMusic;
 
     public Sound exampleSound;
     public Sound slingshotReload;
@@ -129,6 +130,7 @@ public class Assets implements Disposable {
     public Sound fire4;
     public Sound fire5;
     public Sound alarm1;
+    public Sound alarm2;
     public Sound downHit1;
     public Sound downHit2;
     public Sound click1;
@@ -137,6 +139,10 @@ public class Assets implements Disposable {
     public Sound scream2;
     public Sound scream3;
     public Sound scream4;
+    public Sound bananaMob1;
+    public Sound bananaMob2;
+    public Sound explosions;
+    public Sound chaching;
 
     public I18NBundle strings;
 
@@ -285,6 +291,7 @@ public class Assets implements Disposable {
             mgr.load("audio/sound/fire4.ogg", Sound.class);
             mgr.load("audio/sound/fire5.ogg", Sound.class);
             mgr.load("audio/sound/alarm1.ogg", Sound.class);
+            mgr.load("audio/sound/alarm2.ogg", Sound.class);
             mgr.load("audio/sound/downHit1.ogg", Sound.class);
             mgr.load("audio/sound/downHit2.ogg", Sound.class);
             mgr.load("audio/sound/click1.ogg", Sound.class);
@@ -293,10 +300,15 @@ public class Assets implements Disposable {
             mgr.load("audio/sound/scream2.ogg", Sound.class);
             mgr.load("audio/sound/scream3.ogg", Sound.class);
             mgr.load("audio/sound/scream4.ogg", Sound.class);
+            mgr.load("audio/sound/bananaMob1.ogg", Sound.class);
+            mgr.load("audio/sound/bananaMob2.ogg", Sound.class);
+            mgr.load("audio/sound/explosions.ogg", Sound.class);
+            mgr.load("audio/sound/chaching.ogg", Sound.class);
 
             mgr.load("audio/music/example-music.ogg", Music.class);
             mgr.load("audio/music/music1.ogg", Music.class);
             mgr.load("audio/music/introMusic.ogg", Music.class);
+            mgr.load("audio/music/outro1.ogg", Music.class);
 
 
 
@@ -420,6 +432,7 @@ public class Assets implements Disposable {
         exampleMusic = mgr.get("audio/music/example-music.ogg", Music.class);
         music1 = mgr.get("audio/music/music1.ogg", Music.class);
         introMusic = mgr.get("audio/music/introMusic.ogg", Music.class);
+        outroMusic = mgr.get("audio/music/outro1.ogg", Music.class);
 
         exampleSound = mgr.get("audio/sound/example-sound.wav", Sound.class);
         slingshotPull1 = mgr.get("audio/sound/slingshotPull1.ogg", Sound.class);
@@ -473,6 +486,7 @@ public class Assets implements Disposable {
         fire4 = mgr.get("audio/sound/fire4.ogg", Sound.class);
         fire5 = mgr.get("audio/sound/fire5.ogg", Sound.class);
         alarm1 = mgr.get("audio/sound/alarm1.ogg", Sound.class);
+        alarm2 = mgr.get("audio/sound/alarm2.ogg", Sound.class);
         downHit1 = mgr.get("audio/sound/downHit1.ogg", Sound.class);
         downHit2 = mgr.get("audio/sound/downHit2.ogg", Sound.class);
         click1 = mgr.get("audio/sound/click1.ogg", Sound.class);
@@ -481,6 +495,10 @@ public class Assets implements Disposable {
         scream2 = mgr.get("audio/sound/scream2.ogg", Sound.class);
         scream3 = mgr.get("audio/sound/scream3.ogg", Sound.class);
         scream4 = mgr.get("audio/sound/scream4.ogg", Sound.class);
+        bananaMob1 = mgr.get("audio/sound/bananaMob1.ogg", Sound.class);
+        bananaMob2 = mgr.get("audio/sound/bananaMob2.ogg", Sound.class);
+        explosions = mgr.get("audio/sound/explosions.ogg", Sound.class);
+        chaching = mgr.get("audio/sound/chaching.ogg", Sound.class);
 
         randomTransitions.add(radialShader);
         randomTransitions.add(pizelizeShader);

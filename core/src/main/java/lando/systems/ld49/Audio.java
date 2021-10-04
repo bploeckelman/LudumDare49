@@ -36,9 +36,13 @@ public class Audio implements Disposable {
         steamHiss,
         fire,
         alarm,
+        alarmShort,
         downHit,
         click,
-        scream
+        scream,
+        bananaMob,
+        explosions,
+        chaching
 
     }
 
@@ -46,7 +50,8 @@ public class Audio implements Disposable {
         none,
         example,
         music1,
-        introMusic
+        introMusic,
+        outroMusic
     }
 
     public ObjectMap<Sounds, SoundContainer> sounds = new ObjectMap<>();
@@ -117,17 +122,23 @@ public class Audio implements Disposable {
         putSound(Sounds.fire, assets.fire4);
         putSound(Sounds.fire, assets.fire5);
         putSound(Sounds.alarm, assets.alarm1);
+        putSound(Sounds.alarmShort, assets.alarm2);
         putSound(Sounds.downHit, assets.downHit1);
         putSound(Sounds.downHit, assets.downHit2);
         putSound(Sounds.click, assets.click1);
         putSound(Sounds.click, assets.click2);
         putSound(Sounds.scream, assets.scream1);
         putSound(Sounds.scream, assets.scream2);
+        putSound(Sounds.bananaMob, assets.bananaMob1);
+        putSound(Sounds.bananaMob, assets.bananaMob2);
+        putSound(Sounds.explosions, assets.explosions);
+        putSound(Sounds.chaching, assets.chaching);
 
 
         musics.put(Musics.example, assets.exampleMusic);
         musics.put(Musics.music1, assets.music1);
         musics.put(Musics.introMusic, assets.introMusic);
+        musics.put(Musics.outroMusic, assets.outroMusic);
 
         musicVolume = new MutableFloat(0.3f);
         setMusicVolume(MUSIC_VOLUME, 2f);

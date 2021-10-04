@@ -3,6 +3,7 @@ package lando.systems.ld49.ui;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Back;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
+import lando.systems.ld49.Audio;
 import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.utils.accessors.RectangleAccessor;
 
@@ -570,6 +572,7 @@ public class UI extends InputAdapter {
                 return true;
             }
         }
+
         return super.touchDown(screenX, screenY, pointer, button);
     }
 

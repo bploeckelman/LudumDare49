@@ -45,6 +45,7 @@ public class World {
     private final float bananaPopulation = 15;
 
     private float ciaTimer;
+    private static boolean playFinalExplosion;
 
     public World(GameScreen screen) {
         this.gameScreen = screen;
@@ -61,6 +62,8 @@ public class World {
         presidente.scale = 2.5f;
         presidente.enableEmote = true;
         ciaTimer = 30;
+        this.playFinalExplosion = true;
+
     }
 
     public void update(float dt, boolean pause) {
@@ -86,11 +89,21 @@ public class World {
             makeBananasPrepRiot();
         }
         reactor.update(dt);
+//        boolean playExplosion = true;
         if (reactor.getStructurePercent() >= 1.0f || reactor.getTemperaturePercent() >= 1.0f) {
             gameScreen.particles.addSmoke(MathUtils.random(590f, 996f), MathUtils.random(130f, 480f));
 
+
+
             if (MathUtils.random(1f) > .9f){
                 gameScreen.particles.addLargeSmoke(MathUtils.random(590f, 996f), MathUtils.random(130f, 480f));
+                gameScreen.game.audio.playSound(Audio.Sounds.alarm, 0.3F);
+                gameScreen.game.audio.playSound(Audio.Sounds.fire, 0.5F);
+                if(World.playFinalExplosion == true) {
+                    gameScreen.game.audio.playSound(Audio.Sounds.explosions, 1.5F);
+                    World.playFinalExplosion = false;
+
+                }
             }
             gameOverTimer += dt;
             if (gameOverTimer > 10f) {
@@ -195,6 +208,8 @@ public class World {
 
     public void makeBananasRiot() {
         bananasStatus = BananaStatus.RIOT;
+        gameScreen.game.audio.playSound(Audio.Sounds.bananaMob, 0.5f);
+
         for (Banana banana : bananas) {
             banana.startRiot(true, new Vector2(reactor.left, 0f), 600f, 10f);
         }

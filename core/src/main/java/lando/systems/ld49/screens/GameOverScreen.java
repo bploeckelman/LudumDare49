@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
+import lando.systems.ld49.Audio;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.particles.Particles;
@@ -26,6 +27,8 @@ public class GameOverScreen extends BaseScreen {
         super(game);
         presidente = new Presidente(game.assets, 100f, 200f, this);
         presidente.animation = game.assets.presidenteRunAnim;
+        game.audio.playMusic(Audio.Musics.outroMusic, true);
+
     }
 
 

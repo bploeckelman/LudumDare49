@@ -17,6 +17,23 @@ public class StoryScreen extends BaseScreen {
     GlyphLayout layout;
 
     String text = "\n\n\n\n\nThis is the story, all about how\n\n" +
+            "my life got flipped turned upside down\n\n" +
+            "And I'd like to take a minute so just sit right there\n\n" +
+            "I'll tell you all about how corporate\n\n"+
+            "imperialism destroyed a country called\n\n"+
+            "POTASSIA"+
+            "\n\n" +
+            "\n\n" +
+            "For the plantain kingdom of Potassia,\n\n" +
+            "life was peaceful and prosperous.\n\n" +
+            "The people had food to eat,\n\n" +
+            "their children were happy and healthy,\n\n" +
+            "and there was always enough to go around. \n\n"+
+            "Life wasn’t without its problems,\n\n" +
+            "but the people were in charge of their own lives.\n\n" +
+            "\n\n" +
+            "Until Cavendish came.\n\n" +
+            "\n\n" +
             "my life got flipped turned upside down.\n\n" +
             "And I'd like to take a minute so just sit right there.\n\n" +
             "I'll tell you all about how I became the prince of a town called Bel-Air" +

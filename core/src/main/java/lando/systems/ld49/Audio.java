@@ -121,6 +121,8 @@ public class Audio implements Disposable {
         putSound(Sounds.downHit, assets.downHit2);
         putSound(Sounds.click, assets.click1);
         putSound(Sounds.click, assets.click2);
+        putSound(Sounds.scream, assets.scream1);
+        putSound(Sounds.scream, assets.scream2);
 
 
         musics.put(Musics.example, assets.exampleMusic);

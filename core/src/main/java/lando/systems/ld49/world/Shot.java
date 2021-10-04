@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld49.Assets;
+import lando.systems.ld49.Audio;
 import lando.systems.ld49.Main;
 
 public class Shot {
@@ -36,6 +37,7 @@ public class Shot {
         else {
             this.anim = assets.projectiles.bananaMan;
             // TODO: Pete, play the wilhelm scream or whatever here
+            Main.game.audio.playSound(Audio.Sounds.scream, 0.5f);
         }
         this.animTime = 0;
         this.rotation = 0;

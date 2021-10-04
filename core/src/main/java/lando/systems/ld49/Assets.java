@@ -128,6 +128,10 @@ public class Assets implements Disposable {
     public Sound downHit2;
     public Sound click1;
     public Sound click2;
+    public Sound scream1;
+    public Sound scream2;
+    public Sound scream3;
+    public Sound scream4;
 
 
 
@@ -278,6 +282,10 @@ public class Assets implements Disposable {
             mgr.load("audio/sound/downHit2.ogg", Sound.class);
             mgr.load("audio/sound/click1.ogg", Sound.class);
             mgr.load("audio/sound/click2.ogg", Sound.class);
+            mgr.load("audio/sound/scream1.ogg", Sound.class);
+            mgr.load("audio/sound/scream2.ogg", Sound.class);
+            mgr.load("audio/sound/scream3.ogg", Sound.class);
+            mgr.load("audio/sound/scream4.ogg", Sound.class);
 
             mgr.load("audio/music/example-music.ogg", Music.class);
             mgr.load("audio/music/music1.ogg", Music.class);
@@ -457,6 +465,10 @@ public class Assets implements Disposable {
         downHit2 = mgr.get("audio/sound/downHit2.ogg", Sound.class);
         click1 = mgr.get("audio/sound/click1.ogg", Sound.class);
         click2 = mgr.get("audio/sound/click2.ogg", Sound.class);
+        scream1 = mgr.get("audio/sound/scream1.ogg", Sound.class);
+        scream2 = mgr.get("audio/sound/scream2.ogg", Sound.class);
+        scream3 = mgr.get("audio/sound/scream3.ogg", Sound.class);
+        scream4 = mgr.get("audio/sound/scream4.ogg", Sound.class);
 
         randomTransitions.add(radialShader);
         randomTransitions.add(pizelizeShader);

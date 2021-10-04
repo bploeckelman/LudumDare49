@@ -40,6 +40,7 @@ public class CollisionManager {
             fuckInfiniteLoops++;
             collisionHappened = false;
             for (Shot s : world.shots){
+                if (s.pos.y < -100) s.remove = true;
                 if (s.dtLeft <= 0) continue;
                 if (fuckInfiniteLoops > 100) {
                     Gdx.app.log("Collisions", "Collision had an infinite loop. =(");

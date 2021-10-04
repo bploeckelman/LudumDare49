@@ -344,6 +344,7 @@ public class Assets implements Disposable {
 
         atlas = mgr.get("sprites/sprites.atlas");
         pixelFont16 = mgr.get("fonts/chevyray-rise-16.fnt");
+        pixelFont16.setUseIntegerPositions(false);
         papyrusFont = mgr.get("fonts/papyrus.fnt");
         deutschFont = mgr.get("fonts/deutsch.fnt");
 

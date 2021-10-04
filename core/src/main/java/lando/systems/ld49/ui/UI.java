@@ -568,7 +568,7 @@ public class UI extends InputAdapter {
 
             if (commsOpen && !commsAnimating) {
                 bounds = commsLeftDialogueBounds;
-                batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
+                batch.setColor(0.2f, 0.2f, 0.2f, 0.8f);
                 batch.draw(game.assets.pixelRegion, bounds.x, bounds.y, bounds.width, bounds.height);
                 batch.setColor(Color.LIGHT_GRAY);
                 game.assets.debugNinePatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
@@ -600,18 +600,18 @@ public class UI extends InputAdapter {
 
                 // left name plate and text
                 bounds = commsLeftNamePlateBounds;
-                batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
+                batch.setColor(0.2f, 0.2f, 0.2f, 0.8f);
                 batch.draw(game.assets.pixelRegion, bounds.x, bounds.y, bounds.width, bounds.height);
                 batch.setColor(Color.LIGHT_GRAY);
                 game.assets.debugNinePatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
                 batch.setColor(Color.WHITE);
                 font.getData().setScale(0.4f);
-                game.assets.layout.setText(font, commsLeftName, Color.DARK_GRAY, commsLeftNamePlateBounds.width, Align.center, false);
+                game.assets.layout.setText(font, commsLeftName, Color.LIGHT_GRAY, commsLeftNamePlateBounds.width, Align.center, false);
                 font.draw(batch, game.assets.layout, commsLeftNamePlateBounds.x, commsLeftNamePlateBounds.y + commsLeftNamePlateBounds.height / 2f + game.assets.layout.height / 2f);
                 font.getData().setScale(scaleX, scaleY);
 
                 bounds = commsRightDialogueBounds;
-                batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
+                batch.setColor(0.2f, 0.2f, 0.2f, 0.8f);
                 batch.draw(game.assets.pixelRegion, bounds.x, bounds.y, bounds.width, bounds.height);
                 batch.setColor(Color.LIGHT_GRAY);
                 game.assets.debugNinePatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
@@ -626,7 +626,7 @@ public class UI extends InputAdapter {
 
                 // right name plate and text
                 bounds = commsRightNamePlateBounds;
-                batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
+                batch.setColor(0.2f, 0.2f, 0.2f, 0.8f);
                 batch.draw(game.assets.pixelRegion, bounds.x, bounds.y, bounds.width, bounds.height);
                 batch.setColor(Color.LIGHT_GRAY);
                 game.assets.debugNinePatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
@@ -634,7 +634,7 @@ public class UI extends InputAdapter {
                 scaleX = font.getScaleX();
                 scaleY = font.getScaleY();
                 font.getData().setScale(0.38f);
-                game.assets.layout.setText(font, commsRightName, Color.DARK_GRAY, commsRightNamePlateBounds.width, Align.center, true);
+                game.assets.layout.setText(font, commsRightName, Color.LIGHT_GRAY, commsRightNamePlateBounds.width, Align.center, true);
                 font.draw(batch, game.assets.layout, commsRightNamePlateBounds.x, commsRightNamePlateBounds.y + commsRightNamePlateBounds.height / 2f + game.assets.layout.height / 2f);
                 font.getData().setScale(scaleX, scaleY);
             }

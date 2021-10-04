@@ -52,8 +52,8 @@ public class StoryScreen extends BaseScreen {
             "\n\n" +
             "The Cavendish CEO became de facto dictator.\n\n" +
             "He forces the people to call him \"Dole Presidente,\"\n\n" +
-            "and unless he pays them kickbacks,\n\n" +
-            "the -OTHER- CIA threaten to destroy\n\n" +
+            "and unless he pays kickbacks to\n\n" +
+            "the -OTHER- CIA, they threaten to destroy\n\n" +
             "the island and everything on it." +
             "\n\n\n\n" +
             "Even worse, the shoddy Cavendish nuclear plants\n\n" +

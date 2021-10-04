@@ -51,6 +51,7 @@ public class Audio implements Disposable {
         none,
         example,
         music1,
+        fastMusic,
         introMusic,
         storyMusic,
         outroMusic
@@ -140,6 +141,7 @@ public class Audio implements Disposable {
 
         musics.put(Musics.example, assets.exampleMusic);
         musics.put(Musics.music1, assets.music1);
+        musics.put(Musics.fastMusic, assets.fastMusic);
         musics.put(Musics.introMusic, assets.introMusic);
         musics.put(Musics.storyMusic, assets.storyMusic);
         musics.put(Musics.outroMusic, assets.outroMusic);

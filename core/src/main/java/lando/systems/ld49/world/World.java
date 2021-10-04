@@ -48,6 +48,7 @@ public class World {
 
     private float ciaTimer;
     private static boolean playFinalExplosion;
+    private static boolean playFastMusic;
 
     public World(GameScreen screen) {
         this.gameScreen = screen;
@@ -65,6 +66,7 @@ public class World {
         presidente.enableEmote = true;
         ciaTimer = 30;
         this.playFinalExplosion = true;
+        this.playFastMusic = true;
 
     }
 
@@ -91,7 +93,17 @@ public class World {
             makeBananasPrepRiot();
         }
         reactor.update(dt);
-//        boolean playExplosion = true;
+
+
+        if (reactor.getStructurePercent() >= 0.8f || reactor.getTemperaturePercent() >= 0.8f) {
+            if(World.playFastMusic == true) {
+                gameScreen.game.audio.stopMusic();
+                gameScreen.game.audio.playMusic(Audio.Musics.fastMusic);
+                World.playFastMusic = false;
+            }
+
+
+        }
         if (reactor.getStructurePercent() >= 1.0f || reactor.getTemperaturePercent() >= 1.0f) {
             gameScreen.particles.addSmoke(MathUtils.random(590f, 996f), MathUtils.random(130f, 480f));
 

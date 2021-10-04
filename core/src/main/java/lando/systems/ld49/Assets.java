@@ -77,6 +77,7 @@ public class Assets implements Disposable {
     public Music exampleMusic;
     public Music music1;
     public Music introMusic;
+    public Music fastMusic;
     public Music storyMusic;
     public Music outroMusic;
 
@@ -313,6 +314,7 @@ public class Assets implements Disposable {
 
             mgr.load("audio/music/example-music.ogg", Music.class);
             mgr.load("audio/music/music1.ogg", Music.class);
+            mgr.load("audio/music/fastMusic.ogg", Music.class);
             mgr.load("audio/music/introMusic.ogg", Music.class);
             mgr.load("audio/music/storyMusic.ogg", Music.class);
             mgr.load("audio/music/outro1.ogg", Music.class);
@@ -444,6 +446,7 @@ public class Assets implements Disposable {
 
         exampleMusic = mgr.get("audio/music/example-music.ogg", Music.class);
         music1 = mgr.get("audio/music/music1.ogg", Music.class);
+        fastMusic = mgr.get("audio/music/fastMusic.ogg", Music.class);
         introMusic = mgr.get("audio/music/introMusic.ogg", Music.class);
         storyMusic = mgr.get("audio/music/storyMusic.ogg", Music.class);
         outroMusic = mgr.get("audio/music/outro1.ogg", Music.class);

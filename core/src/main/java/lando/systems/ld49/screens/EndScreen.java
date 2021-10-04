@@ -11,27 +11,29 @@ import lando.systems.ld49.utils.typinglabel.TypingLabel;
 
 public class EndScreen extends BaseScreen {
 
-    private TypingLabel titleLabel;
-    private TypingLabel themeLabel;
-    private TypingLabel leftCreditLabel;
-    private TypingLabel rightCreditLabel;
-    private TypingLabel thanksLabel;
-    private TypingLabel disclaimerLabel;
+    private final TypingLabel titleLabel;
+    private final TypingLabel themeLabel;
+    private final TypingLabel leftCreditLabel;
+    private final TypingLabel rightCreditLabel;
+    private final TypingLabel thanksLabel;
+    private final TypingLabel disclaimerLabel;
+    private final TypingLabel rossmanLabel;
 
-    private Animation<TextureRegion> catAnimation;
-    private Animation<TextureRegion> dogAnimation;
-    private TextureRegion background;
+    private final Animation<TextureRegion> catAnimation;
+    private final Animation<TextureRegion> dogAnimation;
+    private final TextureRegion background;
 
-    static String title = "{GRADIENT=purple;cyan}Banana Republic: Nuclear Power Plantain{ENDGRADIENT}";
-    static String theme = "Made for Ludum Dare 49: Unstable";
+    private final String title = "{GRADIENT=purple;cyan}Banana Republic: Nuclear Power Plantain{ENDGRADIENT}";
+    private final String theme = "Made for Ludum Dare 49: Unstable";
 
-    static String thanks = "{GRADIENT=purple;cyan}Thanks for playing our game!{ENDGRADIENT}";
-    static String developers = "{COLOR=gray}Developed by:{COLOR=white}\n Brian Ploeckelman \n Doug Graham \n Jeffrey Hwang";
-    static String artists = "{COLOR=gray}Art by:{COLOR=white}\n Matt Neumann";
-    static String emotionalSupport = "{COLOR=cyan}Emotional Support:{COLOR=white}\n  Asuka and     Cherry";
-    static String music = "{COLOR=gray}Sound by:{COLOR=white}\n Pete Valeo";
-    static String libgdx = "Made with {COLOR=red}<3{COLOR=white} and LibGDX";
-    static String disclaimer = "Disclaimer!!!\nNo bananas were harmed in the making of this game";
+    private final String thanks = "{GRADIENT=purple;cyan}Thanks for playing our game!{ENDGRADIENT}";
+    private final String developers = "{COLOR=gray}Developed by:{COLOR=white}\n {GRADIENT=white;gray}Brian Ploeckelman{ENDGRADIENT} \n {GRADIENT=white;gray}Doug Graham{ENDGRADIENT} \n {GRADIENT=white;gray}Jeffrey Hwang{ENDGRADIENT}";
+    private final String rossman = "{GRADIENT=gray;black}...also Brian Rossman\n(better late than never){ENDGRADIENT}";
+    private final String artists = "{COLOR=gray}Art by:{COLOR=white}\n {GRADIENT=white;gray}Matt Neumann{ENDGRADIENT}";
+    private final String emotionalSupport = "{COLOR=cyan}Emotional Support:{COLOR=white}\n  Asuka and     Cherry";
+    private final String music = "{COLOR=gray}Sound by:{COLOR=white}\n {GRADIENT=white;gray}Pete Valeo{ENDGRADIENT}";
+    private final String libgdx = "Made with {COLOR=red}<3{COLOR=white}\nand LibGDX";
+    private final String disclaimer = "{GRADIENT=black;gray}Disclaimer:{ENDGRADIENT}  {GRADIENT=gold;yellow}{JUMP=.2}{WAVE=0.8;1.1;1.1}No bananas were harmed in the making of this game{ENDWAVE}{ENDJUMP}{ENDGRADIENT}";
 
     private float accum = 0f;
 
@@ -50,6 +52,12 @@ public class EndScreen extends BaseScreen {
         leftCreditLabel.setWidth(Config.window_width / 2f - 150f);
         leftCreditLabel.setLineAlign(Align.left);
         leftCreditLabel.setFontScale(1f);
+
+        rossmanLabel = new TypingLabel(game.assets.pixelFont16, rossman.toLowerCase(), 110f, Config.window_height / 2f - 35f);
+        rossmanLabel.setWidth(Config.window_width / 2f - 150f);
+        rossmanLabel.setLineAlign(Align.left);
+        rossmanLabel.setFontScale(0.4f);
+
         catAnimation = game.assets.cat;
         dogAnimation = game.assets.dog;
         background = game.assets.atlas.findRegion("lando");
@@ -64,11 +72,10 @@ public class EndScreen extends BaseScreen {
         thanksLabel.setLineAlign(Align.center);
         thanksLabel.setFontScale(1f);
 
-        disclaimerLabel = new TypingLabel(game.assets.pixelFont16, "{COLOR=yellow}{JUMP=.2}{WAVE=0.9;1.2;1.75}" + disclaimer + "{ENDWAVE}{ENDJUMP}", 0f, 60f);
+        disclaimerLabel = new TypingLabel(game.assets.pixelFont16, disclaimer, 0f, 50f);
         disclaimerLabel.setWidth(Config.window_width);
         thanksLabel.setLineAlign(Align.center);
-        disclaimerLabel.setFontScale(.7f);
-
+        disclaimerLabel.setFontScale(.6f);
     }
 
     @Override
@@ -78,6 +85,9 @@ public class EndScreen extends BaseScreen {
         themeLabel.update(dt);
         leftCreditLabel.update(dt);
         rightCreditLabel.update(dt);
+        if (leftCreditLabel.hasEnded()) {
+            rossmanLabel.update(dt);
+        }
         thanksLabel.update(dt);
         disclaimerLabel.update(dt);
     }
@@ -98,6 +108,9 @@ public class EndScreen extends BaseScreen {
             titleLabel.render(batch);
             themeLabel.render(batch);
             leftCreditLabel.render(batch);
+            if (leftCreditLabel.hasEnded()) {
+                rossmanLabel.render(batch);
+            }
             rightCreditLabel.render(batch);
             thanksLabel.render(batch);
             disclaimerLabel.render(batch);

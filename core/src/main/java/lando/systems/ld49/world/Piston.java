@@ -22,12 +22,13 @@ public class Piston implements Collidable {
 
     private float heat;
     private float heatupSpeed = 1;
-    private float heatupSpeedMax = 10;
+    private float heatupSpeedMax = 5;
 
     public boolean broken;
     private Flame flameBackground;
     public Rectangle bounds = new Rectangle();
     private float pistonPosition;
+    private float accum;
 
     public Piston(float x, float y, float width, float height){
         bounds.set(x, y, width, height);
@@ -38,15 +39,15 @@ public class Piston implements Collidable {
         piston = Main.game.assets.atlas.findRegion("tower/piston-socket/piston");
         piston_front = Main.game.assets.atlas.findRegion("tower/piston-socket/piston-socket-front");
         piston_buttons = Main.game.assets.atlas.findRegion("tower/piston-socket/piston-socket-buttons");
+        accum = 0;
     }
 
 
     public void update(float dt) {
-        // TODO: doesn't quite work the way we want, runs too fast
+        accum += dt;
         // ~5 minutes of playtime until max speed is reached
         float elapsedSecondsUntilMaxSpeed = 60 * 5;
-        float elapsedSeconds = MathUtils.clamp(Time.millis_since_play_started / 1000f, 1, elapsedSecondsUntilMaxSpeed);
-        float percentOfMaxSpeed = elapsedSeconds / elapsedSecondsUntilMaxSpeed;
+        float percentOfMaxSpeed = accum / elapsedSecondsUntilMaxSpeed;
 
         heatupSpeed = MathUtils.clamp(percentOfMaxSpeed * heatupSpeedMax, 1, heatupSpeedMax);
 //        Gdx.app.log("heat speed", Float.toString(heatupSpeed));

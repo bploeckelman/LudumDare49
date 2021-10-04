@@ -10,6 +10,7 @@ public class Time {
     public static long previous_elapsed = 0;
     public static float delta = 0;
     public static float pause_timer = 0;
+    public static long millis_since_play_started = 0;
 
     public static void init() {
         start_millis = TimeUtils.millis();

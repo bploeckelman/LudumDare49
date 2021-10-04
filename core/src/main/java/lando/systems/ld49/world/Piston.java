@@ -1,5 +1,6 @@
 package lando.systems.ld49.world;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.collision.Collidable;
+import lando.systems.ld49.utils.Time;
 
 
 public class Piston implements Collidable {
@@ -19,6 +21,9 @@ public class Piston implements Collidable {
     private TextureRegion piston_buttons;
 
     private float heat;
+    private float heatupSpeed = 1;
+    private float heatupSpeedMax = 10;
+
     public boolean broken;
     private Flame flameBackground;
     public Rectangle bounds = new Rectangle();
@@ -37,8 +42,17 @@ public class Piston implements Collidable {
 
 
     public void update(float dt) {
+        // TODO: doesn't quite work the way we want, runs too fast
+        // ~5 minutes of playtime until max speed is reached
+        float elapsedSecondsUntilMaxSpeed = 60 * 5;
+        float elapsedSeconds = MathUtils.clamp(Time.millis_since_play_started / 1000f, 1, elapsedSecondsUntilMaxSpeed);
+        float percentOfMaxSpeed = elapsedSeconds / elapsedSecondsUntilMaxSpeed;
+
+        heatupSpeed = MathUtils.clamp(percentOfMaxSpeed * heatupSpeedMax, 1, heatupSpeedMax);
+//        Gdx.app.log("heat speed", Float.toString(heatupSpeed));
+
         if (!broken) {
-            heat += dt;
+            heat += heatupSpeed * dt;
             if (heat >= MAX_HEAT) {
                 heat = MAX_HEAT;
                 broken = true;

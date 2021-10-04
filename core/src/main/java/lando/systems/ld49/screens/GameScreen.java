@@ -11,6 +11,7 @@ import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.particles.Particles;
 import lando.systems.ld49.ui.UI;
+import lando.systems.ld49.utils.Time;
 import lando.systems.ld49.world.Tutorial;
 import lando.systems.ld49.world.World;
 
@@ -47,6 +48,8 @@ public class GameScreen extends BaseScreen {
 //        game.audio.playMusic(Audio.Musics.example, true);
         // TODO: add a mux if we need more input processors
         Gdx.input.setInputProcessor(ui);
+
+        Time.millis_since_play_started = Time.elapsed_millis();
     }
 
     public void update(float dt) {

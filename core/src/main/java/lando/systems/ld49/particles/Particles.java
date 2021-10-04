@@ -106,28 +106,25 @@ public class Particles implements Disposable {
         }
     }
 
-    public void addBarrelSparks(float x, float y, float dx, float dy){
-
-        TextureRegion keyframe = assets.pixelRegion;
-        float velX = dx * MathUtils.random(40, 100f) + MathUtils.random(-30f, 30f);
-        float velY = dy * MathUtils.random(40, 100f) + MathUtils.random(-30f, 30f);
-        Utils.hsvToRgb(MathUtils.random(1f), 1, 1, tempColor);
-        int numParticles = 100;
+    public void addLargeSmoke(float x, float y){
+        TextureRegion keyframe = assets.particles.smoke;
+        float grayValue = MathUtils.random(.7f) + .3f;
+        tempColor.set(grayValue, grayValue, grayValue, 1f);
+        int numParticles = 50;
         for (int i = 0; i < numParticles; ++i) {
             activeParticles.get(Layer.foreground).add(Particle.initializer(particlePool.obtain())
                     .keyframe(keyframe)
-                    .startPos(x, y)
-                    .targetPos(x + MathUtils.random(-20f, 20f), y + MathUtils.random(-20f, 20f))
-                    .velocityDirection(velX, velY)
-                    .startSize(MathUtils.random(.5f, 1f))
-                    .endSize(MathUtils.random(.2f, .3f))
+                    .startPos(x + MathUtils.random(-70f, 70f), y + MathUtils.random(-70f, 70f))
+                    .targetPos(x + MathUtils.random(0f, 250f), y + MathUtils.random(0f, 250f))
+                    .velocityDirection(MathUtils.random(-40f, 40f), MathUtils.random(-40, 140f))
+                    .startSize(MathUtils.random(50, 90))
+                    .endSize(MathUtils.random(10, 10))
                     .startAlpha(1f)
-                    .endAlpha(0.3f)
-                    .timeToLive(MathUtils.random(.5f, 1f))
+                    .endAlpha(0f)
+                    .timeToLive(MathUtils.random(1.5f, 3.5f))
                     .startColor(tempColor)
                     .init());
         }
-
     }
 
 }

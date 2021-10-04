@@ -127,4 +127,27 @@ public class Particles implements Disposable {
         }
     }
 
+    private final Color[] projectilePistonColors = new Color[] {
+            Color.ORANGE, Color.CORAL, Color.FIREBRICK, Color.YELLOW, Color.PURPLE
+    };
+    public void projectileBreak(float x, float y){
+        TextureRegion keyframe = assets.particles.ring;
+        int numParticles = 50;
+        for (int i = 0; i < numParticles; ++i) {
+            tempColor.set(projectilePistonColors[MathUtils.random(0, projectilePistonColors.length - 1)]);
+            activeParticles.get(Layer.foreground).add(Particle.initializer(particlePool.obtain())
+                    .keyframe(keyframe)
+                    .startPos(x + MathUtils.random(-5f, 5f), y + MathUtils.random(-5f, 5f))
+                    .velocityDirection(MathUtils.random(-300f, 300f), MathUtils.random(-300f, 300f))
+                    .startSize(MathUtils.random(4f, 8f))
+                    .endSize(MathUtils.random(10f, 20f))
+                    .startAlpha(1f)
+                    .endAlpha(0f)
+                    .timeToLive(MathUtils.random(0.25f, 0.5f))
+                    .startColor(tempColor)
+                    .init());
+        }
+    }
+
+
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.collision.Collidable;
+import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.utils.Time;
 
 
@@ -107,6 +108,7 @@ public class Piston implements Collidable {
 //            Gdx.app.log("some tag", "current heat  " + getPercentHeat());
             float vol = getPercentHeat();
             Main.game.audio.playSound(Audio.Sounds.pistonDown, vol);
+            Main.game.getScreen().particles.projectileBreak(shot.pos.x, shot.pos.y);
 
             heat = 0;
         }

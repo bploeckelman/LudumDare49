@@ -42,7 +42,7 @@ public class UI extends InputAdapter {
     private final String griftingCtrlHeader = "Exploitation Station";
     private final String repairingCtrlHeader = "Structural\n\nRepair Station";
     private final String buyMoreProjectilesButtonText = "Ammo";
-    private final String buyMoreGriftingButtonText = "More Cruelty";
+    private final String buyMoreGriftingButtonText = "Faster Exploitation";
     private final String buyStructureRepairingButtonText = "Repairs";
 
 
@@ -412,7 +412,7 @@ public class UI extends InputAdapter {
                 sx = font.getScaleX();
                 sy = font.getScaleY();
                 font.getData().setScale(0.7f);
-                layout.setText(font, Integer.toString(numProjectiles, 10), Color.SKY, projectilesCtrlBounds.width, Align.center, false);
+                layout.setText(font, Integer.toString(numProjectiles, 10), numProjectiles == 0 ? Color.RED : Color.SKY, projectilesCtrlBounds.width, Align.center, false);
                 font.draw(batch, layout, x, y);
                 font.getData().setScale(sx, sy);
                 y -= layout.height + spacing;

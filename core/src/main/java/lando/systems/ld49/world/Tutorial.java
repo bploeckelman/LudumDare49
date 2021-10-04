@@ -83,17 +83,15 @@ public class Tutorial {
 
     public void initialize(){
         initialized = true;
-        activeItems.add(new TutorialItem(Main.game.assets.strings.get("introText"), new Rectangle(100000, 100000, 0, 0), new Rectangle(200, 400, 400, 300)));
+        activeItems.add(new TutorialItem(Main.game.assets.strings.get("introText"), new Rectangle(100000, 100000, 0, 0), new Rectangle(200, 300, 400, 400)));
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("reactorText"), new Rectangle(459, 98, 687, 483), new Rectangle(50, 200, 400, 500)));
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("heatText"), new Rectangle(0, 0, 225, 136), new Rectangle(200, 400, 800, 300)));
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("structureText"), new Rectangle(1059, 0, 225, 136), new Rectangle(200, 400, 800, 300)));
-        activeItems.add(new TutorialItem(Main.game.assets.strings.get("pistonText"), new Rectangle(636, 100, 350, 50), new Rectangle(200, 400, 800, 300)));
-        activeItems.add(new TutorialItem(Main.game.assets.strings.get("slingText"), new Rectangle(215, 184, 130, 70), new Rectangle(200, 400, 800, 300)));
+        activeItems.add(new TutorialItem(Main.game.assets.strings.get("pistonText"), new Rectangle(636, 100, 350, 50), new Rectangle(200, 300, 800, 400)));
+        activeItems.add(new TutorialItem(Main.game.assets.strings.get("slingText"), new Rectangle(215, 184, 130, 70), new Rectangle(200, 350, 800, 350)));
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("ammoText"), new Rectangle(225, 0, 210, 93), new Rectangle(200, 400, 800, 300)));
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("griftText"), new Rectangle(435, 0, 415, 93), new Rectangle(200, 400, 800, 300)));
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("repairText"), new Rectangle(850, 0, 210, 93), new Rectangle(200, 400, 800, 300)));
-
-
     }
 
     public void render(SpriteBatch batch) {

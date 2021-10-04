@@ -11,13 +11,12 @@ import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
 
 public class StoryScreen extends BaseScreen {
-    private static float textScale = 2f;
+    private static float textScale = 1.0f;
     float accum = 0;
-    OrthographicCamera textCamera;
+    PerspectiveCamera perspectiveCamera;
     GlyphLayout layout;
-    FrameBuffer textFb;
-    Texture textTexture;
-    String text = "\n\n\nThis is the story, all about how\n\n" +
+
+    String text = "\n\n\n\n\nThis is the story, all about how\n\n" +
             "my life got flipped turned upside down.\n\n" +
             "And I'd like to take a minute so just sit right there.\n\n" +
             "I'll tell you all about how I became the prince of a town called Bel-Air" +
@@ -31,21 +30,21 @@ public class StoryScreen extends BaseScreen {
             "\n\n\n\n" +
             "I got in one little fight and my mom got scared\n\n" +
             "and said you're movin' with your auntie and uncle in Bel-Air" +
-            "\n\n\n\n";
+            "\n";
 
     public StoryScreen(Main game) {
         super(game);
         layout = new GlyphLayout();
         game.assets.pixelFont16.getData().setScale(textScale);
         layout.setText(game.assets.pixelFont16, text, Color.WHITE, worldCamera.viewportWidth, Align.center, true);
-        textFb = new FrameBuffer(Pixmap.Format.RGBA8888, (int)worldCamera.viewportWidth, (int)layout.height, true);
-//        worldCamera.setToOrtho(false, Config.viewport_width, layout.height);
-//        worldCamera.update();
-        textTexture = textFb.getColorBufferTexture();
-        textCamera = new OrthographicCamera();
-        textCamera.setToOrtho(false, worldCamera.viewportWidth, layout.height);
-        textCamera.update();
+
         game.assets.pixelFont16.getData().setScale(1f);
+
+        perspectiveCamera = new PerspectiveCamera(90, 1280, 800);
+        perspectiveCamera.far=10000;
+        perspectiveCamera.position.set(640, 0, 500);
+        perspectiveCamera.lookAt(640, 400, 0);
+        perspectiveCamera.update();
 
     }
 
@@ -60,39 +59,20 @@ public class StoryScreen extends BaseScreen {
     }
 
     @Override
-    public void renderFrameBuffers(SpriteBatch batch) {
-        textFb.begin();
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
-
-        batch.setProjectionMatrix(textCamera.combined);
-        batch.begin();
-//        batch.setColor(Color.RED);
-//        batch.draw(game.assets.pixelRegion, 1, 1, worldCamera.viewportWidth- 2, worldCamera.viewportHeight - 2);
-        game.assets.pixelFont16.getData().setScale(textScale);
-
-        game.assets.pixelFont16.setColor(.3f, .3f, .3f, 1.0f);
-        game.assets.pixelFont16.draw(batch, text, 5, accum-5, worldCamera.viewportWidth, Align.center, true);
-        game.assets.pixelFont16.setColor(Color.YELLOW);
-        game.assets.pixelFont16.draw(batch, text, 0, accum, worldCamera.viewportWidth, Align.center, true);
-
-        game.assets.pixelFont16.getData().setScale(1f);
-
-        batch.end();
-
-        textFb.end();
-    }
-
-    @Override
     public void render(SpriteBatch batch) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
 
-        batch.setProjectionMatrix(worldCamera.combined);
+        batch.setProjectionMatrix(perspectiveCamera.combined);
         batch.begin();
-        batch.setShader(game.assets.starWarsShader);
-        batch.draw(textTexture, 0, worldCamera.viewportHeight*.66f, worldCamera.viewportWidth, -worldCamera.viewportHeight*.64f);
-        batch.setShader(null);
+        game.assets.pixelFont16.getData().setScale(textScale);
+        game.assets.pixelFont16.setColor(.3f, .3f, .3f, 1.0f);
+        game.assets.pixelFont16.draw(batch, text, 5, accum-5, worldCamera.viewportWidth, Align.center, true);
+        game.assets.pixelFont16.setColor(Color.YELLOW);
+        game.assets.pixelFont16.draw(batch, text, 0, accum, worldCamera.viewportWidth, Align.center, true);
+        game.assets.pixelFont16.getData().setScale(1.0f);
+//        batch.draw(textTexture, 0, 0, 1024, layout.height);
         batch.end();
+
     }
 }

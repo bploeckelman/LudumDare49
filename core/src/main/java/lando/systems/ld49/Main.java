@@ -26,6 +26,7 @@ import lando.systems.ld49.utils.accessors.*;
 
 public class Main extends ApplicationAdapter {
 
+    public OrthographicCamera camera;
     public static Main game;
     public Assets assets;
     public TweenManager tween;
@@ -45,6 +46,9 @@ public class Main extends ApplicationAdapter {
     @Override
     public void create() {
         game = this;
+        this.camera = new OrthographicCamera();
+        this.camera.setToOrtho(false, Config.viewport_width, Config.viewport_height);
+        this.camera.update();
         Time.init();
 
         transitionPercent = new MutableFloat(0);
@@ -129,6 +133,7 @@ public class Main extends ApplicationAdapter {
             originalFBO.end();
 
             assets.batch.setShader(transitionShader);
+            assets.batch.setProjectionMatrix(camera.combined);
             assets.batch.begin();
             originalTexture.bind(1);
             transitionShader.setUniformi("u_texture1", 1);

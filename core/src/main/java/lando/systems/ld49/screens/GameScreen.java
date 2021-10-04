@@ -2,6 +2,7 @@ package lando.systems.ld49.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -49,6 +50,8 @@ public class GameScreen extends BaseScreen {
     }
 
     public void update(float dt) {
+        super.update(dt);
+
         KeyState.left_pressed  = Gdx.input.isKeyPressed(Input.Keys.LEFT);
         KeyState.right_pressed = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
         KeyState.up_pressed    = Gdx.input.isKeyPressed(Input.Keys.UP);
@@ -73,11 +76,13 @@ public class GameScreen extends BaseScreen {
             Gdx.app.log("Touch", "X: " + mousePos.x + " Y: " + mousePos.y);
         }
 
-        super.update(dt);
     }
 
     @Override
     public void render(SpriteBatch batch) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
+
         // draw world
         batch.setProjectionMatrix(shaker.getCombinedMatrix());
         batch.begin();

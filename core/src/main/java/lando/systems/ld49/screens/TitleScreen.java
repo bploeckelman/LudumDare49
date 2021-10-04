@@ -51,7 +51,7 @@ public class TitleScreen extends BaseScreen {
     @Override
     public void render(SpriteBatch batch) {
         batch.begin();
-        //batch.setProjectionMatrix(shaker.getCombinedMatrix());
+        batch.setProjectionMatrix(shaker.getCombinedMatrix());
         batch.setColor(Color.WHITE);
         batch.draw(assets.backgrounds.titleImage, 0,0, Config.window_width, Config.window_height);
         batch.end();

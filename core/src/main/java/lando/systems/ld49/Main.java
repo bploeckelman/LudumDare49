@@ -52,10 +52,10 @@ public class Main extends ApplicationAdapter {
         Time.init();
 
         transitionPercent = new MutableFloat(0);
-        transitionFBO = new FrameBuffer(Pixmap.Format.RGBA8888, Config.window_width, Config.window_height, false);
+        transitionFBO = new FrameBuffer(Pixmap.Format.RGB888, Config.window_width, Config.window_height, false);
         transitionTexture = transitionFBO.getColorBufferTexture();
 
-        originalFBO = new FrameBuffer(Pixmap.Format.RGBA8888, Config.window_width, Config.window_height, false);
+        originalFBO = new FrameBuffer(Pixmap.Format.RGB888, Config.window_width, Config.window_height, false);
         originalTexture = originalFBO.getColorBufferTexture();
 
         transitioning = false;

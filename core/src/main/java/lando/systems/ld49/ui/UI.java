@@ -97,7 +97,7 @@ public class UI extends InputAdapter {
     private boolean canBuyProjectiles = false;
     private boolean canBuyMoreGrifting = false;
     private boolean canBuyRepairing = false;
-    private final float griftSpeedIncrement = 0.05f;
+    private final float griftSpeedIncrement = 0.06f;
     private float griftSpeed = 0.05f;
     private float structDamageFlash = 0;
     private float tempWarningPulseRate = 0;
@@ -111,10 +111,26 @@ public class UI extends InputAdapter {
 
     // TODO: change these values over time?
     static class PurchasePrice {
-        static int ciaBuyoff = 1000;
+        static int ciaBuyoff = 100;
         static int grift = 100;
         static int projectiles = 100;
-        static int repairs = 5000;
+        static int repairs = 1000;
+
+        static int repairsBought = 0;
+        static int ciaBought = 0;
+        static int griftBought = 0;
+
+        static int costToBuyCia(){
+            return ciaBuyoff + ciaBought * 500;
+        }
+
+        static int costToBuyGrift() {
+            return grift + griftBought * griftBought * 10;
+        }
+
+        static int costToRepair() {
+            return repairs + repairsBought * 5000;
+        }
     }
 
     private final int projectilesPerPurchase = 3;
@@ -273,9 +289,11 @@ public class UI extends InputAdapter {
         // the grift only lasts until the end of the world
         if (gameScreen.world.reactor.getStructurePercent() < 1
          && gameScreen.world.reactor.getTemperaturePercent() < 1) {
-            griftProgressPercent += griftSpeed * dt;
-            if (griftProgressPercent > 1) {
-                griftProgressPercent = 0;
+            if (!paused) {
+                griftProgressPercent += griftSpeed * dt;
+            }
+            while (griftProgressPercent > 1) {
+                griftProgressPercent -= 1f;
                 game.audio.playSound(Audio.Sounds.dingUp, 0.35f);
                 addToCash(50);
             }
@@ -285,10 +303,10 @@ public class UI extends InputAdapter {
         presidenteAnimState += dt;
         bananaManAnimState += dt;
 
-        canAcceptCiaBuyoffOffer = (cashOnHand >= PurchasePrice.ciaBuyoff);
-        canBuyMoreGrifting      = (cashOnHand >= PurchasePrice.grift);
+        canAcceptCiaBuyoffOffer = (cashOnHand >= PurchasePrice.costToBuyCia());
+        canBuyMoreGrifting      = (cashOnHand >= PurchasePrice.costToBuyGrift());
         canBuyProjectiles       = (cashOnHand >= PurchasePrice.projectiles);
-        canBuyRepairing         = (cashOnHand >= PurchasePrice.repairs);
+        canBuyRepairing         = (cashOnHand >= PurchasePrice.costToRepair());
 
 //        // for testing
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -483,7 +501,7 @@ public class UI extends InputAdapter {
                 sx = font.getScaleX();
                 sy = font.getScaleY();
                 font.getData().setScale(0.5f);
-                layout.setText(font, buyMoreGriftingButtonText + " - $" + PurchasePrice.grift, Color.FOREST, griftingCtrlBounds.width, Align.center, false);
+                layout.setText(font, buyMoreGriftingButtonText + " - $" + PurchasePrice.costToBuyGrift(), Color.FOREST, griftingCtrlBounds.width, Align.center, false);
                 font.draw(batch, layout, x, griftingCtrlBounds.y + margin + buttonHeight / 2f + layout.height / 2f);
                 font.getData().setScale(sx, sy);
             }
@@ -514,7 +532,7 @@ public class UI extends InputAdapter {
                 sx = font.getScaleX();
                 sy = font.getScaleY();
                 font.getData().setScale(0.5f);
-                layout.setText(font, buyStructureRepairingButtonText + " - $" + PurchasePrice.repairs, Color.FOREST, repairingCtrlBounds.width, Align.center, false);
+                layout.setText(font, buyStructureRepairingButtonText + " - $" + PurchasePrice.costToRepair(), Color.FOREST, repairingCtrlBounds.width, Align.center, false);
                 font.draw(batch, layout, x, repairingCtrlBounds.y + margin + height / 2f + layout.height / 2f);
                 font.getData().setScale(sx, sy);
             }
@@ -571,7 +589,7 @@ public class UI extends InputAdapter {
                     float textPressOffset = 2f;
                     font.getData().setScale(0.5f);
                     Color acceptButtonTextColor = (canAcceptCiaBuyoffOffer) ? Color.LIME : Color.LIGHT_GRAY;
-                    game.assets.layout.setText(font, "Pay $" + PurchasePrice.ciaBuyoff, acceptButtonTextColor, commsLeftAcceptButton.width, Align.center, false);
+                    game.assets.layout.setText(font, "Pay $" + PurchasePrice.costToBuyCia(), acceptButtonTextColor, commsLeftAcceptButton.width, Align.center, false);
                     font.draw(batch, game.assets.layout, commsLeftAcceptButton.x, commsLeftAcceptButton.y + commsLeftAcceptButton.height / 2f + game.assets.layout.height / 2f + 4 - (acceptButtonPressed ? textPressOffset : 0));
                     game.assets.layout.setText(font, "Never!", respondedToComms ? Color.LIGHT_GRAY : Color.FIREBRICK, commsLeftRejectButton.width, Align.center, false);
                     font.draw(batch, game.assets.layout, commsLeftRejectButton.x, commsLeftRejectButton.y + commsLeftRejectButton.height / 2f + game.assets.layout.height / 2f + 4 - (rejectButtonPressed ? textPressOffset : 0));
@@ -670,7 +688,8 @@ public class UI extends InputAdapter {
                 commsText = commsTextAccepted;
 
                 gameScreen.world.makeBananasHappy();
-                addToCash(-PurchasePrice.ciaBuyoff);
+                addToCash(-PurchasePrice.costToBuyCia());
+                PurchasePrice.ciaBought++;
 
                 Timer.schedule(new Timer.Task() {
                     @Override
@@ -700,13 +719,15 @@ public class UI extends InputAdapter {
             }
             if (canBuyMoreGrifting && buyMoreGriftingButtonBounds.contains(x, y)) {
                 game.audio.playSound(Audio.Sounds.chaching, 0.5f);
-                addToCash(-PurchasePrice.grift);
+                addToCash(-PurchasePrice.costToBuyGrift());
+                PurchasePrice.griftBought++;
                 griftSpeed += griftSpeedIncrement;
                 return true;
             }
             if (canBuyRepairing && buyRepairingButtonBounds.contains(x, y)) {
                 game.audio.playSound(Audio.Sounds.chaching, 0.5f);
-                addToCash(-PurchasePrice.repairs);
+                addToCash(-PurchasePrice.costToRepair());
+                PurchasePrice.repairsBought++;
                 gameScreen.world.reactor.repairStructure();
                 return true;
             }

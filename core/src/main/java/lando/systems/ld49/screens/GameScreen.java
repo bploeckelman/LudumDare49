@@ -59,7 +59,6 @@ public class GameScreen extends BaseScreen {
         KeyState.space_pressed = Gdx.input.isKeyPressed(Input.Keys.SPACE);
         worldCamera.unproject(mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
-        ui.shots = world.shots.size;
         ui.setTemperature(world.reactor.getTemperaturePercent());
         ui.setStructuralDmg(world.reactor.getStructurePercent());
         tutorial.update(dt);

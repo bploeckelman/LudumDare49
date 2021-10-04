@@ -20,6 +20,9 @@ public class UIElements {
     private final TextureRegion markerCircle;
     private final TextureRegion iconStruct;
     private final TextureRegion iconTemp;
+    private final TextureRegion progressBarStart;
+    private final TextureRegion progressBarCenter;
+    private final TextureRegion progressBarEnd;
 
     public enum ElementDir { left, right, up, down }
     public enum Icon { structure, temperature }
@@ -36,6 +39,9 @@ public class UIElements {
         this.markerCircle = assets.atlas.findRegion("ui/grey_circle");
         this.iconStruct = assets.atlas.findRegion("icons/emote-wrench");
         this.iconTemp   = assets.atlas.findRegion("icons/emote-temp");
+        this.progressBarStart  = assets.atlas.findRegion("ui/grey_sliderHorizStart");
+        this.progressBarCenter = assets.atlas.findRegion("ui/grey_sliderHorizontal");
+        this.progressBarEnd    = assets.atlas.findRegion("ui/grey_sliderHorizEnd");
     }
 
     public void drawPanel(SpriteBatch batch, Rectangle bounds) {
@@ -45,7 +51,9 @@ public class UIElements {
     public void drawButton(SpriteBatch batch, Rectangle bounds, Color tint, boolean pressed) {
         NinePatch button = pressed ? buttonSmallPressed : buttonSmallReleased;
 
+        batch.setColor(tint);
         button.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
+        batch.setColor(Color.WHITE);
     }
 
     public void drawIcon(SpriteBatch batch, Icon icon, Rectangle bounds) {
@@ -57,6 +65,21 @@ public class UIElements {
         if (texture != null) {
             batch.draw(texture, bounds.x, bounds.y, bounds.width, bounds.height);
         }
+    }
+
+    public void drawHorizontalProgressBar(SpriteBatch batch, Rectangle bounds, Color fillColor, float fillPercent) {
+        batch.setColor(Color.WHITE);
+
+        // draw background
+        batch.draw(progressBarCenter, bounds.x, bounds.y, bounds.width, bounds.height);
+        batch.draw(progressBarStart,  bounds.x, bounds.y, progressBarStart.getRegionWidth(), bounds.height);
+        batch.draw(progressBarEnd,    bounds.x + bounds.width - progressBarEnd.getRegionWidth(), bounds.y, progressBarEnd.getRegionWidth(), bounds.height);
+
+        // draw fill bar
+        float cap = 4;
+        batch.setColor(fillColor);
+        batch.draw(assets.pixelRegion, bounds.x + cap, bounds.y/* + bounds.height / 2f - bounds.height / 4f*/, (bounds.width - 2 * cap) * fillPercent, bounds.height / 2f);
+        batch.setColor(Color.WHITE);
     }
 
     public void drawVerticalMeter(SpriteBatch batch, Rectangle bounds, TextureRegion fillTexture, float fillPercent, ElementDir markerDir) {

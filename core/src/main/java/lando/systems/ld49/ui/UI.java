@@ -7,10 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Align;
@@ -19,6 +16,8 @@ import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.utils.accessors.RectangleAccessor;
+
+import java.text.NumberFormat;
 
 public class UI extends InputAdapter {
 
@@ -30,11 +29,17 @@ public class UI extends InputAdapter {
     // Reject: "Viva la revolución!" (not sure if we can do accent chars)
 
 
-
     // comms panel related stuff
     private final String commsTextPrompt = "Fine cooling tower you have there. Be a shame if someone told an angry mob to destroy it...\n\nI'm sure we can find a way to prevent that, hmm?";
     private final String commsTextRejected = "It seems you've forgotten who's really in charge here.\n\nYOU may survive this, but your tower won't.";
     private final String commsTextAccepted = "I'm glad we see eye to eye. \n\nCarry on with your... \nweird little ritual or whatever.";
+    private final String projectilesCtrlHeader = "Projectile Inventory";
+    private final String griftingCtrlHeader = "Exploitation Station";
+    private final String repairingCtrlHeader = "Structural\n\nRepair Station";
+    private final String buyMoreProjectilesButtonText = "$ Buy More";
+    private final String buyMoreGriftingButtonText = "$ Exploit More Efficiently";
+    private final String buyStructureRepairingButtonText = "$ Repair Tower";
+
     private String commsText = commsTextPrompt;
     private String commsLeftName = "";
     private String commsRightName = "";
@@ -71,6 +76,17 @@ public class UI extends InputAdapter {
     private final Rectangle structMeterBgBounds = new Rectangle();
     private final Rectangle tempIconBounds = new Rectangle();
     private final Rectangle structIconBounds = new Rectangle();
+    private final Rectangle controlPanelBounds = new Rectangle();
+    private final Rectangle projectilesCtrlBounds = new Rectangle();
+    private final Rectangle griftingCtrlBounds = new Rectangle();
+    private final Rectangle repairingCtrlBounds = new Rectangle();
+    private final Rectangle buyProjectilesButtonBounds = new Rectangle();
+    private final Rectangle buyMoreGriftingButtonBounds = new Rectangle();
+    private final Rectangle buyRepairingButtonBounds = new Rectangle();
+    private final Rectangle griftProgressBarBounds = new Rectangle();
+    private boolean buyProjectilesButtonPressed = false;
+    private boolean buyMoreGriftingButtonPressed = false;
+    private boolean buyRepairingButtonPressed = false;
     private float structDamageFlash = 0;
     private float tempWarningPulseRate = 0;
     private float tempFlash = 0;
@@ -78,12 +94,13 @@ public class UI extends InputAdapter {
     private float structPercent = 0;
     private float accum = 0;
     private float tempAccum = 0;
-    private float commsTimer;
+    private float commsTimer = 0;
+    private float griftProgressPercent = 0;
 
-    private final Rectangle controlPanelBounds = new Rectangle();
+    private final NumberFormat commasNumberFormat;
 
-    public int cash = 42069;
-    public int shots = 0;
+    public int cashOnHand = 42069;
+    public int numProjectiles = 5;
 
     public UI(Main game, UIElements uiElements) {
         this.game = game;
@@ -129,6 +146,8 @@ public class UI extends InputAdapter {
                 Config.window_width - meterTexture.getRegionWidth() - 2 * margin, margin,
                 meterTexture.getRegionWidth() + 2 * margin,
                 meterTexture.getRegionHeight() + 2 * margin);
+
+        this.commasNumberFormat = NumberFormat.getCurrencyInstance();
     }
 
     public void toggleComms() {
@@ -218,6 +237,14 @@ public class UI extends InputAdapter {
             structDamageFlash = (MathUtils.sinDeg(tempAccum) + 1) / 2f;
         }
 
+        float griftSpeed = 0.05f;
+        griftProgressPercent += griftSpeed * dt;
+        if (griftProgressPercent > 1) {
+            griftProgressPercent = 0;
+            // TODO: we grifted baby, add money and play cha-ching sound
+            cashOnHand += 50;
+        }
+
         ciaGuyAnimState += dt;
         presidenteAnimState += dt;
         bananaManAnimState += dt;
@@ -279,6 +306,10 @@ public class UI extends InputAdapter {
 
         // main control panel
         {
+            BitmapFont font = game.assets.pixelFont16;
+            GlyphLayout layout = game.assets.layout;
+
+            // setup overall control panel bounds and draw it
             controlPanelBounds.set(
                     tempMeterBounds.x + tempMeterBounds.width + 5, 0,
                     structMeterBounds.x - (tempMeterBounds.x + tempMeterBounds.width) - 10,
@@ -287,18 +318,141 @@ public class UI extends InputAdapter {
             uiElements.drawPanel(batch, controlPanelBounds);
             batch.setColor(Color.WHITE);
 
-            float y;
-            float lineSpacing = 10;
-            BitmapFont font = game.assets.pixelFont16;
-            font.getData().setScale(0.5f);
-            game.assets.layout.setText(font, "$" + cash, Color.GREEN, Align.left, (int) controlPanelBounds.width, false);
-            y = controlPanelBounds.y + controlPanelBounds.height - 10;
-            font.draw(batch, game.assets.layout, controlPanelBounds.x + game.assets.layout.width, y);
+            // setup sub-regions for control panel areas
+            float projWidth = (1f / 4f) * controlPanelBounds.width;
+            float griftWidth = (2f / 4f) * controlPanelBounds.width;
+            float repairWidth = (1f / 4f) * controlPanelBounds.width;
+            projectilesCtrlBounds.set(controlPanelBounds.x, controlPanelBounds.y, projWidth, controlPanelBounds.height);
+            griftingCtrlBounds.set(controlPanelBounds.x + projWidth, controlPanelBounds.y, griftWidth, controlPanelBounds.height);
+            repairingCtrlBounds.set(controlPanelBounds.x + projWidth + griftWidth, controlPanelBounds.y, repairWidth, controlPanelBounds.height);
 
-            game.assets.layout.setText(font, "Shots: " + shots, Color.SKY, Align.left, (int) controlPanelBounds.width, false);
-            y -= game.assets.layout.height + lineSpacing;
-            font.draw(batch, game.assets.layout, controlPanelBounds.x + game.assets.layout.width, y);
-            font.getData().setScale(1f);
+            // draw sub-regions
+            game.assets.debugNinePatch.draw(batch, projectilesCtrlBounds.x, projectilesCtrlBounds.y, projectilesCtrlBounds.width, projectilesCtrlBounds.height);
+            {
+                float x = projectilesCtrlBounds.x;
+                float y = projectilesCtrlBounds.y;
+                float spacing = 7;
+
+                // draw header text
+                float sx = font.getScaleX();
+                float sy = font.getScaleY();
+                font.getData().setScale(0.4f);
+                layout.setText(font, projectilesCtrlHeader, Color.WHITE, projectilesCtrlBounds.width, Align.center, false);
+                y = projectilesCtrlBounds.y + projectilesCtrlBounds.height - layout.height;
+                font.draw(batch, layout, x, y);
+                font.getData().setScale(sx, sy);
+                y -= layout.height + spacing;
+
+                // draw current projectiles count
+                sx = font.getScaleX();
+                sy = font.getScaleY();
+                font.getData().setScale(0.7f);
+                layout.setText(font, Integer.toString(numProjectiles, 10), Color.SKY, projectilesCtrlBounds.width, Align.center, false);
+                font.draw(batch, layout, x, y);
+                font.getData().setScale(sx, sy);
+                y -= layout.height + spacing;
+
+                // draw '$ buy more projectiles' button
+                float margin = 4;
+                float width = projectilesCtrlBounds.width - 2 * margin;
+                float height = 30;
+                buyProjectilesButtonBounds.set(x + margin, projectilesCtrlBounds.y + margin, width, height);
+                uiElements.drawButton(batch, buyProjectilesButtonBounds, Color.WHITE, buyProjectilesButtonPressed);
+                sx = font.getScaleX();
+                sy = font.getScaleY();
+                font.getData().setScale(0.5f);
+                layout.setText(font, buyMoreProjectilesButtonText, Color.FOREST, projectilesCtrlBounds.width, Align.center, false);
+                font.draw(batch, layout, x, projectilesCtrlBounds.y + margin + height / 2f + layout.height / 2f);
+                font.getData().setScale(sx, sy);
+            }
+
+            game.assets.debugNinePatch.draw(batch, griftingCtrlBounds.x, griftingCtrlBounds.y, griftingCtrlBounds.width, griftingCtrlBounds.height);
+            {
+                float x = griftingCtrlBounds.x;
+                float y = griftingCtrlBounds.y;
+                float spacing = 7;
+                float margin = 4;
+                float buttonHeight = 30;
+                float widgetWidth = griftingCtrlBounds.width - 2 * margin;
+
+                // draw header text
+                float sx = font.getScaleX();
+                float sy = font.getScaleY();
+                font.getData().setScale(0.45f);
+                layout.setText(font, griftingCtrlHeader, Color.WHITE, griftingCtrlBounds.width, Align.center, false);
+                y = griftingCtrlBounds.y + griftingCtrlBounds.height - layout.height + 8;
+                font.draw(batch, layout, x, y);
+                font.getData().setScale(sx, sy);
+                y -= layout.height + spacing;
+
+                // draw cash on hand & grift meter
+                sx = font.getScaleX();
+                sy = font.getScaleY();
+                font.getData().setScale(0.7f);
+                layout.setText(font, commasNumberFormat.format(cashOnHand), Color.LIME, griftingCtrlBounds.width, Align.center, false);
+                {
+                    // draw 'grift meter' quick, underneath cash on hand, while we have the text size
+                    griftProgressBarBounds.set(griftingCtrlBounds.x + margin, griftingCtrlBounds.y + buttonHeight + 2 * margin + spacing, widgetWidth, buttonHeight - 2 * spacing);
+                    uiElements.drawHorizontalProgressBar(batch, griftProgressBarBounds, Color.LIME, griftProgressPercent);
+
+                    // draw a quick shadow behind the cash text to make it pop
+                    float pad = 4;
+                    float shadowWidth = griftingCtrlBounds.width * (1f / 2f);
+                    float xx = griftingCtrlBounds.x + griftingCtrlBounds.width / 2f - shadowWidth / 2f;
+                    float yy = griftingCtrlBounds.y + buttonHeight + 8;
+                    float hh = layout.height + 3 * pad; //derp
+                    batch.setColor(0.2f, 0.2f, 0.2f, 0.75f);
+                    batch.draw(game.assets.pixelRegion, xx, yy, shadowWidth, hh);
+                    batch.setColor(Color.SKY);
+                    game.assets.debugNinePatch.draw(batch, xx, yy, shadowWidth, hh);
+                    batch.setColor(Color.WHITE);
+                }
+                font.draw(batch, layout, x, y);
+                font.getData().setScale(sx, sy);
+                y -= layout.height + spacing;
+
+                // draw '$ to grift harder' button
+                buyMoreGriftingButtonBounds.set(x + margin, griftingCtrlBounds.y + margin, widgetWidth, buttonHeight);
+                uiElements.drawButton(batch, buyMoreGriftingButtonBounds, Color.WHITE, buyMoreGriftingButtonPressed);
+                sx = font.getScaleX();
+                sy = font.getScaleY();
+                font.getData().setScale(0.5f);
+                layout.setText(font, buyMoreGriftingButtonText, Color.FOREST, griftingCtrlBounds.width, Align.center, false);
+                font.draw(batch, layout, x, griftingCtrlBounds.y + margin + buttonHeight / 2f + layout.height / 2f);
+                font.getData().setScale(sx, sy);
+            }
+
+            game.assets.debugNinePatch.draw(batch, repairingCtrlBounds.x, repairingCtrlBounds.y, repairingCtrlBounds.width, repairingCtrlBounds.height);
+            {
+                float x = repairingCtrlBounds.x;
+                float y = repairingCtrlBounds.y;
+                float spacing = 7;
+
+                // draw header text
+                float sx = font.getScaleX();
+                float sy = font.getScaleY();
+                font.getData().setScale(0.4f);
+                layout.setText(font, repairingCtrlHeader, Color.WHITE, repairingCtrlBounds.width, Align.center, false);
+                y = repairingCtrlBounds.y + repairingCtrlBounds.height - layout.height + 30;
+                font.draw(batch, layout, x, y);
+                font.getData().setScale(sx, sy);
+                y -= layout.height + spacing;
+
+                // draw '$ repair structure' button
+                float margin = 4;
+                float width = repairingCtrlBounds.width - 2 * margin;
+                float height = 30;
+                buyRepairingButtonBounds.set(x + margin, repairingCtrlBounds.y + margin, width, height);
+                uiElements.drawButton(batch, buyRepairingButtonBounds, Color.WHITE, buyRepairingButtonPressed);
+                sx = font.getScaleX();
+                sy = font.getScaleY();
+                font.getData().setScale(0.5f);
+                layout.setText(font, buyStructureRepairingButtonText, Color.FOREST, repairingCtrlBounds.width, Align.center, false);
+                font.draw(batch, layout, x, repairingCtrlBounds.y + margin + height / 2f + layout.height / 2f);
+                font.getData().setScale(sx, sy);
+            }
+
+            batch.setColor(Color.WHITE);
         }
 
         // comms windows

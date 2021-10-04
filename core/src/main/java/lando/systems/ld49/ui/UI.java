@@ -35,9 +35,9 @@ public class UI extends InputAdapter {
     private final String projectilesCtrlHeader = "Projectile Inventory";
     private final String griftingCtrlHeader = "Exploitation Station";
     private final String repairingCtrlHeader = "Structural\n\nRepair Station";
-    private final String buyMoreProjectilesButtonText = "Buy Ammo";
-    private final String buyMoreGriftingButtonText = "Click For More Cruelty (Faster $$$)";
-    private final String buyStructureRepairingButtonText = "Make Repairs";
+    private final String buyMoreProjectilesButtonText = "Ammo";
+    private final String buyMoreGriftingButtonText = "More Cruelty";
+    private final String buyStructureRepairingButtonText = "Repairs";
 
 
     private String commsText = commsTextPrompt;

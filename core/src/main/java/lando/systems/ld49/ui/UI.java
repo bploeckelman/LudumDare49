@@ -17,8 +17,6 @@ import lando.systems.ld49.Main;
 import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.utils.accessors.RectangleAccessor;
 
-import java.text.NumberFormat;
-
 public class UI extends InputAdapter {
 
     private final Main game;
@@ -97,10 +95,15 @@ public class UI extends InputAdapter {
     private float commsTimer = 0;
     private float griftProgressPercent = 0;
 
-    private final NumberFormat commasNumberFormat;
-
-    public int cashOnHand = 42069;
     public int numProjectiles = 5;
+    public int cashOnHand = 42069;
+    private String cashOnHandString = recreateCashOnHandString();
+
+    private final String commaRegex = "(\\d)(?=(\\d{3})+$)";
+    private String recreateCashOnHandString() {
+        String source = "$" + Integer.toString(cashOnHand, 10);
+        return source.replaceAll(commaRegex, "$1,");
+    }
 
     public UI(Main game, UIElements uiElements) {
         this.game = game;
@@ -146,8 +149,6 @@ public class UI extends InputAdapter {
                 Config.window_width - meterTexture.getRegionWidth() - 2 * margin, margin,
                 meterTexture.getRegionWidth() + 2 * margin,
                 meterTexture.getRegionHeight() + 2 * margin);
-
-        this.commasNumberFormat = NumberFormat.getCurrencyInstance();
     }
 
     public void toggleComms() {
@@ -243,6 +244,7 @@ public class UI extends InputAdapter {
             griftProgressPercent = 0;
             // TODO: we grifted baby, add money and play cha-ching sound
             cashOnHand += 50;
+            cashOnHandString = recreateCashOnHandString();
         }
 
         ciaGuyAnimState += dt;
@@ -389,7 +391,7 @@ public class UI extends InputAdapter {
                 sx = font.getScaleX();
                 sy = font.getScaleY();
                 font.getData().setScale(0.7f);
-                layout.setText(font, commasNumberFormat.format(cashOnHand), Color.LIME, griftingCtrlBounds.width, Align.center, false);
+                layout.setText(font, cashOnHandString, Color.LIME, griftingCtrlBounds.width, Align.center, false);
                 {
                     // draw 'grift meter' quick, underneath cash on hand, while we have the text size
                     griftProgressBarBounds.set(griftingCtrlBounds.x + margin, griftingCtrlBounds.y + buttonHeight + 2 * margin + spacing, widgetWidth, buttonHeight - 2 * spacing);

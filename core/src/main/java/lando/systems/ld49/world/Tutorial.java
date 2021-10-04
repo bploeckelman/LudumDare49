@@ -87,7 +87,7 @@ public class Tutorial {
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("reactorText"), new Rectangle(459, 98, 687, 483), new Rectangle(50, 200, 400, 500)));
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("heatText"), new Rectangle(0, 0, 225, 136), new Rectangle(200, 400, 800, 300)));
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("structureText"), new Rectangle(1059, 0, 225, 136), new Rectangle(200, 400, 800, 300)));
-        activeItems.add(new TutorialItem(Main.game.assets.strings.get("pistonText"), new Rectangle(636, 100, 350, 50), new Rectangle(200, 300, 800, 400)));
+        activeItems.add(new TutorialItem(Main.game.assets.strings.get("pistonText"), new Rectangle(636, 100, 350, 50), new Rectangle(200, 350, 800, 350)));
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("slingText"), new Rectangle(215, 184, 130, 70), new Rectangle(200, 350, 800, 350)));
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("ammoText"), new Rectangle(225, 0, 210, 93), new Rectangle(200, 400, 800, 300)));
         activeItems.add(new TutorialItem(Main.game.assets.strings.get("griftText"), new Rectangle(435, 0, 415, 93), new Rectangle(200, 400, 800, 300)));
@@ -134,11 +134,11 @@ public class Tutorial {
             batch.setColor(1f, .6f, .6f, 1.0f);
             screen.assets.panelNinePatch.draw(batch, cancelTutorialButton.x, cancelTutorialButton.y, cancelTutorialButton.width, cancelTutorialButton.height);
             screen.assets.pixelFont16.getData().setScale(.4f);
-            screen.assets.layout.setText(screen.assets.pixelFont16, "Cancel Tutorial", Color.BLACK, cancelTutorialButton.width, Align.center, false);
+            screen.assets.layout.setText(screen.assets.pixelFont16, "Skip Tutorial", Color.BLACK, cancelTutorialButton.width, Align.center, false);
             screen.assets.pixelFont16.setColor(0,0,0, alpha);
-            screen.assets.pixelFont16.draw(batch, "Cancel Tutorial", cancelTutorialButton.x+1, -1 + cancelTutorialButton.y + cancelTutorialButton.height/2f + screen.assets.layout.height/2, cancelTutorialButton.width, Align.center, false);
+            screen.assets.pixelFont16.draw(batch, "Skip Tutorial", cancelTutorialButton.x+1, -1 + cancelTutorialButton.y + cancelTutorialButton.height/2f + screen.assets.layout.height/2, cancelTutorialButton.width, Align.center, false);
             screen.assets.pixelFont16.setColor(1,1f,1f, alpha);
-            screen.assets.pixelFont16.draw(batch, "Cancel Tutorial", cancelTutorialButton.x, cancelTutorialButton.y + cancelTutorialButton.height/2f + screen.assets.layout.height/2,  cancelTutorialButton.width, Align.center, false);
+            screen.assets.pixelFont16.draw(batch, "Skip Tutorial", cancelTutorialButton.x, cancelTutorialButton.y + cancelTutorialButton.height/2f + screen.assets.layout.height/2,  cancelTutorialButton.width, Align.center, false);
 
             screen.assets.pixelFont16.getData().setScale(1);
 

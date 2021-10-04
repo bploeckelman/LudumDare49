@@ -15,6 +15,7 @@ import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.utils.accessors.RectangleAccessor;
+import lando.systems.ld49.world.Stats;
 
 public class UI extends InputAdapter {
 
@@ -298,6 +299,7 @@ public class UI extends InputAdapter {
                 griftProgressPercent -= 1f;
                 game.audio.playSound(Audio.Sounds.dingUp, 0.35f);
                 addToCash(50);
+                Stats.moneyEarned+= 50;
             }
         }
 
@@ -704,12 +706,14 @@ public class UI extends InputAdapter {
             if (canBuyProjectiles && buyProjectilesButtonBounds.contains(x, y)) {
                 game.audio.playSound(Audio.Sounds.chaching, 0.5f);
                 addToCash(-PurchasePrice.projectiles);
+                Stats.moneySpent += PurchasePrice.projectiles;
                 numProjectiles += projectilesPerPurchase;
                 return true;
             }
             if (canBuyMoreGrifting && buyMoreGriftingButtonBounds.contains(x, y)) {
                 game.audio.playSound(Audio.Sounds.chaching, 0.5f);
                 addToCash(-PurchasePrice.costToBuyGrift());
+                Stats.moneySpent += PurchasePrice.costToBuyGrift();
                 PurchasePrice.griftBought++;
                 griftSpeed += griftSpeedIncrement;
                 return true;
@@ -717,6 +721,7 @@ public class UI extends InputAdapter {
             if (canBuyRepairing && buyRepairingButtonBounds.contains(x, y)) {
                 game.audio.playSound(Audio.Sounds.chaching, 0.5f);
                 addToCash(-PurchasePrice.costToRepair());
+                Stats.moneySpent += PurchasePrice.costToRepair();
                 PurchasePrice.repairsBought++;
                 gameScreen.world.reactor.repairStructure();
                 return true;
@@ -736,6 +741,7 @@ public class UI extends InputAdapter {
         // pay and let citizens celebrate
         gameScreen.world.makeBananasHappy();
         addToCash(-PurchasePrice.costToBuyCia());
+        Stats.moneySpent += PurchasePrice.costToBuyCia();
         PurchasePrice.ciaBought++;
 
         // now give the banana citizen a change to chime in, then dismiss after a bit

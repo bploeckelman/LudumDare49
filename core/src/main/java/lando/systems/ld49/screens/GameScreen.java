@@ -12,6 +12,7 @@ import lando.systems.ld49.Main;
 import lando.systems.ld49.particles.Particles;
 import lando.systems.ld49.ui.UI;
 import lando.systems.ld49.utils.Time;
+import lando.systems.ld49.world.Stats;
 import lando.systems.ld49.world.Tutorial;
 import lando.systems.ld49.world.World;
 
@@ -50,6 +51,10 @@ public class GameScreen extends BaseScreen {
         Gdx.input.setInputProcessor(ui);
 
         Time.millis_since_play_started = Time.elapsed_millis();
+
+        Stats.moneyEarned = 0;
+        Stats.moneySpent = 0;
+        Stats.secondsRan = 0;
     }
 
     public void update(float dt) {

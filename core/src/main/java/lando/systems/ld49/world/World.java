@@ -97,6 +97,8 @@ public class World {
         // Things that shouldn't run when paused should be here
         if (pause) return;
 
+        Stats.secondsRan += dt;
+
         if (!gameScreen.ui.commsOpen) {
             ciaTimer -= dt;
         }

@@ -11,7 +11,6 @@ import lando.systems.ld49.screens.BaseScreen;
 
 public class Presidente {
     private float animationTimer;
-    private Assets assets;
     public Animation<TextureRegion> animation;
     public Vector2 pos = new Vector2();
     private TextureRegion textureRegion;
@@ -20,7 +19,6 @@ public class Presidente {
     private BaseScreen screen;
 
     public Presidente(Assets assets, float x, float y, BaseScreen screen) {
-        this.assets = assets;
         this.animation = assets.presidenteRunAnim;
         this.animationTimer = 0f;
         this.screen = screen;

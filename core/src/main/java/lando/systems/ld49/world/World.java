@@ -33,6 +33,7 @@ public class World {
 
     private final float bananaHammockLeft = 280;
     private final float bananaHammockBottom = 120;
+    private final float bananaPopulation = 10;
 
     public World(GameScreen screen) {
         this.gameScreen = screen;
@@ -41,8 +42,9 @@ public class World {
         catapult = new Catapult(this, bananaHammockLeft, bananaHammockBottom);
         reactor = new Reactor(this);
         collisionManager = new CollisionManager(this);
-        bananas.add(new Banana(assets, 340f, 100, this));
-        bananas.add(new Banana(assets, 320f, 110, this));
+        for (int i = 0; i < bananaPopulation; i++) {
+            bananas.add(new Banana(assets, MathUtils.random(30f, 450f), MathUtils.random(30f, 150f), this));
+        }
         ambianceSoundTime = MathUtils.random(5f, 10f);
     }
 

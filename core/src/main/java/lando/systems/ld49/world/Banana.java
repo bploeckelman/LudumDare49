@@ -21,7 +21,7 @@ public class Banana {
     private float actionTimer;
     private float actionDuration;
     private final float VELOCITY = 1f;
-    private final float RIOT_VELOCITY = 1.5f;
+    private final float RIOT_VELOCITY = 2f;
     private World world;
     private TextureRegion textureRegion;
     private boolean isRioting = false;
@@ -102,6 +102,7 @@ public class Banana {
     public void beHappy(float happyTimer) {
         this.feeling = Feelings.POSITIVE;
         this.happyTimer = happyTimer;
+        this.riotTimer = 0;
         this.emoteCooldown = 0f;
     }
 
@@ -123,12 +124,14 @@ public class Banana {
         animationTimer += dt;
         riotTimer -= dt;
         if (pos.x < riotDestination.x + 40f && pos.x > riotDestination.x - 40f) {
-            status = Status.RIOT_IDLE;
+//            status = Status.RIOT_IDLE;
+            world.gameScreen.particles.addSmoke(pos.x + width * scale / 2, pos.y + height * scale + 5f);
+
         }
-        else if (pos.x < riotDestination.x + 40f) {
+        if (pos.x + width * scale / 2 < riotDestination.x) {
             status = Status.RIOT_RIGHT;
         }
-        else if (pos.x > riotDestination.x - 40f) {
+        else if (pos.x > riotDestination.x) {
             status = Status.RIOT_LEFT;
         }
 
@@ -161,13 +164,15 @@ public class Banana {
         }
     }
 
-    public void riotOver() {
-
-    }
-
     public void wanderAround(float dt) {
         actionTimer+=dt;
         animationTimer+=dt;
+        if (feeling == Feelings.POSITIVE) {
+            happyTimer-=dt;
+        }
+        if (happyTimer < 0) {
+            feeling = Feelings.NEUTRAL;
+        }
         //set new status if action timer has exceeded its duration
         if (actionTimer > actionDuration) {
             actionTimer = 0f;
@@ -222,6 +227,7 @@ public class Banana {
         scalePerY();
         if (isRioting) {
             riot(dt);
+            world.gameScreen.particles.addSmoke(pos.x + width * scale / 2, pos.y);
         }
         else {
             wanderAround(dt);
@@ -245,7 +251,7 @@ public class Banana {
             case WALK_LEFT:
             case IDLE_LEFT:
             case RIOT_LEFT:
-                batch.draw(textureRegion, pos.x + width, pos.y, -1 * width * scale, height * scale);
+                batch.draw(textureRegion, pos.x + width * scale, pos.y, -1 * width * scale, height * scale);
                 break;
             case WALK_RIGHT:
             case IDLE_RIGHT:

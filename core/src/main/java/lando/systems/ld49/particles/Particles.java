@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
 import lando.systems.ld49.Assets;
+import lando.systems.ld49.utils.Utils;
 
 public class Particles implements Disposable {
 
@@ -82,6 +83,51 @@ public class Particles implements Disposable {
                     .startColor(tempColor)
                     .init());
         }
+    }
+
+    public void addSmoke(float x, float y){
+        TextureRegion keyframe = assets.particles.smoke;
+        float grayValue = MathUtils.random(.7f) + .3f;
+        tempColor.set(grayValue, grayValue, grayValue, 1f);
+        int numParticles = 10;
+        for (int i = 0; i < numParticles; ++i) {
+            activeParticles.get(Layer.foreground).add(Particle.initializer(particlePool.obtain())
+                    .keyframe(keyframe)
+                    .startPos(x, y)
+                    .targetPos(x + MathUtils.random(-20f, 50f), y + MathUtils.random(-20f, 50f))
+                    .velocityDirection(MathUtils.random(-20, 20), MathUtils.random(-20, 20f))
+                    .startSize(MathUtils.random(10, 16))
+                    .endSize(MathUtils.random(2, 8))
+                    .startAlpha(1f)
+                    .endAlpha(0f)
+                    .timeToLive(MathUtils.random(.5f, 1.5f))
+                    .startColor(tempColor)
+                    .init());
+        }
+    }
+
+    public void addBarrelSparks(float x, float y, float dx, float dy){
+
+        TextureRegion keyframe = assets.pixelRegion;
+        float velX = dx * MathUtils.random(40, 100f) + MathUtils.random(-30f, 30f);
+        float velY = dy * MathUtils.random(40, 100f) + MathUtils.random(-30f, 30f);
+        Utils.hsvToRgb(MathUtils.random(1f), 1, 1, tempColor);
+        int numParticles = 100;
+        for (int i = 0; i < numParticles; ++i) {
+            activeParticles.get(Layer.foreground).add(Particle.initializer(particlePool.obtain())
+                    .keyframe(keyframe)
+                    .startPos(x, y)
+                    .targetPos(x + MathUtils.random(-20f, 20f), y + MathUtils.random(-20f, 20f))
+                    .velocityDirection(velX, velY)
+                    .startSize(MathUtils.random(.5f, 1f))
+                    .endSize(MathUtils.random(.2f, .3f))
+                    .startAlpha(1f)
+                    .endAlpha(0.3f)
+                    .timeToLive(MathUtils.random(.5f, 1f))
+                    .startColor(tempColor)
+                    .init());
+        }
+
     }
 
 }

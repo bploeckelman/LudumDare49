@@ -127,7 +127,7 @@ public class GameOverScreen extends GameScreen {
 
         presidente = new Presidente(game.assets, Config.window_width / 2, 100f, this);
         presidente.animation = game.assets.presidenteIdleAnim;
-        game.audio.playMusic(Audio.Musics.outroMusic, true);
+        game.audio.fadeMusic(Audio.Musics.outroMusic);
 //        ui = new UIGameOver(this, uiElements);
 
     }

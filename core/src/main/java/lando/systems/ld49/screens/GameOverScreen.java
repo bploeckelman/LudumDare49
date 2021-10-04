@@ -25,6 +25,7 @@ public class GameOverScreen extends BaseScreen {
     public GameOverScreen(Main game) {
         super(game);
         presidente = new Presidente(game.assets, 100f, 200f, this);
+        presidente.animation = game.assets.presidenteRunAnim;
     }
 
 

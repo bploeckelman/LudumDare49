@@ -28,6 +28,7 @@ public class World {
     public Array<Shot> shots = new Array<>();
     public Reactor reactor;
     private CollisionManager collisionManager;
+    private Presidente presidente;
     private Array<Banana> bananas = new Array<>();
     private float animState1 = 0;
     private float animState2 = MathUtils.random(1, 2);
@@ -56,6 +57,9 @@ public class World {
             bananas.add(new Banana(assets, MathUtils.random(30f, Config.viewport_width - 50f), MathUtils.random(30f, 150f), this));
         }
         ambianceSoundTime = MathUtils.random(5f, 10f);
+        presidente = new Presidente(assets, bananaHammockLeft - 150f, bananaHammockBottom - 20f, gameScreen);
+        presidente.scale = 2.5f;
+        presidente.enableEmote = true;
     }
 
     public void update(float dt, boolean pause) {
@@ -101,6 +105,7 @@ public class World {
         for (Banana banana : bananas) {
             banana.update(dt);
         }
+        presidente.update(dt);
     }
 
     public void draw(SpriteBatch batch) {
@@ -157,6 +162,7 @@ public class World {
                 banana.render(batch);
             }
         }
+        presidente.render(batch);
         catapult.render(batch);
         for (Shot shot: shots) {
             shot.render(batch);
@@ -201,6 +207,10 @@ public class World {
             isRiotInProgress = false;
         }
         bananasStatus = BananaStatus.END_RIOT;
+    }
+
+    public void bananasBackToNormal() {
+        bananasStatus = BananaStatus.NORMAL;
     }
 
 

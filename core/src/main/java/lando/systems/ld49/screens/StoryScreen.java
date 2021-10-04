@@ -99,7 +99,7 @@ public class StoryScreen extends BaseScreen {
         if (accum > layout.height && Gdx.input.justTouched()) {
             launchGame();
         }
-        if (accum >= layout.height * 2f) {
+        if (accum >= layout.height) {
             launchGame();
         }
     }

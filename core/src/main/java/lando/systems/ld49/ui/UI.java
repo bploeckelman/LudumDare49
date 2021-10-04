@@ -144,6 +144,9 @@ public class UI extends InputAdapter {
         cashOnHand += amount;
         String source = "$" + Integer.toString(cashOnHand, 10);
         cashOnHandString = source.replaceAll(commaRegex, "$1,");
+
+        float x = griftingCtrlBounds.x + griftingCtrlBounds.width / 2;
+        this.gameScreen.particles.addCash(x, griftingCtrlBounds.y, amount);
     }
 
     public UI(GameScreen gameScreen, UIElements uiElements) {

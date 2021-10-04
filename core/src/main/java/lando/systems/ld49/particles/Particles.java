@@ -127,6 +127,26 @@ public class Particles implements Disposable {
         }
     }
 
+    public void addCash(float x, float y, int amount) {
+
+        Color color = amount > 0 ? Color.GREEN : Color.RED;
+        TextureRegion keyframe = assets.particles.dollar;
+        int numParticles = Math.abs(amount) / 10;
+        for (int i = 0; i < numParticles; ++i) {
+            activeParticles.get(Layer.foreground).add(Particle.initializer(particlePool.obtain())
+                    .keyframe(keyframe)
+                    .startPos(x, y)
+                    .velocityDirection(MathUtils.random(20f, 160f), MathUtils.random(100f) + 40)
+                    .startSize(20)
+                    .endSize(30)
+                    .startAlpha(1f)
+                    .endAlpha(0f)
+                    .timeToLive(MathUtils.random(1f, 1.5f))
+                    .startColor(color)
+                    .init());
+        }
+    }
+
     private final Color[] projectilePistonColors = new Color[] {
             Color.ORANGE, Color.CORAL, Color.FIREBRICK, Color.YELLOW, Color.PURPLE
     };

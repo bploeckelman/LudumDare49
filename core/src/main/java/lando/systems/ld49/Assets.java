@@ -159,6 +159,7 @@ public class Assets implements Disposable {
         public TextureRegion sparkle;
         public TextureRegion smoke;
         public TextureRegion ring;
+        public TextureRegion dollar;
     }
 
     public Backgrounds backgrounds;
@@ -404,6 +405,7 @@ public class Assets implements Disposable {
         particles.ring    = atlas.findRegion("particles/ring");
         particles.smoke   = atlas.findRegion("particles/smoke");
         particles.sparkle = atlas.findRegion("particles/sparkle");
+        particles.dollar  = atlas.findRegion("particles/dollars");
 
         backgrounds = new Backgrounds();
         backgrounds.empty   = atlas.findRegion("backgrounds/empty");

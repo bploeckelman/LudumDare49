@@ -17,7 +17,7 @@ public class StoryScreen extends BaseScreen {
     GlyphLayout layout;
 
     String text = "\n\n\n\n\nThis is the story, all about how\n\n" +
-            "my life got flipped turned upside down\n\n" +
+            "my life got flip turned upside down\n\n" +
             "And I'd like to take a minute so just sit right there\n\n" +
             "I'll tell you all about how corporate\n\n"+
             "imperialism destroyed a country called POTASSIA\n\n"+
@@ -38,32 +38,35 @@ public class StoryScreen extends BaseScreen {
             "Cavendish Industrial Agronomics\n\n" +
             "took one look at the lush forests and abundant fruit\n\n" +
             "of Potassia and immediately craved\n\n" +
-            "every last resource\n\n" +
-            "on that beautiful island.\n\n" +
+            "its every last resource.\n\n" +
             "\n\n" +
-            "They stole the land from its people.\n\n" +
+            "Fueled by greed and indifference,\n\n" +
+            "Cavendish stole the land from its people.\n\n" +
             "\n\n" +
             "________\n\n" +
             "\n\n" +
-            "Cavendish paid the locals a pittance,\n\n" +
+            "The company paid the locals a pittance,\n\n" +
             "Forcing them to work grueling hours\n\n" +
             "in miserable conditions. \n\n" +
             "\n\n" +
             "The Cavendish CEO became de facto dictator.\n\n" +
             "He forces the people to call him \"Dole Presidente,\"\n\n" +
-            "and unless he pays kickbacks to \n\n" +
-            "the OTHER CIA, they threaten to destroy\n\n" +
-            "the entire Cavendish enterprise." +
+            "and unless he pays them kickbacks,\n\n" +
+            "the -OTHER- CIA threaten to destroy\n\n" +
+            "the island and everything on it." +
             "\n\n\n\n" +
-            "Even worse, their shoddy nuclear plants \n\n" +
+            "Even worse, the shoddy Cavendish nuclear plants\n\n" +
             "are always on the verge of catastrophic failure.\n\n" +
             "\n\n" +
             "The Potassians must slingshot whatever they can find\n\n" +
-            "into the cooling towers to keep them from overheating\n\n" +
+            "into the cooling towers to keep them from overheating.\n\n" +
+            "\n\n" +
             "It`s only matter of time until a meltdown\n\n" +
             "fueled by greed and consumption \n\n" +
             "destroys Potassia and its people…\n\n" +
-            "\n\n\n\nAre you ready to save Potassia?";
+            "\n\n________\n\n" +
+
+            "\n\nAre you a bad enough plantain to save Potassia?";
 
     public StoryScreen(Main game) {
         super(game);

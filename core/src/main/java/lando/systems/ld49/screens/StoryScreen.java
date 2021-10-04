@@ -87,12 +87,15 @@ public class StoryScreen extends BaseScreen {
     }
 
     public void update(float dt) {
-        accum += 75*dt;
+        float speedMultiplier = 1.0f;
+
+        if (Gdx.input.isTouched()){
+            speedMultiplier = 3f;
+        }
+        accum += 75*dt * speedMultiplier;
 //        accum = MathUtils.clamp(accum, 0, layout.height);
         if (accum > layout.height && Gdx.input.justTouched()) {
             launchGame();
-        } else if (Gdx.input.justTouched()) {
-            accum = layout.height;
         }
         if (accum >= layout.height * 2f) {
             launchGame();

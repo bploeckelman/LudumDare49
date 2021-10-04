@@ -250,7 +250,7 @@ public class UI extends InputAdapter {
     }
 
     public void update(float dt, boolean paused) {
-        if (!paused && commsOpen){
+        if (!paused && commsOpen && !respondedToComms){
             commsTimer += dt;
             if (commsTimer > 15){
                 rejectProposal();
@@ -749,6 +749,7 @@ public class UI extends InputAdapter {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        ciaGuyHadHisSay = false;
                         toggleComms();
                     }
                 }, commsResponseVisibleSecs);
@@ -777,6 +778,7 @@ public class UI extends InputAdapter {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        ciaGuyHadHisSay = false;
                         toggleComms();
                     }
                 }, commsResponseVisibleSecs);

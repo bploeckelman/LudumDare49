@@ -33,8 +33,9 @@ public class TitleScreen extends BaseScreen {
         accum += dt;
         if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
             game.audio.stopMusic();
-            game.setScreen(new GameScreen(game), assets.cubeShader, 3f);
+            game.setScreen(new StoryScreen(game), assets.doorwayShader, 3f);
         }
+        // TODO: remove these shortcuts
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)){
             game.setScreen(new EndScreen(game), assets.cubeShader, 3f);
             game.audio.stopMusic();

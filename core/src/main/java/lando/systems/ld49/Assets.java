@@ -55,6 +55,7 @@ public class Assets implements Disposable {
     public TextureRegion tower;
 
     public Array<ShaderProgram> randomTransitions;
+    public ShaderProgram starWarsShader;
     public ShaderProgram blindsShader;
     public ShaderProgram fadeShader;
     public ShaderProgram radialShader;
@@ -413,6 +414,7 @@ public class Assets implements Disposable {
         dreamyShader = loadShader("shaders/transitions/default.vert", "shaders/transitions/dreamy.frag");
 
         flameShader = loadShader("shaders/default.vert", "shaders/flame.frag");
+        starWarsShader = loadShader("shaders/default.vert", "shaders/starwars.frag");
 
 
         exampleMusic = mgr.get("audio/music/example-music.ogg", Music.class);

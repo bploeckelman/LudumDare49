@@ -12,6 +12,7 @@ import lando.systems.ld49.Main;
 import lando.systems.ld49.particles.Particles;
 import lando.systems.ld49.ui.UIElements;
 import lando.systems.ld49.ui.InputPrompts;
+import lando.systems.ld49.utils.screenshake.ScreenShakeCameraController;
 
 public abstract class BaseScreen extends InputAdapter {
 
@@ -25,7 +26,7 @@ public abstract class BaseScreen extends InputAdapter {
 
     public OrthographicCamera worldCamera;
     public OrthographicCamera windowCamera;
-//    public ScreenShakeCameraController shaker;
+    public ScreenShakeCameraController shaker;
 //
 //    public final PlayerInput playerInput = new PlayerInput();
 
@@ -45,7 +46,7 @@ public abstract class BaseScreen extends InputAdapter {
         this.windowCamera = new OrthographicCamera();
         this.windowCamera.setToOrtho(false, Config.window_width, Config.window_height);
         this.windowCamera.update();
-//        this.shaker = new ScreenShakeCameraController(worldCamera);
+        this.shaker = new ScreenShakeCameraController(worldCamera);
 
 //        Controllers.clearListeners();
 //        Controllers.addListener(playerInput);
@@ -56,7 +57,7 @@ public abstract class BaseScreen extends InputAdapter {
     }
 
     public void update(float dt) {
-//        shaker.update(dt);
+        shaker.update(dt);
         particles.update(dt);
 //        playerInput.update(dt);
         worldCamera.update();

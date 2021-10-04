@@ -42,8 +42,9 @@ public class Piston implements Collidable {
             if (heat >= MAX_HEAT) {
                 heat = MAX_HEAT;
                 broken = true;
-            Main.game.audio.playSound(Audio.Sounds.fire, 1.0f);
-            Main.game.audio.playSound(Audio.Sounds.alarm, 0.075f);
+                Main.game.audio.playSound(Audio.Sounds.fire, 1.0f);
+                Main.game.audio.playSound(Audio.Sounds.alarm, 0.075f);
+                Main.game.getScreen().shaker.addDamage(.1f);
             }
         } else {
 

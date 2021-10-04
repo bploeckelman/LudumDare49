@@ -10,8 +10,8 @@ import com.badlogic.gdx.math.Matrix4;
 
 public class ScreenShakeCameraController {
 
-    public float maxXOffset = 20;
-    public float maxYOffset = 20;
+    public float maxXOffset = 40;
+    public float maxYOffset = 40;
     public float maxAngleDegrees = 1;
 
     public float xOffsetSpeed = 3f;

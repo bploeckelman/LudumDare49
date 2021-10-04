@@ -14,9 +14,10 @@ public class Reactor {
     private static final boolean DRAW_SEGMENTS = false;
 
     public enum DamageAmount {
-        small(0.01f), medium(1), large(20);
+        small(0.01f, .1f), medium(1, .1f), large(20, .5f);
         final float value;
-        DamageAmount(float value) {this.value = value;}
+        final float shakeAmount;
+        DamageAmount(float value, float shakeAmount) {this.value = value; this.shakeAmount = shakeAmount;}
     }
 
     public Array<Segment2D> segments = new Array<>();
@@ -141,6 +142,7 @@ public class Reactor {
     public void damageStructure(DamageAmount amount) {
         currStructureDmg += amount.value;
         // trigger a flash on the structural integrity meter for serious damage
+        world.gameScreen.shaker.addDamage(amount.shakeAmount);
         if (amount != DamageAmount.small) {
             world.gameScreen.ui.structureDamaged();
         }

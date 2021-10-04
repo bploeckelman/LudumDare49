@@ -9,13 +9,12 @@ import com.badlogic.gdx.math.Rectangle;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.Main;
 import lando.systems.ld49.collision.Collidable;
-import lando.systems.ld49.screens.GameScreen;
-import lando.systems.ld49.utils.Time;
+
 
 
 public class Piston implements Collidable {
 
-    private static float MAX_HEAT = 100;
+    private static float MAX_HEAT = 120;
     private TextureRegion piston_back;
     private TextureRegion piston;
     private TextureRegion piston_front;
@@ -30,6 +29,7 @@ public class Piston implements Collidable {
     public Rectangle bounds = new Rectangle();
     private float pistonPosition;
     private float accum;
+    public float brokenTimer;
 
     public Piston(float x, float y, float width, float height){
         bounds.set(x, y, width, height);
@@ -63,7 +63,12 @@ public class Piston implements Collidable {
                 Main.game.getScreen().shaker.addDamage(.1f);
             }
         } else {
-
+            brokenTimer+= dt;
+            float flameHeight = bounds.height*2f;
+            if (brokenTimer < 2f){
+                flameHeight *= 1.0f + 1.5f * (1.f - (brokenTimer/2f));
+            }
+            flameBackground.bounds.height = flameHeight;
         }
         pistonPosition = MathUtils.lerp(pistonPosition, getPercentHeat(), .01f);
         flameBackground.insideColor.a = getPercentHeat();

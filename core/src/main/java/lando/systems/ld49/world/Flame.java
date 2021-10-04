@@ -12,7 +12,7 @@ public class Flame {
     public Color insideColor = new Color();
     public Color outsideColor = new Color();
     private float accum;
-    private Rectangle bounds;
+    public Rectangle bounds;
 
     public Flame(Rectangle bounds, Color insideColor, Color outsideColor) {
         this(bounds.x, bounds.y, bounds.width, bounds.height, insideColor, outsideColor);

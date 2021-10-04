@@ -27,7 +27,7 @@ public class GameOverScreen extends BaseScreen {
         super(game);
         presidente = new Presidente(game.assets, 100f, 200f, this);
         presidente.animation = game.assets.presidenteRunAnim;
-        game.audio.playMusic(Audio.Musics.outroMusic, true);
+        game.audio.fadeMusic(Audio.Musics.outroMusic);
 
 
 

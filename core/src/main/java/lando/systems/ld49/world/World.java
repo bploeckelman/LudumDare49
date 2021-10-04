@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import lando.systems.ld49.Assets;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.Config;
+import lando.systems.ld49.Main;
 import lando.systems.ld49.collision.CollisionManager;
 import lando.systems.ld49.screens.GameOverScreen;
 import lando.systems.ld49.screens.GameScreen;
@@ -73,7 +74,6 @@ public class World {
     public void update(float dt, boolean pause) {
         ambianceSoundTime-= dt;
         if (ambianceSoundTime <= 0){
-            // TODO: Pete play sound here
             gameScreen.game.audio.playSound(Audio.Sounds.steamHiss, 0.1f);
             ambianceSoundTime = MathUtils.random(4f, 10f);
         }
@@ -94,34 +94,34 @@ public class World {
         }
         reactor.update(dt);
 
-
         if (reactor.getStructurePercent() >= 0.85f || reactor.getTemperaturePercent() >= 0.85f) {
-            if(World.playFastMusic == true) {
+            if (World.playFastMusic) {
+                World.playFastMusic = false;
                 gameScreen.game.audio.stopMusic();
                 gameScreen.game.audio.playMusic(Audio.Musics.fastMusic);
-                World.playFastMusic = false;
             }
-
-
         }
+
         if (reactor.getStructurePercent() >= 1.0f || reactor.getTemperaturePercent() >= 1.0f) {
             gameScreen.particles.addSmoke(MathUtils.random(590f, 996f), MathUtils.random(130f, 480f));
-
-
+            gameScreen.shaker.addDamage(100);
 
             if (MathUtils.random(1f) > .9f){
                 gameScreen.particles.addLargeSmoke(MathUtils.random(590f, 996f), MathUtils.random(130f, 480f));
                 gameScreen.game.audio.playSound(Audio.Sounds.alarm, 0.3F);
                 gameScreen.game.audio.playSound(Audio.Sounds.fire, 0.5F);
-                if(World.playFinalExplosion == true) {
-                    gameScreen.game.audio.playSound(Audio.Sounds.explosions, 1.5F);
-                    World.playFinalExplosion = false;
 
+                if (World.playFinalExplosion) {
+                    World.playFinalExplosion = false;
+                    gameScreen.game.audio.playSound(Audio.Sounds.explosions, 1.5F);
                 }
             }
             gameOverTimer += dt;
             if (gameOverTimer > 10f) {
-                gameScreen.game.setScreen(new GameOverScreen(gameScreen.game));
+                if (!gameScreen.exitingScreen) {
+                    gameScreen.exitingScreen = true;
+                    gameScreen.game.setScreen(new GameOverScreen(gameScreen.game), Main.game.assets.heartShader, 3f);
+                }
             }
             return;
         }
@@ -144,13 +144,13 @@ public class World {
     }
 
     public void draw(SpriteBatch batch) {
-        batch.draw(assets.backgrounds.empty, bounds.x, bounds.y - 200, bounds.width + 300, bounds.height);
+        batch.draw(assets.backgrounds.empty, bounds.x - 300, bounds.y - 200, bounds.width + 600, bounds.height);
 
         // dirt
         float groundLevel = 350;
         float bottom = bounds.y - 200;
         batch.setColor(198 / 255f, 156 / 255f, 108 / 255f, 1);
-        batch.draw(assets.pixelRegion, bounds.x, bottom, bounds.width + 300, groundLevel);
+        batch.draw(assets.pixelRegion, bounds.x - 300, bottom, bounds.width + 600, groundLevel);
         batch.setColor(Color.WHITE);
 
         // background nuclear plant

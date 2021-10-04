@@ -39,6 +39,7 @@ public class UI extends InputAdapter {
     private final String buyMoreGriftingButtonText = "Click For More Cruelty (Faster $$$)";
     private final String buyStructureRepairingButtonText = "Make Repairs";
 
+
     private String commsText = commsTextPrompt;
     private String commsLeftName = "";
     private String commsRightName = "";
@@ -397,7 +398,7 @@ public class UI extends InputAdapter {
                 sx = font.getScaleX();
                 sy = font.getScaleY();
                 font.getData().setScale(0.5f);
-                layout.setText(font, buyMoreProjectilesButtonText, numProjectiles == 0 ? Color.BLUE : Color.FOREST, projectilesCtrlBounds.width, Align.center, false);
+                layout.setText(font, buyMoreProjectilesButtonText + " - $" + PurchasePrice.projectiles, numProjectiles == 0 ? Color.BLUE : Color.FOREST, projectilesCtrlBounds.width, Align.center, false);
                 font.draw(batch, layout, x, projectilesCtrlBounds.y + margin + height / 2f + layout.height / 2f);
                 font.getData().setScale(sx, sy);
             }
@@ -454,7 +455,7 @@ public class UI extends InputAdapter {
                 sx = font.getScaleX();
                 sy = font.getScaleY();
                 font.getData().setScale(0.5f);
-                layout.setText(font, buyMoreGriftingButtonText, Color.FOREST, griftingCtrlBounds.width, Align.center, false);
+                layout.setText(font, buyMoreGriftingButtonText + " - $" + PurchasePrice.grift, Color.FOREST, griftingCtrlBounds.width, Align.center, false);
                 font.draw(batch, layout, x, griftingCtrlBounds.y + margin + buttonHeight / 2f + layout.height / 2f);
                 font.getData().setScale(sx, sy);
             }
@@ -485,7 +486,7 @@ public class UI extends InputAdapter {
                 sx = font.getScaleX();
                 sy = font.getScaleY();
                 font.getData().setScale(0.5f);
-                layout.setText(font, buyStructureRepairingButtonText, Color.FOREST, repairingCtrlBounds.width, Align.center, false);
+                layout.setText(font, buyStructureRepairingButtonText + " - $" + PurchasePrice.repairs, Color.FOREST, repairingCtrlBounds.width, Align.center, false);
                 font.draw(batch, layout, x, repairingCtrlBounds.y + margin + height / 2f + layout.height / 2f);
                 font.getData().setScale(sx, sy);
             }
@@ -542,7 +543,7 @@ public class UI extends InputAdapter {
                     float textPressOffset = 2f;
                     font.getData().setScale(0.5f);
                     Color acceptButtonTextColor = (canAcceptCiaBuyoffOffer) ? Color.LIME : Color.LIGHT_GRAY;
-                    game.assets.layout.setText(font, "$ Pay Up $", acceptButtonTextColor, commsLeftAcceptButton.width, Align.center, false);
+                    game.assets.layout.setText(font, "Pay $" + PurchasePrice.ciaBuyoff, acceptButtonTextColor, commsLeftAcceptButton.width, Align.center, false);
                     font.draw(batch, game.assets.layout, commsLeftAcceptButton.x, commsLeftAcceptButton.y + commsLeftAcceptButton.height / 2f + game.assets.layout.height / 2f + 4 - (acceptButtonPressed ? textPressOffset : 0));
                     game.assets.layout.setText(font, "Never!", respondedToComms ? Color.LIGHT_GRAY : Color.FIREBRICK, commsLeftRejectButton.width, Align.center, false);
                     font.draw(batch, game.assets.layout, commsLeftRejectButton.x, commsLeftRejectButton.y + commsLeftRejectButton.height / 2f + game.assets.layout.height / 2f + 4 - (rejectButtonPressed ? textPressOffset : 0));

@@ -76,7 +76,7 @@ public class StoryScreen extends BaseScreen {
         layout.setText(game.assets.pixelFont16, text, Color.WHITE, worldCamera.viewportWidth, Align.center, true);
 
         game.assets.pixelFont16.getData().setScale(1f);
-        game.audio.playMusic(Audio.Musics.storyMusic);
+        game.audio.fadeMusic(Audio.Musics.storyMusic);
 
         perspectiveCamera = new PerspectiveCamera(90, 1280, 800);
         perspectiveCamera.far=10000;
@@ -87,15 +87,26 @@ public class StoryScreen extends BaseScreen {
     }
 
     public void update(float dt) {
-        accum += 75*dt;
+        float speedMultiplier = 1.0f;
+
+        if (Gdx.input.isTouched()){
+            speedMultiplier = 10f;
+        }
+        accum += 75*dt * speedMultiplier;
 //        accum = MathUtils.clamp(accum, 0, layout.height);
         if (accum > layout.height && Gdx.input.justTouched()) {
-            game.setScreen(new GameScreen(game), assets.cubeShader, 3f);
-        } else if (Gdx.input.justTouched()) {
-            accum = layout.height;
+            launchGame();
         }
         if (accum >= layout.height * 2f) {
+            launchGame();
+        }
+    }
+
+    private void launchGame() {
+        if (!exitingScreen){
+            exitingScreen = true;
             game.setScreen(new GameScreen(game), assets.cubeShader, 3f);
+
         }
     }
 

@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import lando.systems.ld49.Assets;
 import lando.systems.ld49.Audio;
+import lando.systems.ld49.Config;
 import lando.systems.ld49.collision.CollisionManager;
 import lando.systems.ld49.screens.GameScreen;
 
@@ -32,10 +33,15 @@ public class World {
     private float animState3 = MathUtils.random(3, 10);
     private float ambianceSoundTime;
     private boolean isRiotInProgress = false;
+    public enum BananaStatus {
+        NORMAL, PREP_RIOT, RIOT, END_RIOT
+    }
+    public BananaStatus bananasStatus = BananaStatus.NORMAL;
+
 
     private final float bananaHammockLeft = 280;
     private final float bananaHammockBottom = 120;
-    private final float bananaPopulation = 10;
+    private final float bananaPopulation = 15;
 
     public World(GameScreen screen) {
         this.gameScreen = screen;
@@ -45,7 +51,7 @@ public class World {
         reactor = new Reactor(this);
         collisionManager = new CollisionManager(this);
         for (int i = 0; i < bananaPopulation; i++) {
-            bananas.add(new Banana(assets, MathUtils.random(30f, 450f), MathUtils.random(30f, 150f), this));
+            bananas.add(new Banana(assets, MathUtils.random(30f, Config.viewport_width - 50f), MathUtils.random(30f, 150f), this));
         }
         ambianceSoundTime = MathUtils.random(5f, 10f);
     }
@@ -123,13 +129,23 @@ public class World {
         batch.draw(assets.bananaHammockSign, bananaHammockLeft - 150, bananaHammockBottom);
 
         // foreground stuff
-        reactor.render(batch);
+        if (bananasStatus == BananaStatus.NORMAL) {
+            // if bananastatus is normal, draw bananas behind reactor
+            for (Banana banana : bananas) {
+                banana.render(batch);
+            }
+            reactor.render(batch);
+        }
+        else {
+            //else draw reactor first
+            reactor.render(batch);
+            for (Banana banana : bananas) {
+                banana.render(batch);
+            }
+        }
         catapult.render(batch);
         for (Shot shot: shots) {
             shot.render(batch);
-        }
-        for (Banana banana : bananas) {
-            banana.render(batch);
         }
         reactor.renderDebug(batch);
     }
@@ -144,7 +160,12 @@ public class World {
         }
     }
 
+    public void makeBananasPrepRiot() {
+        bananasStatus = BananaStatus.PREP_RIOT;
+    }
+
     public void makeBananasRiot() {
+        bananasStatus = BananaStatus.RIOT;
         for (Banana banana : bananas) {
             banana.startRiot(true, new Vector2(reactor.left, 0f), 600f, 10f);
         }
@@ -165,6 +186,7 @@ public class World {
             gameScreen.particles.addLargeSmoke(reactor.left + 300f, 300f);
             isRiotInProgress = false;
         }
+        bananasStatus = BananaStatus.END_RIOT;
     }
 
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld49.Assets;
+import lando.systems.ld49.Config;
 
 public class Banana {
     private Assets assets;
@@ -190,7 +191,7 @@ public class Banana {
                     yDirection = -1;
                     break;
             }
-            if (pos.x > world.reactor.left) {
+            if (pos.x > Config.viewport_width - width) {
                 status = Status.WALK_LEFT;
             }
             else if (status == Status.IDLE_LEFT || status == Status.IDLE_RIGHT) {
@@ -213,7 +214,7 @@ public class Banana {
         if (0 > pos.x && status == Status.WALK_LEFT) {
             //force walk to right
             status = Status.WALK_RIGHT;
-        } else if (pos.x > world.reactor.left - width && status == Status.WALK_RIGHT) {
+        } else if (pos.x > Config.viewport_width - width && status == Status.WALK_RIGHT) {
             //walk to left
             status = Status.WALK_LEFT;
         }

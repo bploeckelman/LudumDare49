@@ -66,7 +66,7 @@ public class StoryScreen extends BaseScreen {
             "fueled by greed and consumption \n\n" +
             "destroys Potassia and its people…\n\n" +
             "\n\n________\n\n" +
-
+            
             "\n\nAre you a bad enough plantain to save Potassia?" +
 
             "\n\n\nClick to play!";

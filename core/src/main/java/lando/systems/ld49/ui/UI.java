@@ -30,9 +30,14 @@ public class UI extends InputAdapter {
 
 
     // comms panel related stuff
-    private final String commsTextPrompt = "Fine cooling tower you have there. Be a shame if someone told an angry mob to destroy it...\n\nI'm sure we can find a way to prevent that, hmm?";
-    private final String commsTextRejected = "It seems you've forgotten who's really in charge here.\n\nYOU may survive this, but your tower won't.";
-    private final String commsTextAccepted = "I'm glad we see eye to eye. \n\nCarry on with your... \nweird little ritual or whatever.";
+    private final String commsTextPrompt = "Fine cooling tower you have there. Be a shame if someone incited an angry mob to destroy it...\n\nI'm sure we can find a way to prevent that, hmm?";
+    private final String commsTextAccepted = "I'm glad we see eye to eye. \n\nCarry on with your... weird little game or whatever.";
+    private final String commsTextRejected = "It seems you've forgotten who's really in charge here.\n\nYOU may get out of this alive, but Cavendish won't.";
+    private final String commsTextDolePresidenteResponseCIA1 = "Do you honestly expect me to bow down to your sneaky threats, spy? \n\n...I might. This is a hell of a grift.\n\nTough call.";
+    private final String commsTextDolePresidenteResponseCIAAccepted = "Yeah, yeah, yeah...\n\nAlways the same with you people. Overthrow this, regime-change that. \n\nCould you -be- more unoriginal?";
+    private final String commsTextDolePresidenteResponseCIARejected = "Do your worst!\n\nThis place is eventually going to explode in hellfire anyway.\n\nAt least this way I know when to expect it.";
+    private final String commsTextBananaResponse = "\"Thank you, Dole Presidente!\n\nYou have briefly deferred the inevitable collapse of our way of life!\n\n...Which you also caused!\"";
+    private final String commsTextDolePresidenteResponseBanana = "Don't mention it, kid.\n\n Like, literally don't say a word to anyone.\n\nThis was a war crime.\n";
     private final String projectilesCtrlHeader = "Projectile Inventory";
     private final String griftingCtrlHeader = "Exploitation Station";
     private final String repairingCtrlHeader = "Structural\n\nRepair Station";

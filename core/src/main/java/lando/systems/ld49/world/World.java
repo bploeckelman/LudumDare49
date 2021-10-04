@@ -35,9 +35,7 @@ public class World {
     private float animState3 = MathUtils.random(3, 10);
     private float ambianceSoundTime;
     private boolean isRiotInProgress = false;
-    public enum BananaStatus {
-        NORMAL, PREP_RIOT, RIOT, END_RIOT
-    }
+    public enum BananaStatus {NORMAL, PREP_RIOT, RIOT, END_RIOT}
     public BananaStatus bananasStatus = BananaStatus.NORMAL;
 
     private float gameOverTimer =0;
@@ -148,8 +146,8 @@ public class World {
         batch.draw(assets.bananaHammockSign, bananaHammockLeft - 150, bananaHammockBottom);
 
         // foreground stuff
-        if (bananasStatus == BananaStatus.NORMAL) {
-            // if bananastatus is normal, draw bananas behind reactor
+        if (bananasStatus != BananaStatus.RIOT) {
+            // if bananastatus is not rioting, draw bananas behind reactor
             for (Banana banana : bananas) {
                 banana.render(batch);
             }
@@ -178,10 +176,14 @@ public class World {
         for (Banana banana : bananas) {
             banana.beHappy(10f);
         }
+        bananasStatus = BananaStatus.NORMAL;
     }
 
     public void makeBananasPrepRiot() {
         bananasStatus = BananaStatus.PREP_RIOT;
+        for (Banana banana : bananas) {
+            banana.setupPrepRiot(true, new Vector2(bananaHammockLeft + 50f, bananaHammockBottom - 20f));
+        }
     }
 
     public void makeBananasRiot() {

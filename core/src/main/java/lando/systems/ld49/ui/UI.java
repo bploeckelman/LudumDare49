@@ -216,6 +216,10 @@ public class UI extends InputAdapter {
         // TODO: just for testing, remove me
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             toggleComms();
+            if (game.getScreen() instanceof GameScreen) {
+                GameScreen currentScreen = (GameScreen) game.getScreen();
+                currentScreen.world.makeBananasPrepRiot();
+            }
         }
     }
 

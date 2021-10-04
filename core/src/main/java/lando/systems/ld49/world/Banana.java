@@ -36,9 +36,11 @@ public class Banana {
     private TextureRegion emoteTexture;
     private Feelings feeling;
     private int yDirection = 1;
+    private Vector2 gatherLocation = new Vector2();
+    private boolean isPreppingRiot = false;
 
     public enum Status { IDLE_LEFT, IDLE_RIGHT, WALK_LEFT, WALK_RIGHT, RIOT_LEFT, RIOT_RIGHT, RIOT_IDLE }
-    public enum Feelings { POSITIVE, NEUTRAL, NEGATIVE, WARN_TEMP, WARN_WRENCH}
+    public enum Feelings { POSITIVE, NEUTRAL, NEGATIVE, WARN_TEMP, WARN_WRENCH, QUESTION}
 
     public Banana(Assets assets, float x, float y, World world) {
         this.assets = assets;
@@ -90,8 +92,18 @@ public class Banana {
                 case WARN_WRENCH:
                     emoteTexture = assets.emotes.wrench;
                     break;
+                case QUESTION:
+                    emoteTexture = assets.emotes.question;
+                    break;
             }
         }
+    }
+
+    public void setupPrepRiot(boolean isPreppingRiot, Vector2 gatherLocation) {
+        this.gatherLocation.set(gatherLocation.x + MathUtils.random(-15f, 15f), gatherLocation.y + MathUtils.random(-15f, 15f));
+        this.isPreppingRiot = isPreppingRiot;
+        this.feeling = Feelings.QUESTION;
+        this.isRioting = false;
     }
 
     public void startRiot(boolean isRioting, Vector2 reactorLocation, float reactorWidth, float riotTimer) {
@@ -100,6 +112,7 @@ public class Banana {
         this.riotTimer = riotTimer;
         this.feeling = Feelings.NEGATIVE;
         this.emoteCooldown = 0f;
+        this.isPreppingRiot = false;
     }
 
     public void beHappy(float happyTimer) {
@@ -107,6 +120,8 @@ public class Banana {
         this.happyTimer = happyTimer;
         this.riotTimer = 0;
         this.emoteCooldown = 0f;
+        this.isRioting = false;
+        this.isPreppingRiot = false;
     }
 
 
@@ -167,6 +182,40 @@ public class Banana {
             status = Status.WALK_LEFT;
             emoteCooldown = 0f;
             world.riotFinished();
+        }
+    }
+
+    public void prepRiot(float dt) {
+        animationTimer+=dt;
+        if (pos.x + width * scale / 2 >= gatherLocation.x && pos.x <= gatherLocation.x) {
+            status = Status.IDLE_LEFT;
+        }
+        else if (pos.x + width * scale / 2 < gatherLocation.x) {
+            status = Status.WALK_RIGHT;
+            world.gameScreen.particles.addSmoke(pos.x + width * scale / 2, pos.y);
+        }
+        else if (pos.x > gatherLocation.x) {
+            status = Status.WALK_LEFT;
+            world.gameScreen.particles.addSmoke(pos.x + width * scale / 2, pos.y);
+        }
+        switch (status) {
+            case WALK_LEFT:
+                pos.x -= RIOT_VELOCITY;
+                if (pos.y > gatherLocation.y) {
+                    pos.y -= RIOT_VELOCITY;
+                }
+                textureRegion = assets.ripelyRunAnim.getKeyFrame(animationTimer);
+                break;
+            case WALK_RIGHT:
+                pos.x += RIOT_VELOCITY;
+                if (pos.y > gatherLocation.y) {
+                    pos.y -= RIOT_VELOCITY;
+                }
+                textureRegion = assets.ripelyRunAnim.getKeyFrame(animationTimer);
+                break;
+            case IDLE_LEFT:
+                textureRegion = assets.ripelyIdleAnim.getKeyFrame(animationTimer);
+                break;
         }
     }
 
@@ -242,6 +291,9 @@ public class Banana {
         if (isRioting) {
             riot(dt);
             world.gameScreen.particles.addSmoke(pos.x + width * scale / 2, pos.y);
+        }
+        else if (isPreppingRiot) {
+            prepRiot(dt);
         }
         else {
             wanderAround(dt);

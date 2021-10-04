@@ -79,6 +79,7 @@ public class World {
         }
     }
 
+    private float smokeAccum = 0;
     public void update(float dt, boolean pause) {
         ambianceSoundTime-= dt;
         if (ambianceSoundTime <= 0){
@@ -93,6 +94,13 @@ public class World {
 
         // update clouds on pause
         updateClouds(dt);
+
+        smokeAccum += dt;
+        if (smokeAccum > 0.1f) {
+            smokeAccum = 0;
+            gameScreen.particles.addSmokeStackSmoke(320, 400);
+            gameScreen.particles.addSmokeStackSmoke(500, 460);
+        }
 
         // Things that shouldn't run when paused should be here
         if (pause) return;

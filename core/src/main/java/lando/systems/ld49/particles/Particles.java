@@ -147,6 +147,26 @@ public class Particles implements Disposable {
         }
     }
 
+    public void addSmokeStackSmoke(float x, float y){
+        TextureRegion keyframe = assets.particles.smoke;
+        float grayValue = MathUtils.random(.2f) + .3f;
+        tempColor.set(grayValue, grayValue, grayValue, 1f);
+        //int numParticles = 10;
+        //for (int i = 0; i < numParticles; ++i) {
+            activeParticles.get(Layer.foreground).add(Particle.initializer(particlePool.obtain())
+                    .keyframe(keyframe)
+                    .startPos(x, y) // + MathUtils.random(-70f, 70f), y)
+                    .velocityDirection(-90, MathUtils.random(-50f, -100f))
+                    .startSize(MathUtils.random(100f, 200f))
+                    .endSize(MathUtils.random(50f, 80f))
+                    .startAlpha(1f)
+                    .endAlpha(0f)
+                    .timeToLive(MathUtils.random(1.5f, 2.5f))
+                    .startColor(tempColor)
+                    .init());
+        //}
+    }
+
     private final Color[] projectilePistonColors = new Color[] {
             Color.ORANGE, Color.CORAL, Color.FIREBRICK, Color.YELLOW, Color.PURPLE
     };

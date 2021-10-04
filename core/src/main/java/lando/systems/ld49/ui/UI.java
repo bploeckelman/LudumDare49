@@ -1,5 +1,6 @@
 package lando.systems.ld49.ui;
 
+import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Back;
 import com.badlogic.gdx.Gdx;
@@ -16,7 +17,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.Main;
-import lando.systems.ld49.screens.BaseScreen;
 import lando.systems.ld49.screens.GameScreen;
 import lando.systems.ld49.utils.accessors.RectangleAccessor;
 
@@ -31,17 +31,26 @@ public class UI extends InputAdapter {
     private final String commsTextAccepted = "I'm glad we see eye to eye. \n\nCarry on with your... \nweird little ritual or whatever.";
     private String commsText = commsTextPrompt;
     private final Animation<TextureRegion> ciaGuyAnim;
-    private final Rectangle commsPanelBounds  = new Rectangle();
-    private final Rectangle commsPanelVisible = new Rectangle();
-    private final Rectangle commsPanelHidden  = new Rectangle();
-    private final Rectangle commsPanelAcceptButton = new Rectangle();
-    private final Rectangle commsPanelRejectButton = new Rectangle();
+    private final Animation<TextureRegion> presidenteAnim;
+    private final Animation<TextureRegion> bananaManAnim;
+    private final Rectangle commsLeftBounds = new Rectangle();
+    private final Rectangle commsLeftVisible = new Rectangle();
+    private final Rectangle commsLeftHidden = new Rectangle();
+    private final Rectangle commsLeftAcceptButton = new Rectangle();
+    private final Rectangle commsLeftRejectButton = new Rectangle();
+    private final Rectangle commsRightBounds = new Rectangle();
+    private final Rectangle commsRightVisible = new Rectangle();
+    private final Rectangle commsRightHidden = new Rectangle();
+    private final Rectangle commsLeftDialogueBounds = new Rectangle();
+    private final Rectangle commsRightDialogueBounds = new Rectangle();
     private boolean acceptButtonPressed = false;
     private boolean rejectButtonPressed = false;
     private boolean respondedToComms = false;
     private boolean commsAnimating = false;
     private boolean commsOpen = false;
     private float ciaGuyAnimState = 0;
+    private float presidenteAnimState = 0;
+    private float bananaManAnimState = 0;
 
     private final TextureRegion meterTexture;
     private final TextureRegion bananaTexture;
@@ -68,18 +77,31 @@ public class UI extends InputAdapter {
         this.game = game;
         this.uiElements = uiElements;
 
-        this.ciaGuyAnim = new Animation<>(0.2f, game.assets.atlas.findRegions("people/cia-guy"));
-        this.ciaGuyAnim.setPlayMode(Animation.PlayMode.LOOP);
+        this.ciaGuyAnim = new Animation<>(0.2f, game.assets.atlas.findRegions("people/cia-guy/cia-guy"), Animation.PlayMode.LOOP);
+        this.bananaManAnim = new Animation<>(0.2f, game.assets.atlas.findRegions("people/banana-man/banana-man-talk/banana-man-talk"), Animation.PlayMode.LOOP);
+        this.presidenteAnim = new Animation<>(0.2f, game.assets.atlas.findRegions("people/dole-presidente/dole-presidente-talk/dole-presidente-talk"), Animation.PlayMode.LOOP);
+        // presidente is in the right window, so he should face left
+        for (TextureRegion texture : presidenteAnim.getKeyFrames()) {
+            texture.flip(true, false);
+        }
 
-        float commsSize = 256;
-        this.commsPanelVisible.set(0, Config.window_height - commsSize, commsSize, commsSize);
-        this.commsPanelHidden.set(-commsSize, commsPanelVisible.y, commsSize, commsSize);
-        this.commsPanelBounds.set(commsOpen ? commsPanelVisible : commsPanelHidden);
+        float commsSize = 128;
+        this.commsLeftVisible.set(0, Config.window_height - commsSize, commsSize, commsSize);
+        this.commsLeftHidden.set(-commsSize, commsLeftVisible.y, commsSize, commsSize);
+        this.commsLeftBounds.set(commsOpen ? commsLeftVisible : commsLeftHidden);
+
+        this.commsRightVisible.set(Config.window_width - commsSize, Config.window_height - commsSize, commsSize, commsSize);
+        this.commsRightHidden.set(Config.window_width, Config.window_height - commsSize, commsSize, commsSize);
+        this.commsRightBounds.set(commsOpen ? commsRightVisible : commsRightHidden);
+
+        float dialogueWidth = 4 * commsSize;
+        this.commsLeftDialogueBounds.set(commsLeftVisible.x + commsLeftVisible.width, commsLeftBounds.y, dialogueWidth, commsSize);
+        this.commsRightDialogueBounds.set(Config.window_width - commsRightVisible.width - dialogueWidth, commsRightBounds.y, dialogueWidth, commsSize);
 
         float buttonHeight = 40;
-        float buttonWidth = commsPanelVisible.width / 2f;
-        this.commsPanelAcceptButton.set(commsPanelVisible.x + commsPanelVisible.width, commsPanelVisible.y, buttonWidth, buttonHeight);
-        this.commsPanelRejectButton.set(commsPanelVisible.x + commsPanelVisible.width * 2 - buttonWidth, commsPanelVisible.y, buttonWidth, buttonHeight);
+        float buttonWidth = commsSize;
+        this.commsLeftAcceptButton.set(commsLeftVisible.x, commsLeftVisible.y - buttonHeight, buttonWidth, buttonHeight);
+        this.commsLeftRejectButton.set(commsLeftVisible.x, commsLeftVisible.y - buttonHeight * 2, buttonWidth, buttonHeight);
 
         this.meterTexture = game.assets.atlas.findRegion("meter");
         this.bananaTexture = game.assets.atlas.findRegion("banana");
@@ -105,18 +127,34 @@ public class UI extends InputAdapter {
         if (commsOpen) {
             respondedToComms = false;
             commsText = commsTextPrompt;
-            Tween.to(commsPanelBounds, RectangleAccessor.XYWH, 0.2f)
-                    .target(commsPanelHidden.x, commsPanelHidden.y, commsPanelHidden.width, commsPanelHidden.height)
-                    .ease(Back.IN)
+            Timeline.createParallel()
+                    .push(
+                            Tween.to(commsLeftBounds, RectangleAccessor.XYWH, 0.2f)
+                                    .target(commsLeftHidden.x, commsLeftHidden.y, commsLeftHidden.width, commsLeftHidden.height)
+                                    .ease(Back.IN)
+                    )
+                    .push(
+                            Tween.to(commsRightBounds, RectangleAccessor.XYWH, 0.2f)
+                                    .target(commsRightHidden.x, commsRightHidden.y, commsRightHidden.width, commsRightHidden.height)
+                                    .ease(Back.IN)
+                    )
                     .setCallback((type, source) -> {
                         commsOpen = false;
                         commsAnimating = false;
                     })
                     .start(game.tween);
         } else {
-            Tween.to(commsPanelBounds, RectangleAccessor.XYWH, 0.3f)
-                    .target(commsPanelVisible.x, commsPanelVisible.y, commsPanelVisible.width, commsPanelVisible.height)
-                    .ease(Back.OUT)
+            Timeline.createParallel()
+                    .push(
+                            Tween.to(commsLeftBounds, RectangleAccessor.XYWH, 0.3f)
+                                    .target(commsLeftVisible.x, commsLeftVisible.y, commsLeftVisible.width, commsLeftVisible.height)
+                                    .ease(Back.OUT)
+                    )
+                    .push(
+                            Tween.to(commsRightBounds, RectangleAccessor.XYWH, 0.3f)
+                                    .target(commsRightVisible.x, commsRightVisible.y, commsRightVisible.width, commsRightVisible.height)
+                                    .ease(Back.OUT)
+                    )
                     .setCallback((type, source) -> {
                         commsOpen = true;
                         commsAnimating = false;
@@ -159,6 +197,10 @@ public class UI extends InputAdapter {
         }
 
         ciaGuyAnimState += dt;
+        presidenteAnimState += dt;
+        bananaManAnimState += dt;
+
+        // TODO: just for testing, remove me
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             toggleComms();
         }
@@ -233,19 +275,36 @@ public class UI extends InputAdapter {
             font.getData().setScale(1f);
         }
 
-        // cia guy comms window
+        // comms windows
         {
             float margin = 0;
-            Rectangle bounds = commsPanelBounds;
-            TextureRegion cia = ciaGuyAnim.getKeyFrame(ciaGuyAnimState);
-            uiElements.drawPanel(batch, commsPanelBounds);
-            batch.draw(cia, bounds.x + margin, bounds.y + margin, bounds.width - 2 * margin, bounds.height - 2 * margin);
+            Rectangle bounds;
+            TextureRegion keyframe;
+            Animation<TextureRegion> anim = respondedToComms ? bananaManAnim : ciaGuyAnim;
+            float animState = respondedToComms ? bananaManAnimState : ciaGuyAnimState;
+
+            bounds = commsLeftBounds;
+            keyframe = anim.getKeyFrame(animState);
+            uiElements.drawPanel(batch, commsLeftBounds);
+            if (!commsAnimating) {
+                batch.draw(keyframe, bounds.x + margin, bounds.y + margin, bounds.width - 2 * margin, bounds.height - 2 * margin);
+            }
+
+            bounds = commsRightBounds;
+            keyframe = presidenteAnim.getKeyFrame(presidenteAnimState);
+            uiElements.drawPanel(batch, commsRightBounds);
+            if (!commsAnimating) {
+                batch.draw(keyframe, bounds.x + margin, bounds.y + margin, bounds.width - 2 * margin, bounds.height - 2 * margin);
+            }
 
             if (commsOpen && !commsAnimating) {
+                // TODO: update dialogue window (wider, but only as tall as comms window), add another one on the right
+
+                bounds = commsLeftDialogueBounds;
                 batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
-                batch.draw(game.assets.pixelRegion, bounds.x + bounds.width, bounds.y, bounds.width, bounds.height);
+                batch.draw(game.assets.pixelRegion, bounds.x, bounds.y, bounds.width, bounds.height);
                 batch.setColor(Color.LIGHT_GRAY);
-                game.assets.debugNinePatch.draw(batch, bounds.x + bounds.width, bounds.y, bounds.width, bounds.height);
+                game.assets.debugNinePatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
                 batch.setColor(Color.WHITE);
 
                 BitmapFont font = game.assets.pixelFont16;
@@ -253,19 +312,40 @@ public class UI extends InputAdapter {
                 float scaleX = font.getScaleX();
                 float scaleY = font.getScaleY();
                 font.getData().setScale(0.5f);
-                game.assets.layout.setText(font, commsText, Color.WHITE, bounds.width - 2 * textMargin, Align.topLeft, true);
-                font.draw(batch, game.assets.layout, bounds.x + bounds.width + textMargin, bounds.y + bounds.height - textMargin);
+                game.assets.layout.setText(font, commsText, Color.WHITE, bounds.width - 2 * textMargin, Align.left, true);
+                font.draw(batch, game.assets.layout, bounds.x + textMargin, bounds.y + bounds.height - textMargin);
                 font.getData().setScale(scaleX, scaleY);
 
-                uiElements.drawButton(batch, commsPanelAcceptButton, respondedToComms ? Color.DARK_GRAY : Color.WHITE, acceptButtonPressed);
-                uiElements.drawButton(batch, commsPanelRejectButton, respondedToComms ? Color.DARK_GRAY : Color.WHITE, rejectButtonPressed);
+                uiElements.drawButton(batch, commsLeftAcceptButton, respondedToComms ? Color.DARK_GRAY : Color.WHITE, acceptButtonPressed);
+                uiElements.drawButton(batch, commsLeftRejectButton, respondedToComms ? Color.DARK_GRAY : Color.WHITE, rejectButtonPressed);
 
                 float textPressOffset = 2f;
                 font.getData().setScale(0.5f);
-                game.assets.layout.setText(font, "$ Pay Up $", respondedToComms ? Color.LIGHT_GRAY : Color.LIME, commsPanelAcceptButton.width, Align.center, false);
-                font.draw(batch, game.assets.layout, commsPanelAcceptButton.x, commsPanelAcceptButton.y + commsPanelAcceptButton.height / 2f + game.assets.layout.height / 2f + 4 - (acceptButtonPressed ? textPressOffset : 0));
-                game.assets.layout.setText(font, "Never!", respondedToComms ? Color.LIGHT_GRAY : Color.FIREBRICK, commsPanelRejectButton.width, Align.center, false);
-                font.draw(batch, game.assets.layout, commsPanelRejectButton.x, commsPanelRejectButton.y + commsPanelRejectButton.height / 2f + game.assets.layout.height / 2f + 4 - (rejectButtonPressed ? textPressOffset : 0));
+                game.assets.layout.setText(font, "$ Pay Up $", respondedToComms ? Color.LIGHT_GRAY : Color.LIME, commsLeftAcceptButton.width, Align.center, false);
+                font.draw(batch, game.assets.layout, commsLeftAcceptButton.x, commsLeftAcceptButton.y + commsLeftAcceptButton.height / 2f + game.assets.layout.height / 2f + 4 - (acceptButtonPressed ? textPressOffset : 0));
+                game.assets.layout.setText(font, "Never!", respondedToComms ? Color.LIGHT_GRAY : Color.FIREBRICK, commsLeftRejectButton.width, Align.center, false);
+                font.draw(batch, game.assets.layout, commsLeftRejectButton.x, commsLeftRejectButton.y + commsLeftRejectButton.height / 2f + game.assets.layout.height / 2f + 4 - (rejectButtonPressed ? textPressOffset : 0));
+                font.getData().setScale(scaleX, scaleY);
+
+                // TODO: add a comms dialogue for mob riot text
+                // Paid: "The people appreciate your generosity"
+                // Reject: "Viva la revolución!" (not sure if we can do accent chars)
+
+
+                bounds = commsRightDialogueBounds;
+                batch.setColor(0.2f, 0.2f, 0.2f, 0.5f);
+                batch.draw(game.assets.pixelRegion, bounds.x, bounds.y, bounds.width, bounds.height);
+                batch.setColor(Color.LIGHT_GRAY);
+                game.assets.debugNinePatch.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
+                batch.setColor(Color.WHITE);
+
+                font = game.assets.pixelFont16;
+                textMargin = 10;
+                scaleX = font.getScaleX();
+                scaleY = font.getScaleY();
+                font.getData().setScale(0.5f);
+                game.assets.layout.setText(font, commsText, Color.WHITE, bounds.width - 2 * textMargin, Align.right, true);
+                font.draw(batch, game.assets.layout, bounds.x + textMargin, bounds.y + bounds.height - textMargin);
                 font.getData().setScale(scaleX, scaleY);
             }
         }
@@ -278,11 +358,11 @@ public class UI extends InputAdapter {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (commsOpen && !commsAnimating && !respondedToComms) {
-            if (commsPanelAcceptButton.contains(screenX, Config.window_height - screenY)) {
+            if (commsLeftAcceptButton.contains(screenX, Config.window_height - screenY)) {
                 acceptButtonPressed = true;
                 return true;
             }
-            if (commsPanelRejectButton.contains(screenX, Config.window_height - screenY)) {
+            if (commsLeftRejectButton.contains(screenX, Config.window_height - screenY)) {
                 rejectButtonPressed = true;
                 return true;
             }
@@ -295,7 +375,7 @@ public class UI extends InputAdapter {
         if (commsOpen && !commsAnimating && !respondedToComms) {
             acceptButtonPressed = false;
             rejectButtonPressed = false;
-            if (commsPanelAcceptButton.contains(screenX, Config.window_height - screenY)) {
+            if (commsLeftAcceptButton.contains(screenX, Config.window_height - screenY)) {
                 respondedToComms = true;
                 commsText = commsTextAccepted;
                 if (game.getScreen() instanceof GameScreen) {
@@ -307,10 +387,10 @@ public class UI extends InputAdapter {
                     public void run() {
                         toggleComms();
                     }
-                }, 2);
+                }, 4);
                 return true;
             }
-            if (commsPanelRejectButton.contains(screenX, Config.window_height - screenY)) {
+            if (commsLeftRejectButton.contains(screenX, Config.window_height - screenY)) {
                 respondedToComms = true;
                 commsText = commsTextRejected;
                 if (game.getScreen() instanceof GameScreen) {
@@ -322,7 +402,7 @@ public class UI extends InputAdapter {
                     public void run() {
                         toggleComms();
                     }
-                }, 2);
+                }, 4);
                 return true;
             }
         }

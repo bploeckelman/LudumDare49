@@ -174,6 +174,8 @@ public class Assets implements Disposable {
         public TextureRegion titleImage;
     }
 
+    public static Array<TextureRegion> cloudTextures;
+
     public Emotes emotes;
     public Array<TextureRegion> positiveEmotes = new Array<>();
     public Array<TextureRegion> negativeEmotes = new Array<>();
@@ -424,6 +426,13 @@ public class Assets implements Disposable {
         backgrounds.nuclearPlant = atlas.findRegion("backgrounds/nuclear-plant");
 //        backgrounds.titleImage = atlas.findRegion("backgrounds/title-image");
         backgrounds.titleImage = new TextureRegion(title);
+
+        cloudTextures = new Array<TextureRegion>();
+        cloudTextures.add(atlas.findRegion("clouds/cloud1"));
+        cloudTextures.add(atlas.findRegion("clouds/cloud2"));
+        cloudTextures.add(atlas.findRegion("clouds/cloud3"));
+        cloudTextures.add(atlas.findRegion("clouds/cloud4"));
+        cloudTextures.add(atlas.findRegion("clouds/cloud5"));
 
         projectiles = new Projectiles();
         projectiles.coconut = new Animation<>(0.1f, atlas.findRegions("projectiles/coconut/coconut"), Animation.PlayMode.LOOP);

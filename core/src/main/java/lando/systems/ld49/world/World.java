@@ -1,5 +1,6 @@
 package lando.systems.ld49.world;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,6 +26,8 @@ public class World {
     public final GameScreen gameScreen;
     public final Assets assets;
     public final Rectangle bounds;
+
+    Array<Cloud> clouds;
 
     private float animIdleState = 0f;
     private float animRunState = 0f;
@@ -70,6 +73,10 @@ public class World {
         this.playFinalExplosion = true;
         this.playFastMusic = true;
 
+        clouds =  new Array<Cloud>();
+        for (int i = 0; i < 8; i ++){
+            clouds.add(new Cloud(true));
+        }
     }
 
     public void update(float dt, boolean pause) {
@@ -83,6 +90,9 @@ public class World {
         animState1 += dt;
         animState2 += dt;
         animState3 += dt;
+
+        // update clouds on pause
+        updateClouds(dt);
 
         // Things that shouldn't run when paused should be here
         if (pause) return;
@@ -146,6 +156,16 @@ public class World {
         presidente.update(dt);
     }
 
+    private void updateClouds(float dt) {
+        for (int i = clouds.size -1; i >= 0; i--){
+            clouds.get(i).update(dt);
+            if (clouds.get(i).offScreen){
+                clouds.removeIndex(i);
+                clouds.add(new Cloud(false));
+            }
+        }
+    }
+
     public void draw(SpriteBatch batch) {
         batch.draw(assets.backgrounds.empty, bounds.x - 300, bounds.y - 200, bounds.width + 600, bounds.height);
 
@@ -169,6 +189,11 @@ public class World {
         float horizon = bottom + groundLevel;
         batch.draw(assets.treesIdle.getKeyFrame(animState1), bounds.x + 20, horizon);
         batch.draw(assets.treesIdle.getKeyFrame(animState2), bounds.x + bounds.width - 100, horizon);
+
+        // litterburg clouds
+        for (Cloud cloud: clouds){
+            cloud.render(batch);
+        }
 
         // trees with catapult attached
         Animation<TextureRegion> catapultTreesAnim = catapult.isHeld() ? assets.treesActive : assets.treesIdle;

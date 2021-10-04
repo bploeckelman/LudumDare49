@@ -165,7 +165,6 @@ public class Banana {
             feeling = Feelings.NEUTRAL;
             status = Status.WALK_LEFT;
             emoteCooldown = 0f;
-            world.reactor.damageStructure(Reactor.DamageAmount.large);
             world.gameScreen.particles.addLargeSmoke(world.reactor.left + 300f, 300f);
         }
     }

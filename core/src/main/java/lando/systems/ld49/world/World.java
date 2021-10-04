@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import lando.systems.ld49.Assets;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.collision.CollisionManager;
@@ -142,6 +143,14 @@ public class World {
         for (Banana banana : bananas) {
             banana.startRiot(true, new Vector2(reactor.left, 0f), 600f, 10f);
         }
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                //damage
+                reactor.damageStructure(Reactor.DamageAmount.large);
+
+            }
+        }, 10f);
     }
 
 

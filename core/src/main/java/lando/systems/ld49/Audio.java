@@ -20,7 +20,7 @@ public class Audio implements Disposable {
     public static final float SOUND_VOLUME = 0.5f;
 
     public static boolean soundEnabled = true;
-    public static boolean musicEnabled = false;
+    public static boolean musicEnabled = true;
 
     // none should not have a sound
     public enum Sounds {

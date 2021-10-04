@@ -56,7 +56,10 @@ public class Catapult {
             shineStateTime = 0;
         }
 
-        //TODO: If no ore, exit here
+        // can't shoot if there's nothing in the chamber
+        if (world.gameScreen.ui.numProjectiles == 0) {
+            return;
+        }
 
         if (!held){
             if (Gdx.input.justTouched() && bounds.contains(mousePos.x, mousePos.y)){
@@ -70,6 +73,7 @@ public class Catapult {
                 // TODO: Launch something
                 screen.game.audio.playSound(Audio.Sounds.slingshotRelease, 0.1f);
                 screen.world.addShot(new Shot(pos, new Vector2(launchAngle.x * strength * strengthMultiplier, launchAngle.y * strength * strengthMultiplier)));
+                world.gameScreen.ui.numProjectiles--;
             } else {
                 launchAngle.set(pos.x - mousePos.x, pos.y - mousePos.y).nor();
                 strength = MathUtils.clamp(pos.dst(mousePos.x, mousePos.y), 0, 80f);

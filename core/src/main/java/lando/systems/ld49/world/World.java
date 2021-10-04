@@ -13,6 +13,7 @@ import lando.systems.ld49.Assets;
 import lando.systems.ld49.Audio;
 import lando.systems.ld49.Config;
 import lando.systems.ld49.collision.CollisionManager;
+import lando.systems.ld49.screens.GameOverScreen;
 import lando.systems.ld49.screens.GameScreen;
 
 public class World {
@@ -38,6 +39,7 @@ public class World {
     }
     public BananaStatus bananasStatus = BananaStatus.NORMAL;
 
+    private float gameOverTimer =0;
 
     private final float bananaHammockLeft = 280;
     private final float bananaHammockBottom = 120;
@@ -73,6 +75,18 @@ public class World {
         if (pause) return;
 
         reactor.update(dt);
+        if (reactor.getStructurePercent() >= 1.0f || reactor.getTemperaturePercent() >= 1.0f) {
+            gameScreen.particles.addSmoke(MathUtils.random(590f, 996f), MathUtils.random(130f, 480f));
+
+            if (MathUtils.random(1f) > .9f){
+                gameScreen.particles.addLargeSmoke(MathUtils.random(590f, 996f), MathUtils.random(130f, 480f));
+            }
+            gameOverTimer += dt;
+            if (gameOverTimer > 10f) {
+                gameScreen.game.setScreen(new GameOverScreen(gameScreen.game));
+            }
+            return;
+        }
         catapult.update(dt, gameScreen);
         collisionManager.solve(dt);
 

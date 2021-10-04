@@ -40,6 +40,7 @@ public class GameOverScreen extends GameScreen {
     private TypingLabel page3TypingLabel;
     private TypingLabel nextTypingLabel;
     private TypingLabel statsTypingLabel;
+    private TypingLabel secondsSurvivedTypingLabel;
     private boolean isTalkingDone = false;
     private TextureRegion talkingTextureRegion;
     private Animation<TextureRegion> talkingAnimation;
@@ -57,7 +58,8 @@ public class GameOverScreen extends GameScreen {
         talkingAnimation = new Animation<>(0.2f, assets.atlas.findRegions("people/dole-presidente/dole-presidente-talk/dole-presidente-talk"), Animation.PlayMode.LOOP);
         idleAnimation = new Animation<>(0.2f, assets.atlas.findRegions("people/dole-presidente/dole-presidente-idle/dole-presidente-idle"), Animation.PlayMode.LOOP);
         talkingTextureRegion = talkingAnimation.getKeyFrame(0);
-        String stats = "Money Earned:\n" + moneyEarned + "\n\nMoney Spent:\n" + moneySpent + "\n\nMoney grifted: \n" + netMoney + "\n\nSurvived for: \n" + secondsRan + "s\n\n\n\n\n\n\n\n\n\n\n{RAINBOW}Worth It.{ENDRAINBOW}";
+        String stats = "Money Earned:\n" + moneyEarned + "\n\nMoney Spent:\n" + moneySpent + "\n\nMoney grifted: \n" + netMoney + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n{RAINBOW}Worth It.{ENDRAINBOW}";
+        String secondsSurvived = "Survived for:\n" + secondsRan;
         String clickNext = "{COLOR=red}{JUMP=.2}Next Page{ENDJUMP}";
         String page1 = "{COLOR=black}People of Potassia,\n"+
                 "I thank you for your generosity \n"+
@@ -122,6 +124,11 @@ public class GameOverScreen extends GameScreen {
         statsTypingLabel.setWidth(Config.window_width / 3);
         statsTypingLabel.setFontScale(.8f);
         statsTypingLabel.setLineAlign(Align.center);
+
+        secondsSurvivedTypingLabel = new TypingLabel(game.assets.pixelFont16, secondsSurvived, camera.viewportWidth - 350f, Config.window_height - 30f);
+        secondsSurvivedTypingLabel.setWidth(300f);
+        secondsSurvivedTypingLabel.setFontScale(.8f);
+        secondsSurvivedTypingLabel.setLineAlign(Align.center);
 
         currentTypingLabel = page1TypingLabel;
 
@@ -227,6 +234,7 @@ public class GameOverScreen extends GameScreen {
         particles.update(dt);
         presidente.update(dt);
         statsTypingLabel.update(dt);
+        secondsSurvivedTypingLabel.update(dt);
         if (showNext) {
             clickNextTypingLabel.update(dt);
         }
@@ -259,6 +267,7 @@ public class GameOverScreen extends GameScreen {
             batch.setColor(colorTint, colorTint, colorTint, 1);
             presidente.render(batch);
             statsTypingLabel.render(batch);
+            secondsSurvivedTypingLabel.render(batch);
             batch.setColor(Color.WHITE);
         }
         batch.end();
